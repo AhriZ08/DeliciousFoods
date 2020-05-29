@@ -1,0 +1,1 @@
+<view class="main"><view class="map">我是地图</view><view class="serch">我是搜索区</view><view class="scroll">我是轮播图</view><view class="sort">我是分类</view><view class="commend">我是推荐区</view></view>

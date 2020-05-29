@@ -1,0 +1,43 @@
+{
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "uni-ui基础项目"
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor":"#CD2626",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar":{
+		"list":[
+			{
+				"pagePath":"pages/index/index",
+				"text":"美食",
+				"iconPath":"",
+				"selectedIconPath":""
+			},
+			{
+				// "pagePath":"pages/index/index",
+				"text":"资讯",
+				"iconPath":"",
+				"selectedIconPath":""
+			},
+			{
+				// "pagePath":"pages/index/index",
+				"text":"订单",
+				"iconPath":"",
+				"selectedIconPath":""
+			},
+			{
+				// "pagePath":"pages/index/index",
+				"text":"我的",
+				"iconPath":"",
+				"selectedIconPath":""
+			}
+		]
+		
+	}
+}
