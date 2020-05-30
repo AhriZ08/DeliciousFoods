@@ -10,6 +10,7 @@
             "path" : "pages/index/Information_shop",
             "style" : {}
         }
+        
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
