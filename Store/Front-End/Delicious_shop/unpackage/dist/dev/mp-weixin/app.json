@@ -1,6 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/review_item",
+    "pages/index/Shop_review",
+    "pages/index/Shop_order",
+    "pages/index/Shop_turnover",
     "pages/index/Information_shop"
   ],
   "subPackages": [],
@@ -10,5 +14,6 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap45.json"
 }

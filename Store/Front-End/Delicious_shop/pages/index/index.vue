@@ -12,20 +12,33 @@
 		<!--第二行 操作 -->
 		<view class="opration">
 			<view class="opration_item" style="border-right-color: #b2d9a1;border-right-width: 5rpx;border-right-style: groove;">
-				<view class="iconfont icon-shangpin" style="color: #FFBB53;"></view>
-				<text>商品</text>
+				<navigator url="">	
+					<view class="iconfont icon-shangpin" style="color: #FFBB53;"></view>
+					<text>商品</text>
+				</navigator>	
 			</view>
+				
 			<view class="opration_item" style="border-right-color: #b2d9a1;border-right-width: 5rpx;border-right-style: groove;">
-				<view class="iconfont icon-pingjia" style="color: #FF9067;"></view>
-				<text>评价</text>
+				<navigator url="Shop_review">
+					<view class="iconfont icon-pingjia" style="color: #FF9067;"></view>
+					<text>评价</text>
+				</navigator>
 			</view>
+				
+			
 			<view class="opration_item" style="border-right-color: #b2d9a1;border-right-width: 5rpx;border-right-style: groove;">
-				<view class="iconfont icon-caiwu" style="color: #43D48C;"></view>
-				<text>财务</text>
+				<navigator url="Shop_turnover">	
+					<view class="iconfont icon-caiwu" style="color: #43D48C;"></view>
+					<text>财务</text>
+				</navigator>
 			</view>
+				
+				
 			<view class="opration_item">
-				<view class="iconfont icon-icon--copy" style="color: #60BEF9;"></view>
-				<text>订单</text>
+				<navigator url="Shop_order">
+					<view class="iconfont icon-icon--copy" style="color: #60BEF9;"></view>
+					<text>订单</text>
+				</navigator>
 			</view>
 		</view>
 		<!--第三行 经营数据 -->

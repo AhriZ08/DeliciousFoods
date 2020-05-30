@@ -5,12 +5,29 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		},
+		
+		{
+		    "path" : "pages/index/review_item",
+		    "style" : {}
 		}
-	    ,{
-            "path" : "pages/index/Information_shop",
-            "style" : {}
-        }
-        
+		,
+		{
+		    "path" : "pages/index/Shop_review",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/index/Shop_order",
+		    "style" : {}
+		}
+		,{
+		    "path" : "pages/index/Shop_turnover",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/index/Information_shop",
+		    "style" : {}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
