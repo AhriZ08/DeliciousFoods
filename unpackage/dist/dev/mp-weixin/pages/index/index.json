@@ -1,4 +1,9 @@
 {
-  "navigationBarTitleText": "uni-ui基础项目",
-  "usingComponents": {}
+  "navigationBarTitleText": "美食+",
+  "usingComponents": {
+    "search": "/components/uni-deli/search/search",
+    "swps": "/components/uni-deli/swps/swps",
+    "around": "/components/uni-deli/around/around",
+    "sort": "/components/uni-deli/sort"
+  }
 }

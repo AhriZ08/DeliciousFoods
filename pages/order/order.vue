@@ -1,6 +1,8 @@
 <template>
 	<view>
-		
+		<view>
+			订单中心
+		</view>
 	</view>
 </template>
 

@@ -2,13 +2,42 @@
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
-			"navigationBarTitleText": "uni-ui基础项目"
+			"navigationBarTitleText": "美食+"
 		}
-	}],
+	},
+	{
+		"path":"pages/news/news"
+	},
+	{
+		"path":"pages/order/order"
+	},
+	{
+		"path":"pages/info/info"
+	}    ,{
+            "path" : "components/uni-deli/search/search",
+            "style" : {}
+        }
+        ,{
+            "path" : "components/uni-deli/swps/swps",
+            "style" : {}
+        }
+        ,{
+            "path" : "components/uni-deli/around/around",
+            "style" : {}
+        }
+        ,{
+            "path" : "components/uni-deli/sort",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/news/news_t",
+            "style" : {}
+        }
+    ],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor":"#CD2626",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "美食+",
+		"navigationBarBackgroundColor":"#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	},
 	"tabBar":{
@@ -16,28 +45,30 @@
 			{
 				"pagePath":"pages/index/index",
 				"text":"美食",
-				"iconPath":"",
-				"selectedIconPath":""
+				"iconPath":"static/icon/index/main/外卖-2.png",
+				"selectedIconPath":"static/icon/index/main/color/外卖-2.png"
 			},
 			{
-				// "pagePath":"pages/index/index",
+				"pagePath":"pages/news/news",
 				"text":"资讯",
-				"iconPath":"",
-				"selectedIconPath":""
+				"iconPath":"static/icon/index/main/资讯.png",
+				"selectedIconPath":"static/icon/index/main/color/资讯.png"
 			},
 			{
-				// "pagePath":"pages/index/index",
+				"pagePath":"pages/order/order",
 				"text":"订单",
-				"iconPath":"",
-				"selectedIconPath":""
+				"iconPath":"static/icon/index/main/订单.png",
+				"selectedIconPath":"static/icon/index/main/color/订单.png"
 			},
 			{
-				// "pagePath":"pages/index/index",
+				"pagePath":"pages/info/info",
 				"text":"我的",
-				"iconPath":"",
-				"selectedIconPath":""
+				"iconPath":"static/icon/index/main/我的.png",
+				"selectedIconPath":"static/icon/index/main/color/我的.png"
 			}
-		]
+		],
+		"selectedColor":"#CD2626"
+		
 		
 	}
 }
