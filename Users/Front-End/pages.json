@@ -13,28 +13,30 @@
 	},
 	{
 		"path":"pages/info/info"
-	}    ,{
+	}
+	,{
             "path" : "components/uni-deli/search/search",
             "style" : {}
-        }
-        ,{
-            "path" : "components/uni-deli/swps/swps",
-            "style" : {}
-        }
-        ,{
-            "path" : "components/uni-deli/around/around",
-            "style" : {}
-        }
-        ,{
-            "path" : "components/uni-deli/sort",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/news/news_t",
-            "style" : {}
-        }
-        
-    ],
+    }
+    ,{
+		"path" : "components/uni-deli/swps/swps",
+		"style" : {}
+	}
+	,{
+		"path" : "components/uni-deli/around/around",
+		"style" : {}
+	}
+	,{
+		"path" : "components/uni-deli/sort",
+		"style" : {}
+	}
+	,{
+		"path" : "pages/news/news_t",
+		"style" : {}
+	},{
+		"path" : "pages/cart/cart",
+		"style": {}
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "美食+",
@@ -69,7 +71,13 @@
 			}
 		],
 		"selectedColor":"#CD2626"
-		
-		
+	},
+	"condition":{
+		"current":0,
+		"list": [{
+				"name":"cartTest",
+				"path":"pages/cart/cart"
+			}
+		]
 	}
 }
