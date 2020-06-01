@@ -1,1 +1,0 @@
-<view class="content data-v-364af194"><view class="title data-v-364af194">{{title}}</view><view class="art-content data-v-364af194"><rich-text nodes="{{str}}" class="data-v-364af194"></rich-text></view></view>
