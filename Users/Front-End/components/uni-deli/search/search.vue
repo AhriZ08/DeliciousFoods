@@ -43,7 +43,7 @@
 		height: 85rpx;
 		width: 100%;
 		display: flex;
-		background-color: #D4D4D4;
+		background-color: #d1d8e0;
 		border-radius: 50rpx;
 		font-size: 28rpx;
 		align-items: center;

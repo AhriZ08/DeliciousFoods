@@ -33,6 +33,7 @@
             "path" : "pages/news/news_t",
             "style" : {}
         }
+        
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

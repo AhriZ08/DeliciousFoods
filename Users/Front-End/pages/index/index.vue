@@ -9,9 +9,7 @@
 		<!-- 分类区 -->
 		<Sort></Sort>
 		<!-- 推荐区 -->
-		<view class="commend">
-			<Around></Around>
-		</view>
+		<Around></Around>
 	</view>
 </template>
 
@@ -40,11 +38,6 @@
 
 <style lang="scss" scoped>
 	.main{margin: 0 10rpx;}
-	.map{
-		width: 750rpx;
-		height: 100rpx;
-		border: #333333 2rpx solid;
-	}
 	.serch{
 	}
 

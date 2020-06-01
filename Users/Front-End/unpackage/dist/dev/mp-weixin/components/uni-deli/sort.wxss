@@ -24,53 +24,53 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.sort.data-v-7afec1c7 {
-  margin-top: 40rpx;
+.sort.data-v-0a234348 {
+  margin-top: 20rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
   margin-bottom: 30rpx;
+}
+.sort-item.data-v-0a234348 {
   text-align: center;
+  margin-left: 22rpx;
 }
-.sort-item.data-v-7afec1c7 {
-  width: 25%;
+.sort-item image.data-v-0a234348 {
+  width: 70%;
+  height: 70%;
+  margin-top: 15%;
 }
-.sort-item image.data-v-7afec1c7 {
-  width: 75%;
-  height: 75%;
+.sort text.data-v-0a234348 {
+  font-size: 30rpx;
 }
-.sort text.data-v-7afec1c7 {
-  padfont-size: 5rpx;
-  padding-right: 20rpx;
-}
-.sort-img1.data-v-7afec1c7 {
+.sort-img1.data-v-0a234348 {
   background-color: #D9001B;
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
 }
-.sort-img2.data-v-7afec1c7 {
+.sort-img2.data-v-0a234348 {
   background-color: #027DB4;
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
 }
-.sort-img3.data-v-7afec1c7 {
+.sort-img3.data-v-0a234348 {
   background-color: #F59A23;
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
 }
-.sort-img4.data-v-7afec1c7 {
+.sort-img4.data-v-0a234348 {
   background-color: #00BFBF;
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
 }
-.sort-img5.data-v-7afec1c7 {
+.sort-img5.data-v-0a234348 {
   background-color: #EC808D;
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
 }
 
