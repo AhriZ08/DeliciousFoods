@@ -51,13 +51,13 @@
 </script>
 
 <style lang="scss" scoped>
-	.sort{margin-top: 20rpx;display: flex;margin-bottom: 30rpx;}
-	.sort-item{text-align: center;margin-left: 22rpx;}
+	.sort{margin-top: 20rpx;display: flex;margin-bottom: 30rpx;justify-content: space-around;}
+	.sort-item{text-align: center;}
 	.sort-item image{width: 70%;height: 70%;margin-top: 15%;}
-	.sort text{font-size: 30rpx;}
-	.sort-img1{background-color: #D9001B;width: 120rpx;height: 120rpx;border-radius: 50%;}
-	.sort-img2{background-color: #027DB4;width: 120rpx;height: 120rpx;border-radius: 50%;}
-	.sort-img3{background-color: #F59A23;width: 120rpx;height: 120rpx;border-radius: 50%;}
-	.sort-img4{background-color: #00BFBF;width: 120rpx;height: 120rpx;border-radius: 50%;}
-	.sort-img5{background-color: #EC808D;width: 120rpx;height: 120rpx;border-radius: 50%;}
+	.sort text{font-size: 30rpx;letter-spacing: 5rpx;}
+	.sort-img1{background-color: #D9001B;width: 120rpx;height: 120rpx;border-radius: 50%;display: flex;justify-content: center;align-items: center;}
+	.sort-img2{background-color: #027DB4;width: 120rpx;height: 120rpx;border-radius: 50%;display: flex;justify-content: center;align-items: center;}
+	.sort-img3{background-color: #F59A23;width: 120rpx;height: 120rpx;border-radius: 50%;display: flex;justify-content: center;align-items: center;}
+	.sort-img4{background-color: #00BFBF;width: 120rpx;height: 120rpx;border-radius: 50%;display: flex;justify-content: center;align-items: center;}
+	.sort-img5{background-color: #EC808D;width: 120rpx;height: 120rpx;border-radius: 50%;display: flex;justify-content: center;align-items: center;}
 </style>
