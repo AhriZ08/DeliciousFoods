@@ -28,15 +28,19 @@ page {
   background-color: #FFFFFF;
 }
 .container {
-  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.body {
   height: 100%;
+  width: 100%;
 }
 .top {
-  height: 100rpx;
+  height: 210rpx;
   box-shadow: 0 0rpx 20rpx 10rpx rgba(51, 51, 51, 0.1);
-  border-radius: 5%;
+  border-radius: 30rpx;
   position: relative;
-  margin-top: 120rpx;
+  margin-top: 55rpx;
   margin-left: 20rpx;
   margin-right: 20rpx;
   background-color: #FFFFFF;
@@ -69,9 +73,60 @@ page {
   margin-top: 20rpx;
   padding-left: 20rpx;
   padding-right: 20rpx;
+  height: 100%;
+}
+.mid-body .goodsAndComm {
+  width: 300rpx;
+  position: relative;
+}
+.mid-body .goodsAndComm scroll-view {
+  height: 88rpx;
+}
+.mid-body .goodsAndComm scroll-view .underineBox {
+  margin-top: 3rpx;
+  height: 6rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-content: center;
+          align-content: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+.mid-body .goodsAndComm scroll-view .underineBox .underline {
+  width: 100rpx;
+  height: 6rpx;
+  background-color: #ff9619;
+}
+.mid-body .goodsAndComm .typeTile {
+  display: inline-block;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #636e72;
+  font-family: Microsoft Yahei;
+  font-weight: 500;
+}
+.mid-body .goodsAndComm .typeTileSel {
+  display: inline-block;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #ff9619;
+  font-family: Microsoft Yahei;
+  font-weight: 500;
+}
+.swiperitem-cart-body {
+  height: 740rpx;
+  width: 100%;
 }
 .cart-body {
-  height: 715rpx;
+  height: 740rpx;
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -160,7 +215,7 @@ page {
 }
 .cart-body .right-goods .goods .one-goods {
   height: 210rpx;
-  border-radius: 5%;
+  border-radius: 30rpx;
   box-shadow: 0 0 10rpx 2rpx rgba(51, 51, 51, 0.2);
   background-color: #FFFFFF;
   margin-bottom: 20rpx;
@@ -280,11 +335,11 @@ page {
   position: relative;
 }
 .bottom-cart .carticon image {
-  width: 150rpx;
-  height: 150rpx;
+  width: 120rpx;
+  height: 120rpx;
   position: absolute;
-  top: -60rpx;
-  left: 0rpx;
+  top: -50rpx;
+  left: 30rpx;
 }
 .bottom-cart .cartTitle {
   height: 100%;
@@ -294,14 +349,14 @@ page {
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  margin-left: 150rpx;
-  font-weight: 500;
-  font-size: 40rpx;
+  margin-left: 180rpx;
+  font-weight: 520;
+  font-size: 35rpx;
 }
 .bottom-cart .toOrder {
   position: absolute;
-  font-weight: 500;
-  font-size: 40rpx;
+  font-weight: 520;
+  font-size: 35rpx;
   color: #FFFFFF;
   background-color: #2f3542;
   width: 200rpx;
@@ -320,6 +375,7 @@ page {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
+  letter-spacing: 6rpx;
 }
 .dot {
   position: absolute;
@@ -337,8 +393,15 @@ page {
 .selected {
   background-color: #FFFFFF;
 }
+.line {
+  width: 700rpx;
+  margin-top: 20rpx;
+  height: 3rpx;
+  background-color: #bdc3c7;
+  margin-top: 12rpx;
+}
 .popoup {
-  height: 500rpx;
+  height: 360rpx;
   width: 100%;
   background-color: #FFFFFF;
   margin-bottom: 100rpx;
@@ -355,6 +418,7 @@ page {
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
+  border-radius: 30rpx 30rpx 0 0;
 }
 .popoup .popoupTop {
   height: 100rpx;
@@ -380,9 +444,11 @@ page {
           flex-direction: column;
   position: relative;
 }
-.popoup .popupContent .oneContent {
+.popoup .popupContent .oneContent-scroll {
+  height: 230rpx;
+}
+.popoup .popupContent .oneContent-scroll .oneContent {
   height: 80rpx;
-  width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -396,13 +462,168 @@ page {
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
+  padding-left: 35rpx;
+  padding-right: 35rpx;
 }
-.popoup .popupContent .oneContent .oneContentTitle {
+.popoup .popupContent .oneContent-scroll .oneContent .oneContentTitle {
   width: 300rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   height: 40rpx;
   line-height: 40rpx;
+}
+.comt-body {
+  height: 730rpx;
+}
+.popMess {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  border-radius: 30rpx;
+  width: 300rpx;
+  height: 150rpx;
+  background-color: #FFFFFF;
+}
+.scrollBody {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.scrollBody .oneCom {
+  width: 90%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  position: relative;
+  margin: 0rpx auto 20rpx auto;
+}
+.scrollBody .oneCom .one-line {
+  margin-top: 20rpx;
+  width: 100%;
+  height: 2rpx;
+  background-color: #bdc3c7;
+}
+.scrollBody .oneCom .oneCom-content {
+  margin-top: 10rpx;
+  width: 100%;
+  color: #7f8c8d;
+  font-size: 30rpx;
+}
+.scrollBody .oneCom .oneCom-head {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-left {
+  width: 120rpx;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-left image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100%;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-right {
+  margin-left: 50rpx;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+  position: relative;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-right .oneCom-right-name {
+  width: 100%;
+  font-size: 35rpx;
+  font-weight: 520;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-right .oneCom-right-timewlevel {
+  margin-top: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-right .oneCom-right-timewlevel .level {
+  width: 150rpx;
+  height: 30rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-right .oneCom-right-timewlevel .level .stars {
+  font-size: 30rpx;
+  color: #e74c3c;
+}
+.scrollBody .oneCom .oneCom-head .oneCom-right .oneCom-right-timewlevel .time {
+  font-size: 30rpx;
+  color: #636e72;
+  line-height: 30rpx;
+  height: 30rpx;
 }
 

@@ -93,11 +93,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
-  uniNoticeBar: function() {
-    return __webpack_require__.e(/*! import() | components/uni-notice-bar/uni-notice-bar */ "components/uni-notice-bar/uni-notice-bar").then(__webpack_require__.bind(null, /*! @/components/uni-notice-bar/uni-notice-bar.vue */ 87))
-  },
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 94))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 87))
   }
 }
 var render = function() {
@@ -188,7 +185,113 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniNoticeBar = function uniNoticeBar() {__webpack_require__.e(/*! require.ensure | components/uni-notice-bar/uni-notice-bar */ "components/uni-notice-bar/uni-notice-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-notice-bar/uni-notice-bar.vue */ 87));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 94));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupMessage = function uniPopupMessage() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-message */ "components/uni-popup/uni-popup-message").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup-message.vue */ 103));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup-dialog.vue */ 110));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniNoticeBar = function uniNoticeBar() {__webpack_require__.e(/*! require.ensure | components/uni-notice-bar/uni-notice-bar */ "components/uni-notice-bar/uni-notice-bar").then((function () {return resolve(__webpack_require__(/*! @/components/uni-notice-bar/uni-notice-bar.vue */ 96));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 87));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupMessage = function uniPopupMessage() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-message */ "components/uni-popup/uni-popup-message").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup-message.vue */ 103));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup-dialog.vue */ 110));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -289,6 +392,12 @@ __webpack_require__.r(__webpack_exports__);
       goodsNum: 1,
       isShow: false,
       isCartPopUp: false,
+      currentTab: 0, //sweiper所在页
+      isLeft: 0, //导航栏下划线位置
+      tabLeft: 0,
+      stars: [true, true, true],
+      tabTitle: ['商品', '评论'],
+      itemsWidth: 0,
       goods: [{
         type: "人气热卖",
         typeId: 0,
@@ -341,8 +450,11 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   computed: {
-    goodTypeNum: function goodTypeNum() {var _this = this;
-      return function (tid) {return _this.cart.reduce(function (acc, cur) {
+    cartGoodTypeNum: function cartGoodTypeNum() {var _this = this;
+      return function () {return _this.cart.reduce(function (acc, cur) {return acc + cur.num;}, 0);};
+    },
+    goodTypeNum: function goodTypeNum() {var _this2 = this;
+      return function (tid) {return _this2.cart.reduce(function (acc, cur) {
           if (cur.typeId == tid) {
             return acc += cur.num;
           }
@@ -353,8 +465,8 @@ __webpack_require__.r(__webpack_exports__);
     totalPrice: function totalPrice() {
       return this.cart.reduce(function (acc, cur) {return acc + cur.num * cur.price;}, 0);
     },
-    goodCartNum: function goodCartNum() {var _this2 = this;
-      return function (shopId) {return _this2.cart.reduce(function (acc, cur) {
+    goodCartNum: function goodCartNum() {var _this3 = this;
+      return function (shopId) {return _this3.cart.reduce(function (acc, cur) {
           //console.log(acc);
           if (cur.id === shopId) {
             return acc += cur.num;
@@ -366,6 +478,12 @@ __webpack_require__.r(__webpack_exports__);
   onReady: function onReady() {
     this.getAllGoodsHeight();
   },
+  created: function created() {var _this4 = this;
+    var views = uni.createSelectorQuery().select(".goodsAndComm").boundingClientRect().exec(function (res) {
+      //console.log(res[0].width);
+      _this4.itemsWidth = Math.floor(res[0].width / 2);
+    });
+  },
   components: {
     uniNoticeBar: uniNoticeBar,
     uniPopup: uniPopup,
@@ -373,6 +491,16 @@ __webpack_require__.r(__webpack_exports__);
     uniPopupDialog: uniPopupDialog },
 
   methods: {
+    typeTileClick: function typeTileClick(index) {
+      //this.tabClick = index //设置导航点击了哪一个
+      this.isLeft = index * this.itemsWidth; //设置下划线位置
+      this.currentTab = index;
+    },
+    // swiper 滑动 如果tab关联swiper需要写下面的方法 否则不写
+    swiperTab: function swiperTab(e) {
+      //let index = e.detail.current 获取索引
+      this.typeTileClick(e.detail.current);
+    },
     setId: function setId(index) {
       this.viewId = "g" + index;
       this.currentType = index;
@@ -389,7 +517,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    getAllGoodsHeight: function getAllGoodsHeight() {var _this3 = this;
+    getAllGoodsHeight: function getAllGoodsHeight() {var _this5 = this;
       var h = 0;
       this.goodsHeight.push(0);
       var views = uni.createSelectorQuery().selectAll(".goods").boundingClientRect().exec(function (res) {
@@ -397,12 +525,14 @@ __webpack_require__.r(__webpack_exports__);
         res[0].forEach(function (item) {
           h += item.height;
           //console.log(h);
-          _this3.goodsHeight.push(h);
+          _this5.goodsHeight.push(h);
         });
       });
     },
     goOrder: function goOrder() {
-
+      if (this.cart.length <= 0) {
+        this.$refs.popupMess.open();
+      }
     },
     addCart: function addCart(item, goods, num) {
       // console.log("addCart item:" + item.shop);

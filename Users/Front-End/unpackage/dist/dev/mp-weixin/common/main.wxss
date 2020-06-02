@@ -1,19 +1,65 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@font-face {
+	font-family: "iconfont";
+	src:url('https://at.alicdn.com/t/font_1824758_0ayih1ejwt6.ttf') format('truetype');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-personal:before {
+  content: "\e60d";
+}
+.icon-lock:before {
+  content: "\e621";
+}
+.icon-shop:before{
+	content: "\e669";
+}
+.icon-person:before{
+	content: "\e600";
+}
+.icon-view:before{
+	content: "\e633";
+}
+.icon-view-off:before{
+	content: "\e634";
+}
+.icon-shoucang:before{
+	content: "\e610";
+}
+.icon-credit:before{
+	content: "\e640";
+}
+.icon-addr:before{
+	content: "\e613";
+}
+.icon-kefu:before{
+	content: "\e71d";
+}
+.icon-ziliao:before{
+	content: "\e650";
+}
+.icon-shezhi:before{
+	content: "\e614";
+}
+.icon-more:before{
+	content: "\e679";
+}
+.icon-jiantou:before{
+	content: "\e601";
+}
+.icon-star:before{
+	content: "\e642";
+}
 
 /* 解决头条小程序组件内引入字体不生效的问题 */
+
+
+
+
 
 
 
