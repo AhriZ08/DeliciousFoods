@@ -9,7 +9,8 @@
     "components/uni-deli/around/around",
     "components/uni-deli/sort",
     "pages/news/news_t",
-    "pages/cart/cart"
+    "pages/cart/cart",
+    "pages/index/main-search"
   ],
   "subPackages": [],
   "window": {
@@ -47,6 +48,5 @@
     ],
     "selectedColor": "#CD2626"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap22.json"
+  "usingComponents": {}
 }

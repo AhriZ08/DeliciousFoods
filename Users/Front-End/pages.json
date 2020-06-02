@@ -36,7 +36,11 @@
 	},{
 		"path" : "pages/cart/cart",
 		"style": {}
-	}],
+	}    ,{
+            "path" : "pages/index/main-search",
+            "style" : {}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "美食+",

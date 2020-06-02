@@ -1693,10 +1693,45 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 100:
-/*!***************************************************************************************!*\
-  !*** F:/IdeaWorkspace/DeliciousFoods/Users/Front-End/components/uni-popup/message.js ***!
-  \***************************************************************************************/
+/***/ 105:
+/*!*************************************************************************************************!*\
+  !*** D:/Android/codeproject/ttttt/DeliciousFoods/Users/Front-End/components/uni-popup/popup.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 106));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+// 定义 type 类型:弹出类型：top/bottom/center
+var config = {
+  // 顶部弹出
+  top: 'top',
+  // 底部弹出
+  bottom: 'bottom',
+  // 居中弹出
+  center: 'center',
+  // 消息提示
+  message: 'top',
+  // 对话框
+  dialog: 'center',
+  // 分享
+  share: 'bottom' };var _default =
+
+
+{
+  data: function data() {
+    return {
+      config: config };
+
+  },
+  mixins: [_message.default] };exports.default = _default;
+
+/***/ }),
+
+/***/ 106:
+/*!***************************************************************************************************!*\
+  !*** D:/Android/codeproject/ttttt/DeliciousFoods/Users/Front-End/components/uni-popup/message.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1724,10 +1759,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 122:
-/*!*************************************************************************************!*\
-  !*** F:/IdeaWorkspace/DeliciousFoods/Users/Front-End/components/uni-icons/icons.js ***!
-  \*************************************************************************************/
+/***/ 135:
+/*!*************************************************************************************************!*\
+  !*** D:/Android/codeproject/ttttt/DeliciousFoods/Users/Front-End/components/uni-icons/icons.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7928,48 +7963,13 @@ module.exports = g;
 /***/ }),
 
 /***/ 4:
-/*!******************************************************************!*\
-  !*** F:/IdeaWorkspace/DeliciousFoods/Users/Front-End/pages.json ***!
-  \******************************************************************/
+/*!******************************************************************************!*\
+  !*** D:/Android/codeproject/ttttt/DeliciousFoods/Users/Front-End/pages.json ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 
-
-/***/ }),
-
-/***/ 99:
-/*!*************************************************************************************!*\
-  !*** F:/IdeaWorkspace/DeliciousFoods/Users/Front-End/components/uni-popup/popup.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 100));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-// 定义 type 类型:弹出类型：top/bottom/center
-var config = {
-  // 顶部弹出
-  top: 'top',
-  // 底部弹出
-  bottom: 'bottom',
-  // 居中弹出
-  center: 'center',
-  // 消息提示
-  message: 'top',
-  // 对话框
-  dialog: 'center',
-  // 分享
-  share: 'bottom' };var _default =
-
-
-{
-  data: function data() {
-    return {
-      config: config };
-
-  },
-  mixins: [_message.default] };exports.default = _default;
 
 /***/ })
 
