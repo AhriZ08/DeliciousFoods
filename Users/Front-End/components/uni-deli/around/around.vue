@@ -5,7 +5,7 @@
 			<text style="font-size: 70rpx;color: #a5b1c2;">推荐店铺</text>
 		</view>
 		<!-- 店铺块 -->
-		<view class="shop-item">
+		<view class="shop-item"@click="opens">
 			<!-- 店铺图 -->
 			<view class="shop-img" style="border: #AAAAAA 2rpx solid; border-radius: 8rpx;">
 				<image src="http://spider.ws.126.net/8c8e5ea5ff69dc34ff8824e1d6f6533d.jpeg" style="width: 100%;height: 100%;"></image>
@@ -44,6 +44,17 @@
 			return {
 				
 			};
+		},
+		methods:{
+			opens(){
+				console.log(11);
+				uni.navigateTo({
+					url: '../../pages/cart/cart',
+					success: res => {},
+					fail: (e) => {console.log(e);},
+					complete: () => {}
+				});
+			}
 		}
 	}
 </script>

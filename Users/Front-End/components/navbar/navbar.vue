@@ -7,7 +7,7 @@
 					<view class="search-img">
 						<image src="@/static/icon/index/main/搜索.png" ></image>
 					</view>
-					<input type="text" :value="Svalue" @focus="tclean" @confirm="firm"/>
+					<input type="text" :value="Svalue" @focus="tclean" @confirm="firm" class="Sinput"/>
 				</view>
 			</view>
 			<!-- 搜索内容 -->
@@ -18,8 +18,8 @@
 						<view class="list-clean"@click="cleancont">清空</view>
 					</view>
 					<view class="list-content">
-						<view v-if="historylist.length>0" class="list-item" v-for="(item,index) in historylist":key=index >{{item}}</view>
-						<view v-if="historylist.length==0" class="no-content">没有搜索历史</view>
+						<view v-if="historyList.length>0" class="list-item" v-for="(item,index) in historyList":key=index >{{item.name}}</view>
+						<view v-if="historyList.length==0" class="no-content">没有搜索历史</view>
 					</view>
 				</view>
 			</view>
@@ -29,23 +29,29 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data() {
 			return {
 				Svalue:"茶百道",
-				historylist:[
-				]
 			};
+		},
+		computed:{
+			...mapState(['historyList'])
 		},
 		methods:{
 			tclean(){
 				return this.Svalue="";
 			},
 			firm(e){
-				this.historylist.push(e.detail.value)
+				console.log(e);
+				this.$store.dispatch('set_history',{
+					name:e.detail.value
+				})
 			},
 			cleancont(){
-				this.historylist = []
+				this.$store.dispatch('clean_history')
+				
 			}
 		}
 		
@@ -112,7 +118,7 @@
 				height: 80%;
 				display: flex;
 				background-color: #EEEEEE;
-				border-radius: 40rpx;
+				border-radius: 15rpx;
 				align-items: center;
 				.search-img{
 					width: 50rpx;
@@ -124,7 +130,7 @@
 						height: 100%;
 					}
 				}
-				text{color: #999999;font-size: 28rpx;}
+				.Sinput{font-size: 35rpx;}
 		
 		}
 	}
