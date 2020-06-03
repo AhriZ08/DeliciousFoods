@@ -25,7 +25,12 @@
 		},
 		methods:{
 			seaRch(){
-				
+				uni.navigateTo({
+					url: '../../pages/index/main-search',
+					success: res => {},
+					fail: (e) => {console.log(e);},
+					complete: () => {}
+				});
 			}
 		}
 	}
