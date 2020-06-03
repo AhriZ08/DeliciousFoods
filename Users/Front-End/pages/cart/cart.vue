@@ -1,84 +1,190 @@
 <template>
 	<view class="container">
-		<view class="top">
-			<view class="shopImg">
-				<image src="../../static/icon/index/main/cart/kfc.jpg" mode="scaleToFill"></image>
+		<view class="body">
+			<!-- 购物车顶部商家信息 -->
+			<view class="top">
+				<view class="shopImg">
+					<image src="../../static/icon/index/main/cart/kfc.jpg" mode="scaleToFill"></image>
+				</view>
+				<view class="top-name">KFC(成都信息工程大学)</view>
+				<view class="top-content">
+					<view>距离您1km</view>
+					<view>成都双流区航空港街道123号</view>
+				</view>
 			</view>
-			<view class="top-name">KFC(成都信息工程大学)</view>
-			<view class="top-content">
-				<view>距离您1km</view>
-				<view>成都双流区航空港街道123号</view>
+			<!-- 信息滚动栏以及商品信息 -->
+			<view class="mid-body">
+				<!-- 商品分类swiper -->
+				<view class="goodsAndComm">
+					<scroll-view scroll-x="true" style="white-space: nowrap; display: flex" scroll-with-animation 
+					:scroll-left="tabLeft">
+						<view :style='"width:" + itemsWidth + "px"' @click="typeTileClick(0)" 
+						:class="currentTab==0?'typeTileSel':'typeTile'">商品</view>
+						<view class="typeTile" :style='"width:" + itemsWidth + "px"' @click="typeTileClick(1)"
+						:class="currentTab==1?'typeTileSel':'typeTile'">评论</view>
+			
+						<view class="underineBox" :style='"transform:translateX("+isLeft+"px);width:"+ itemsWidth +"px"'>
+							<view class="underline"></view>
+						</view>
+					</scroll-view>
+				</view>
+				<swiper :current="currentTab" @change="swiperTab" class="swiperitem-cart-body">
+					<!-- 商品swiper -->
+					<swiper-item >
+						<view class="cart-body">
+							<scroll-view class="left-menus" scroll-with-animation="true" scroll-y="true">
+								<view class="menu" v-for="(item, index) in goods" :key="index"
+								:id="'m' + index"
+								:class="currentType==index?'selected':''"
+								@click="setId(index)">
+									<text class="menutitle">{{item.type}}</text>
+									<view class="dot" v-show="goodTypeNum(item.typeId)">{{goodTypeNum(item.typeId)}}</view>
+								</view>
+							</scroll-view>
+							<scroll-view class="right-goods" scroll-with-animation="true" scroll-y="true" 
+							:scroll-into-view="viewId" show-scrollbar="false" @scroll="srollSetMenu">				
+								<view class="goods" v-for="(item, index) in goods" :key="index" :id="'g' + index">
+									<view class="goods-title">{{item.type}}</view>
+									<view class="one-goods" v-for="(g , f) in item.shop" :key="f">
+										<view class="left-img">
+											<image src="../../static/icon/index/main/cart/logo.png"></image>
+										</view>
+										<view class="right-info">
+											<view class="right-info-title">{{g.name}}</view>
+											<view class="right-info-descibe">{{g.descibe}}</view>
+											<view class="one-goods-bottom">
+												<text class="price">￥{{g.price}}</text>
+												<view class="addAdec">
+													<image src="../../static/icon/index/main/cart/offline_fill.png" 
+													class="dec" v-show="goodCartNum(g.shopId)" @click="decCart(item, g)"></image>
+													<view class="Num" v-show="goodCartNum(g.shopId)">{{goodCartNum(g.shopId)}}</view>
+													<image src="../../static/icon/index/main/cart/addition_fill.png" 
+													class="add" @click="addCart(item, g, 1)"></image>
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+							</scroll-view>
+						</view>
+					</swiper-item>
+					<!-- 评论swiper -->
+					<swiper-item>
+						<view class="comt-body">
+							<scroll-view scroll-y="true" scroll-with-animation="true" class="scrollBody">
+								<view class="oneCom">
+									<view class="oneCom-head">
+										<view class="oneCom-left">
+											<image src="../../static/icon/index/main/cart/logo.png"></image>
+										</view>
+										<view class="oneCom-right">
+											<view class="oneCom-right-name">李四</view>
+											<view class="oneCom-right-timewlevel">
+												<view class="level">
+													<view v-for="(item, index) in stars" class="iconfont icon-star stars" v-show="item"></view>
+												</view>
+												<view class="time">2020-6-1</view>
+											</view>
+										</view>
+									</view>
+									<view class="oneCom-content">
+										味道不错很nice，推荐去尝一尝
+									</view>
+									<view class="one-line"></view>
+								</view>	
+					
+								<view class="oneCom">
+									<view class="oneCom-head">
+										<view class="oneCom-left">
+											<image src="../../static/icon/index/main/cart/logo.png"></image>
+										</view>
+										<view class="oneCom-right">
+											<view class="oneCom-right-name">李四</view>
+											<view class="oneCom-right-timewlevel">
+												<view class="level">
+													<view v-for="(item, index) in stars" class="iconfont icon-star stars" v-show="item"></view>
+												</view>
+												<view class="time">2020-6-1</view>
+											</view>
+										</view>
+									</view>
+									<view class="oneCom-content">
+										味道不错很nice，推荐去尝一尝推荐去尝一尝推荐去尝一尝推荐
+										去尝一尝推荐去尝一尝推荐去尝一尝
+									</view>
+									<view class="one-line"></view>
+								</view>	
+								
+								<view class="oneCom">
+									<view class="oneCom-head">
+										<view class="oneCom-left">
+											<image src="../../static/icon/index/main/cart/logo.png"></image>
+										</view>
+										<view class="oneCom-right">
+											<view class="oneCom-right-name">李四</view>
+											<view class="oneCom-right-timewlevel">
+												<view class="level">
+													<view v-for="(item, index) in stars" class="iconfont icon-star stars" v-show="item"></view>
+												</view>
+												<view class="time">2020-6-1</view>
+											</view>
+										</view>
+									</view>
+									<view class="oneCom-content">
+										味道不错很nice，推荐去尝一尝,推荐去尝一尝推荐去尝一尝
+									</view>
+									<view class="one-line"></view>
+								</view>					
+							</scroll-view>
+						</view>
+					</swiper-item>
+				</swiper>
+
 			</view>
-		</view>
-		<view class="mid-body">
-			<uni-notice-bar scrollable="true" single="true" text="最新推出肯德基十翅一桶，蜜汁鸡翅和炸鸡激情碰撞，更有惊喜抽奖活动，立即下单吧！" 
-			showIcon="true" speed="60"></uni-notice-bar>
-			<view class="cart-body">
-				<scroll-view class="left-menus" scroll-with-animation="true" scroll-y="true">
-					<view class="menu" v-for="(item, index) in goods" :key="index"
-					:id="'m' + index"
-					:class="currentType==index?'selected':''"
-					@click="setId(index)">
-						<text class="menutitle">{{item.type}}</text>
-						<view class="dot" v-show="goodTypeNum(item.typeId)">{{goodTypeNum(item.typeId)}}</view>
+			
+			<!-- 底部购物车栏 -->
+			<view class="bottom-cart">
+				<view class="carticon">
+					<image src="../../static/icon/index/main/cart/购物车.png" @click="openPopup"></image>
+				</view>
+				<view class="cartTitle">合计:￥{{totalPrice}}</view>
+				<view class="toOrder" @click="goOrder">支付</view>
+			</view>
+			
+			<!-- 购物车弹出层 -->
+			<uni-popup ref="popup" type="bottom" style="z-index: 9900;">
+				<view class="popoup">
+					<view class="popoupTop">
+						<image src="../../static/icon/index/main/cart/delcart.png" @click="clearCart"></image>
 					</view>
-				</scroll-view>
-				<scroll-view class="right-goods" scroll-with-animation="true" scroll-y="true" 
-				:scroll-into-view="viewId" show-scrollbar="false" @scroll="srollSetMenu">				
-					<view class="goods" v-for="(item, index) in goods" :key="index" :id="'g' + index">
-						<view class="goods-title">{{item.type}}</view>
-						<view class="one-goods" v-for="(g , f) in item.shop" :key="f">
-							<view class="left-img">
-								<image src="../../static/icon/index/main/cart/logo.png"></image>
-							</view>
-							<view class="right-info">
-								<view class="right-info-title">{{g.name}}</view>
-								<view class="right-info-descibe">{{g.descibe}}</view>
+					<view class="line"></view>
+					<view class="popupContent">
+						<scroll-view class="oneContent-scroll" scroll-y="true" scroll-with-animation="true">
+							<view class="oneContent" v-for="(item, index) in cart" :key="index">
+								<view class="oneContentTitle">{{item.name}}</view>
 								<view class="one-goods-bottom">
-									<text class="price">￥{{g.price}}</text>
+									<text class="price">￥{{item.price}}</text>
 									<view class="addAdec">
 										<image src="../../static/icon/index/main/cart/offline_fill.png" 
-										class="dec" v-show="goodCartNum(g.shopId)" @click="decCart(item, g)"></image>
-										<view class="Num" v-show="goodCartNum(g.shopId)">{{goodCartNum(g.shopId)}}</view>
+										class="dec" v-show="goodCartNum(item.id)" @click="popDecCart(item.id)"></image>
+										<view class="Num" v-show="goodCartNum(item.id)">{{goodCartNum(item.id)}}</view>
 										<image src="../../static/icon/index/main/cart/addition_fill.png" 
-										class="add" @click="addCart(item, g, 1)"></image>
+										class="add" @click="popAddCart(item.id, 1)"></image>
 									</view>
 								</view>
 							</view>
-						</view>
-					</view>
-				</scroll-view>
-			</view>
-		</view>
-		<view class="bottom-cart">
-			<view class="carticon">
-				<image src="../../static/icon/index/main/cart/cart.png" @click="openPopup"></image>
-			</view>
-			<view class="cartTitle">合计:￥{{totalPrice}}</view>
-			<view class="toOrder" @click="goOrder">支付</view>
-		</view>
-		<uni-popup ref="popup" type="bottom" style="z-index: 9900;">
-			<view class="popoup">
-				<view class="popoupTop">
-					<image src="../../static/icon/index/main/cart/delcart.png" @click="clearCart"></image>
-				</view>
-				<view class="popupContent">
-					<view class="oneContent" v-for="(item, index) in cart" :key="index">
-						<view class="oneContentTitle">{{item.name}}</view>
-						<view class="one-goods-bottom">
-							<text class="price">￥{{item.price}}</text>
-							<view class="addAdec">
-								<image src="../../static/icon/index/main/cart/offline_fill.png" 
-								class="dec" v-show="goodCartNum(item.id)" @click="popDecCart(item.id)"></image>
-								<view class="Num" v-show="goodCartNum(item.id)">{{goodCartNum(item.id)}}</view>
-								<image src="../../static/icon/index/main/cart/addition_fill.png" 
-								class="add" @click="popAddCart(item.id, 1)"></image>
-							</view>
-						</view>
+						</scroll-view>
 					</view>
 				</view>
-			</view>
+			</uni-popup>
+		</view>
+		
+		<uni-popup ref="popupMess" type="center">
+			 <view class="popMess">
+			 	购物车为空！
+			 </view>
 		</uni-popup>
+		
 	</view>
 	
 </template>
@@ -99,6 +205,12 @@
 				goodsNum:1,
 				isShow:false,
 				isCartPopUp:false,
+				currentTab: 0, //sweiper所在页
+				isLeft:0, //导航栏下划线位置
+				tabLeft:0,
+				stars:[true, true, true],
+				tabTitle:['商品','评论'],
+				itemsWidth:0,
 				goods:[{
 						type:"人气热卖",
 						typeId:0,
@@ -151,6 +263,9 @@
 			}
 		},
 		computed:{
+			cartGoodTypeNum(){
+				return ()=> this.cart.reduce((acc, cur) => acc + cur.num , 0);
+			},
 			goodTypeNum() {
 				return (tid) => { return this.cart.reduce((acc, cur)=> {
 						if (cur.typeId == tid){
@@ -176,13 +291,29 @@
 		onReady(){
 			this.getAllGoodsHeight();
 		},
+		created() {
+			let views = uni.createSelectorQuery().select(".goodsAndComm").boundingClientRect().exec(res=>{
+					//console.log(res[0].width);
+					this.itemsWidth = Math.floor(res[0].width / 2);
+				})
+		},
 		components: {
 			uniNoticeBar,
 			uniPopup,
 			uniPopupMessage,
-			uniPopupDialog
+			uniPopupDialog,
 		},
 		methods:{
+			typeTileClick(index){
+				//this.tabClick = index //设置导航点击了哪一个
+				this.isLeft = index * this.itemsWidth //设置下划线位置
+				this.currentTab = index;
+			},
+			// swiper 滑动 如果tab关联swiper需要写下面的方法 否则不写
+			swiperTab: function(e) {
+				//let index = e.detail.current 获取索引
+				this.typeTileClick(e.detail.current);
+			},
 			setId(index){
 				this.viewId = "g" + index;
 				this.currentType = index;
@@ -212,7 +343,9 @@
 				})
 			},
 			goOrder(){
-				
+				if (this.cart.length <= 0){
+					this.$refs.popupMess.open();
+				}
 			},
 			addCart(item, goods, num){
 				// console.log("addCart item:" + item.shop);
@@ -277,15 +410,19 @@
 		background-color: #FFFFFF;
 	}
 	.container{
-		width: 100%;
+		overflow: hidden;
+		position: relative;
+	}
+	.body{
 		height: 100%;
+		width: 100%;
 	}
 	.top{
-		height: 100rpx;
+		height: 210rpx;
 		box-shadow: 0 0rpx 20rpx 10rpx rgba(51, 51, 51, 0.1);
-		border-radius: 5%;
+		border-radius: 30rpx;
 		position: relative;
-		margin-top: 120rpx;
+		margin-top: 55rpx;
 		margin-left: 20rpx;
 		margin-right: 20rpx;
 		background-color: #FFFFFF;
@@ -318,9 +455,54 @@
 		margin-top: 20rpx;
 		padding-left: 20rpx;
 		padding-right: 20rpx;
+		height: 100%;
+		.goodsAndComm{
+			width: 300rpx;
+			position: relative;
+			scroll-view{
+				height: 88rpx;
+				.underineBox{
+					margin-top: 3rpx;
+					height: 6rpx;
+					display: flex;
+					align-content: center;
+					justify-content: center;
+					transition: .5s;
+					.underline {
+						width: 100rpx;
+						height: 6rpx;
+						background-color: #ff9619;
+					}
+				}
+			}
+			.typeTile{
+				display: inline-block;
+				height: 55rpx;
+				line-height: 55rpx;
+				text-align: center;
+				font-size: 32rpx;
+				color: #636e72;
+				font-family: Microsoft Yahei;
+				font-weight: 500;
+			}
+			.typeTileSel{
+				display: inline-block;
+				height: 55rpx;
+				line-height: 55rpx;
+				text-align: center;
+				font-size: 32rpx;
+				color: #ff9619;
+				font-family: Microsoft Yahei;
+				font-weight: 500;
+			}
+		}
+	}
+	.swiperitem-cart-body{
+		height: 740rpx;
+		width: 100%;
 	}
 	.cart-body{
-		height: 715rpx;
+		height: 740rpx;
 		width: 100%;
 		display: flex;
 		flex-direction: row;
@@ -369,7 +551,7 @@
 				}
 				.one-goods{
 					height: 210rpx;
-					border-radius: 5%;
+					border-radius: 30rpx;
 					box-shadow: 0 0 10rpx 2rpx rgba(51, 51, 51, 0.2);
 					background-color: #FFFFFF;
 					margin-bottom: 20rpx;
@@ -455,25 +637,25 @@
 		.carticon{
 			position: relative;
 			image{
-				width: 150rpx;
-				height: 150rpx;
+				width: 120rpx;
+				height: 120rpx;
 				position: absolute;
-				top: -60rpx;
-				left: 0rpx;
+				top: -50rpx;
+				left: 30rpx;
 			}
 		}
 		.cartTitle{
 			height: 100%;
 			display: flex;
 			align-items: center;
-			margin-left: 150rpx;
-			font-weight: 500;
-			font-size: 40rpx;
+			margin-left: 180rpx;
+			font-weight: 520;
+			font-size: 35rpx;
 		}
 		.toOrder{
 			position: absolute;
-			font-weight: 500;
-			font-size: 40rpx;
+			font-weight: 520;
+			font-size: 35rpx;
 			color: #FFFFFF;
 			background-color: #2f3542;
 			width: 200rpx;
@@ -483,6 +665,7 @@
 			flex-direction: row;
 			align-items: center;
 			justify-content: center;
+			letter-spacing: 6rpx;
 		}
 	}
 	.dot{
@@ -501,8 +684,15 @@
 	.selected{
 		background-color: #FFFFFF;
 	}
+	.line{
+		width: 700rpx;
+		margin-top: 20rpx;
+		height: 3rpx;
+		background-color: #bdc3c7;
+		margin-top: 12rpx;
+	}
 	.popoup{
-		height: 500rpx;
+		height: 360rpx;
 		width: 100%;
 		background-color: #FFFFFF;
 		margin-bottom: 100rpx;
@@ -510,6 +700,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		border-radius: 30rpx 30rpx 0 0;
 		.popoupTop{
 			height: 100rpx;
 			width: 100%;
@@ -528,20 +719,120 @@
 			display: flex;
 			flex-direction: column;
 			position: relative;
-			.oneContent{
-				height: 80rpx;
+			.oneContent-scroll{
+				height: 230rpx;
+				.oneContent{
+					height: 80rpx;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+					padding-left: 35rpx;
+					padding-right: 35rpx;
+					.oneContentTitle{
+						width: 300rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						height: 40rpx;
+						line-height: 40rpx;
+					}
+				}
+			}
+		}
+	}
+	.comt-body{
+		height: 730rpx;
+	}
+	.popMess{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 30rpx;
+		width: 300rpx;
+		height: 150rpx;
+		background-color: #FFFFFF;
+	}
+	.scrollBody{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		.oneCom{
+			width: 90%;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			position: relative;
+			margin: 0rpx auto 20rpx auto;
+			.one-line{
+				margin-top: 20rpx;
+				width: 100%;
+				height: 2rpx;
+				background-color: #bdc3c7;
+			}
+			.oneCom-content{
+				margin-top: 10rpx;
+				width: 100%;
+				color: #7f8c8d;
+				font-size: 30rpx;
+			}
+			.oneCom-head{
 				width: 100%;
 				display: flex;
 				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-				.oneContentTitle{
-					width: 300rpx;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					height: 40rpx;
-					line-height: 40rpx;
+				justify-content: flex-start;
+				align-items: flex-start;
+				.oneCom-left{
+					width: 120rpx;
+					image{
+						width: 100rpx;
+						height: 100rpx;
+						border-radius: 100%;
+					}
+				}
+				.oneCom-right{
+					margin-left: 50rpx;
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-start;
+					align-items: flex-start;
+					position: relative;
+					.oneCom-right-name{
+						width: 100%;
+						font-size: 35rpx;
+						font-weight: 520;
+						font-family: Arial, Helvetica, sans-serif;
+					}
+					.oneCom-right-timewlevel{
+						margin-top: 20rpx;
+						display: flex;
+						flex-direction: row;
+						justify-content: space-around;
+						.level{
+							width: 150rpx;
+							height: 30rpx;
+							display: flex;
+							flex-direction: row;
+							justify-content: flex-start;
+							align-items: center;
+							.stars{
+								font-size: 30rpx;
+								color: #e74c3c;
+							}
+						}
+						.time{
+							font-size: 30rpx;
+							color: #636e72;
+							line-height: 30rpx;
+							height: 30rpx;
+						}
+					}
 				}
 			}
 		}

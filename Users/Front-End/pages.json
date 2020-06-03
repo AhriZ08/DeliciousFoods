@@ -75,13 +75,13 @@
 			}
 		],
 		"selectedColor":"#CD2626"
-	},
-	"condition":{
+	}
+/* 	"condition":{
 		"current":0,
 		"list": [{
 				"name":"cartTest",
 				"path":"pages/cart/cart"
 			}
 		]
-	}
+	} */
 }
