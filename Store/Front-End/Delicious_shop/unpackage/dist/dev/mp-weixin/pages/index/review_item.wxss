@@ -1,0 +1,61 @@
+
+.content{
+	background-color: #EEEEEE;
+}
+.content_review{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	width: 90%;
+	margin:auto;
+	background-color: ;
+}
+.head{
+	width:100rpx;
+	height: 100rpx;
+	border-radius: 50rpx;
+}
+.user{
+	margin-top: 20rpx;
+}
+.user view{
+	background-color: #FFFFFF;
+	margin-left: 110rpx;
+	margin-right: 20rpx;
+	font-size: normal;
+	border: #808080 3rpx;
+	border-style: groove;
+	padding-left: 10rpx;
+	border-radius: 20rpx;
+}
+.shop{
+	margin-top: 40rpx;
+}
+.shop view{
+	background-color: #FFFFFF;
+	margin-right: 20rpx;
+	margin-left: 20rpx;
+	font-size: normal;
+	border: #808080 3rpx;
+	border-style: groove;
+	padding-right: 10rpx;
+	border-radius: 20rpx;
+	float: right;
+}
+.up{
+	background-color: #FFFFFF;
+	padding-bottom: 500rpx;
+}
+.in{
+	margin-top: 50rpx;
+	padding-top: 20rpx;
+	padding-bottom: 10rpx;
+}
+.in input{
+	background-color:#DCDCDC;
+}
+
