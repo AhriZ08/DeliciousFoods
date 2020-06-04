@@ -93,7 +93,7 @@
 		"list": [
 			{
 				"name":"orderTest",
-				"path":"pages/order/chooseLoca"
+				"path":"pages/cart/cart"
 			}
 		]
 	}
