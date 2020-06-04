@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "iconfont";
-	src:url('https://at.alicdn.com/t/font_1824758_0ayih1ejwt6.ttf') format('truetype');
+	src:url('https://at.alicdn.com/t/font_1824758_qg6c508lfyq.ttf') format('truetype');
 }
 
 .iconfont {
@@ -56,4 +56,31 @@
 }
 .icon-star:before{
 	content: "\e642";
+}
+.icon-order:before{
+	content: "\e704";
+}
+.icon-runorder:before{
+	content: "\e61c";
+}
+.icon-overorder:before{
+	content: "\e899";
+}
+.icon-money:before{
+	content: "\e62a";
+}
+.icon-checked:before{
+	content: "\e651";
+}
+.icon-unchecked:before{
+	content: "\e620";
+}
+.icon-weixin:before{
+	content: "\e652";
+}
+.icon-zhifubao:before{
+	content: "\e605";
+}
+.icon-yes:before{
+	content: "\e69f";
 }

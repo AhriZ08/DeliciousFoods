@@ -36,10 +36,22 @@
 	},{
 		"path" : "pages/cart/cart",
 		"style": {}
-	}    ,{
-            "path" : "pages/index/main-search",
-            "style" : {}
-        }
+	},{
+		"path" : "pages/index/main-search",
+		"style" : {}
+    },{
+		"path" : "pages/order/orderDetail",
+		"style" : {}
+    },{
+		"path" : "pages/order/assOrder",
+		"style" : {}
+    },{
+		"path" : "pages/order/payOrder",
+		"style" : {}
+    },{
+		"path" : "pages/order/chooseLoca",
+		"style" : {}
+	}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -75,13 +87,14 @@
 			}
 		],
 		"selectedColor":"#CD2626"
-	}
-/* 	"condition":{
+	},
+	"condition":{
 		"current":0,
-		"list": [{
-				"name":"cartTest",
-				"path":"pages/cart/cart"
+		"list": [
+			{
+				"name":"orderTest",
+				"path":"pages/order/chooseLoca"
 			}
 		]
-	} */
+	}
 }
