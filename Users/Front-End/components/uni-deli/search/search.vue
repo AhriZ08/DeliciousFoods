@@ -8,7 +8,7 @@
 		</view>
 		<!-- 搜索框 -->
 		<view class="search-cont">
-			<view class="search" @click="seaRch()">
+			<view class="search" @click="seaRch">
 				<image src="../../../static/icon/index/main/搜索.png" mode="widthFix" class="search-img"></image>
 				<input type="text" placeholder="茶百道" disabled/>
 			</view>

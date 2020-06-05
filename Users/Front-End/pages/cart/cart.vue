@@ -81,7 +81,7 @@
 											<view class="oneCom-right-name">李四</view>
 											<view class="oneCom-right-timewlevel">
 												<view class="level">
-													<view v-for="(item, index) in stars" class="iconfont icon-star stars" v-show="item"></view>
+													<uni-rate value="5" size="12" disable="true"></uni-rate>
 												</view>
 												<view class="time">2020-6-1</view>
 											</view>
@@ -102,7 +102,7 @@
 											<view class="oneCom-right-name">李四</view>
 											<view class="oneCom-right-timewlevel">
 												<view class="level">
-													<view v-for="(item, index) in stars" class="iconfont icon-star stars" v-show="item"></view>
+													<uni-rate value="5" size="12" disable="true"></uni-rate>
 												</view>
 												<view class="time">2020-6-1</view>
 											</view>
@@ -124,7 +124,7 @@
 											<view class="oneCom-right-name">李四</view>
 											<view class="oneCom-right-timewlevel">
 												<view class="level">
-													<view v-for="(item, index) in stars" class="iconfont icon-star stars" v-show="item"></view>
+													<uni-rate value="3" size="12" disable="true"></uni-rate>
 												</view>
 												<view class="time">2020-6-1</view>
 											</view>
@@ -194,6 +194,7 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+	import uniRate from '@/components/uni-rate/uni-rate.vue'
 	export default {
 		data(){
 			return{
@@ -302,6 +303,7 @@
 			uniPopup,
 			uniPopupMessage,
 			uniPopupDialog,
+			uniRate
 		},
 		methods:{
 			typeTileClick(index){
@@ -471,7 +473,7 @@
 					.underline {
 						width: 100rpx;
 						height: 6rpx;
-						background-color: #ff9619;
+						background-color: #f07373;
 					}
 				}
 			}
@@ -491,7 +493,7 @@
 				line-height: 55rpx;
 				text-align: center;
 				font-size: 32rpx;
-				color: #ff9619;
+				color: #f07373;
 				font-family: Microsoft Yahei;
 				font-weight: 500;
 			}
@@ -627,13 +629,16 @@
 	}
 	.bottom-cart{
 		z-index: 9990;
-		width: 100%;
+		width: 90%;
 		height: 100rpx;
-		background-color: #f1c40f;
-		position: fixed;
-		bottom: 0rpx;
+		background-color: #FFFFFF;
+		position: relative;
+		bottom: 25rpx;
 		display: flex;
 		flex-direction: row;
+		border-radius: 30rpx;
+		margin: 0 auto 0 auto;
+		box-shadow: 0 0 10rpx 6rpx rgba(51, 51, 51, 0.2);
 		.carticon{
 			position: relative;
 			image{
@@ -657,8 +662,8 @@
 			font-weight: 520;
 			font-size: 35rpx;
 			color: #FFFFFF;
-			background-color: #2f3542;
-			width: 200rpx;
+			background-color: #f07373;
+			width: 180rpx;
 			right: 0rpx;
 			height: 100%;
 			display: flex;
@@ -666,6 +671,7 @@
 			align-items: center;
 			justify-content: center;
 			letter-spacing: 6rpx;
+			border-radius: 0 30rpx 30rpx 0;
 		}
 	}
 	.dot{
@@ -692,10 +698,9 @@
 		margin-top: 12rpx;
 	}
 	.popoup{
-		height: 360rpx;
+		height: 500rpx;
 		width: 100%;
 		background-color: #FFFFFF;
-		margin-bottom: 100rpx;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -720,7 +725,7 @@
 			flex-direction: column;
 			position: relative;
 			.oneContent-scroll{
-				height: 230rpx;
+				height: 260rpx;
 				.oneContent{
 					height: 80rpx;
 					display: flex;
@@ -814,6 +819,7 @@
 						display: flex;
 						flex-direction: row;
 						justify-content: space-around;
+						align-items: center;
 						.level{
 							width: 150rpx;
 							height: 30rpx;
@@ -821,10 +827,7 @@
 							flex-direction: row;
 							justify-content: flex-start;
 							align-items: center;
-							.stars{
-								font-size: 30rpx;
-								color: #e74c3c;
-							}
+							margin-right: 20rpx;
 						}
 						.time{
 							font-size: 30rpx;

@@ -7,13 +7,20 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	// 数据源
 	state:{
-		historyList:[
-			
-		],
+		historyList:[],
+		islogin:false,
+		uussername:"name"
 	},
 	mutations:{
 		SET_HISTORY_LIST(state,history){
 			state.historyList = history
+		},
+		SET_IS_LOGIN(state){
+			state.islogin = !state.islogin
+		},
+		SET_USER_NAME(state,tname){
+			state.uussername = tname.name
+			console.log(state.uussername);
 		}
 	},
 	actions:{
@@ -26,6 +33,12 @@ const store = new Vuex.Store({
 			let list = []
 			commit('SET_HISTORY_LIST',list)
 		},
+		set_login({commit,state}){
+			commit('SET_IS_LOGIN')
+		},
+		set_uuname({commit,state},lname){
+			commit('SET_USER_NAME',lname)
+		}
 	}
 })
 

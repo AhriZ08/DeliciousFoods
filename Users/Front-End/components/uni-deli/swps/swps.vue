@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view>
+			<!-- 轮播图 -->
 			<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" class="swiper">
 				<swiper-item v-for="(item,index) in ad":key = index>
 					<image :src="item" ></image>
