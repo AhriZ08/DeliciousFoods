@@ -14,6 +14,10 @@
 	{
 		"path":"pages/info/info"
 	}
+	,
+	{
+		"path":"pages/info/personal"
+	}
 	,{
             "path" : "components/uni-deli/search/search",
             "style" : {}
@@ -36,6 +40,44 @@
 	},{
 		"path" : "pages/cart/cart",
 		"style": {}
+<<<<<<< HEAD
+	}    ,{
+            "path" : "pages/index/main-search",
+            "style" : {}
+        }
+        ,{
+            "path" : "components/uni-deli/shop-t",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/sort_page",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/info/chat_page",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/info/address_page",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/info/privtinfo_page",
+            "style" : {}
+        },
+		{
+		    "path" : "pages/info/login",
+		    "style" : {}
+		}
+        ,{
+            "path" : "components/uni-deli/chat_item",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/info/register_page",
+            "style" : {}
+        }
+=======
 	},{
 		"path" : "pages/index/main-search",
 		"style" : {}
@@ -52,6 +94,7 @@
 		"path" : "pages/order/chooseLoca",
 		"style" : {}
 	}
+>>>>>>> 71b3d02fcb16c853b161191fec827d31dcb7dac7
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -80,7 +123,7 @@
 				"selectedIconPath":"static/icon/index/main/color/订单.png"
 			},
 			{
-				"pagePath":"pages/info/info",
+				"pagePath":"pages/info/personal",
 				"text":"我的",
 				"iconPath":"static/icon/index/main/我的.png",
 				"selectedIconPath":"static/icon/index/main/color/我的.png"

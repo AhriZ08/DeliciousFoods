@@ -15,24 +15,10 @@
 			</view>
 			<!-- 搜索内容 -->
 			<view class="home-list">
-				<!-- 当未进行搜索时 ，显示搜索历史-->
-				<view class="list" v-if="itemlist.length==0">
-					<view class="list-info">
-						<view class="list-text">浏览历史</view>
-						<view class="list-clean"@click="cleancont">清空</view>
-					</view>
-					<!-- 对搜索历史的内容进行判断 -->
-					<view class="list-content">
-						<view v-if="historyList.length>0" class="list-item" v-for="(item,index) in historyList":key=index >{{item.name}}</view>
-						<view v-if="historyList.length==0" class="no-content">没有搜索历史</view>
-					</view>
-				</view>
-				<!-- 已进行搜索时 -->
-				<view v-else>
+				<view>
 					<shopt class="shop-tt"></shopt>
 					<shopt class="shop-tt"></shopt>
 				</view>
-				
 			</view>
 		</view>
 		
@@ -40,7 +26,7 @@
 </template>
 
 <script>
-	import shopt from '../uni-deli/shop-t.vue'
+	import shopt from '@/components/uni-deli/shop-t.vue'
 	import {mapState} from 'vuex'
 	export default {
 		data() {
@@ -74,8 +60,10 @@
 				this.Svalue = e.detail.value
 			}
 			
+		},
+		onLoad(e) {
+			console.log(e.sname);
 		}
-		
 	}
 </script>
 
