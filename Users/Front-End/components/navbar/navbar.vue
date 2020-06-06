@@ -29,8 +29,7 @@
 				</view>
 				<!-- 已进行搜索时 -->
 				<view v-else>
-					<shopt class="shop-tt"></shopt>
-					<shopt class="shop-tt"></shopt>
+					<shopt v-for="(item,index) in itemlist":key =index :shoptl=item class="shop-tt" ></shopt>
 				</view>
 				
 			</view>
@@ -64,7 +63,18 @@
 				this.$store.dispatch('set_history',{
 					name:this.Svalue
 				})
-				this.itemlist.unshift(1)
+				uni.request({
+					url: 'http://47.112.243.221:8080/dFoods/sp/search?keyWords='+this.Svalue,
+					method: 'GET',
+					data: {},
+					success: res => {
+						console.log(res);
+						this.itemlist = res.data
+						console.log(this.itemlist);
+						},
+					fail: (e) => {console.log(e);},
+					complete: () => {}
+				});
 			},
 			cleancont(){
 				this.$store.dispatch('clean_history')
@@ -83,7 +93,6 @@
 	.home-list{
 		padding: 0 10rpx;
 		margin-top: 100rpx;
-		height: 9000rpx;
 		// background-color: #f1f2f6;
 		.list{
 			background-color: #FFFFFF;

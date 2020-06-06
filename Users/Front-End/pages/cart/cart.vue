@@ -348,6 +348,14 @@
 				if (this.cart.length <= 0){
 					this.$refs.popupMess.open();
 				}
+				else{
+					uni.navigateTo({
+						url: '../order/payOrder',
+						success: res => {},
+						fail: () => {},
+						complete: () => {}
+					})
+				}
 			},
 			addCart(item, goods, num){
 				// console.log("addCart item:" + item.shop);

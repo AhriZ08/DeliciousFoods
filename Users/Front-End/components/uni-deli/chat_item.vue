@@ -1,40 +1,40 @@
 <template>
 	<view>
+		<!-- 时间块 -->
+		<view class="chat_time">
+			<text>{{contents.time}}</text>
+		</view>
+		<!-- 聊天的内容 -->
 		<view class="ttt">
 			<view class="item_range">
-				<view class="item_info">{{value}}</view>
+				<view class="item_info">{{contents.content}}</view>
 				<view class="item_tail"></view>
 			</view>
 		</view>
-
 	</view>
 </template>
 
 <script>
 	export default {
-		props:{
-			value:{
-				type:String
-			}
-		},
 		data() {
 			return {
 				
 			};
 		},
-		methods:{
-			
-
-		},
-		mounted:function() {
-		}
-		
-}
+		props:["contents"]
+	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	.chat_time{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #718093;
+		font-size: 25rpx;
+		padding: 10rpx 0;
+	}
 	.item_range{
-		// position: relative;
 		display: flex;
 		justify-content: flex-end;
 		margin-bottom: 45rpx;
@@ -55,6 +55,5 @@
 			border: 26rpx #dcdde1 solid;
 			border-color:  transparent  transparent #dcdde1 transparent ;
 		}
-		
 	}
 </style>

@@ -18,8 +18,9 @@
 					<button form-type="submit" @click="loginStart">登录</button>
 				</view>
 				<view class="register">
-					<button form-type="submit" @click="openreg">注册</button>
+					<view @click="openreg">还没有账号？点击注册</view>
 				</view>
+				
 			</form>
 		</view>
 	</view>
@@ -119,10 +120,10 @@
 	}
 	.register{
 		margin-top: 25rpx;
-		button{
-			border-radius: 2.5rem;
-			color: #FFFFFF;
-			background:linear-gradient(to right, rgba(196, 69, 105, 1.0), rgba(225, 112, 85, 1.0));
-		}
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #1e90ff;
+		font-size: 35rpx;
 	}
 </style>
