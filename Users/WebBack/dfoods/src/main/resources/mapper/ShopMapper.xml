@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.deliciousfoods.mapper.ShopMapper">
+    <select id="findRecommendShop" resultType="shop">
+        SELECT * FROM Shop ORDER BY Shop_Qrade DESC,Shop_ID ASC
+    </select>
+    <select id="findSortShop" resultType="shop" parameterType="String">
+        SELECT * FROM Shop WHERE Shop_Sort = #{value} ORDER BY Shop_Qrade DESC,Shop_ID ASC
+    </select>
+    <select id="findSearchShop" resultType="shop" parameterType="String">
+        SELECT * from Shop where Shop_Name LIKE CONCAT('%',#{value},'%') union (SELECT  * FROM Shop ORDER BY RAND() LIMIT 5)
+    </select>
+</mapper>
