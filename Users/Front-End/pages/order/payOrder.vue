@@ -83,7 +83,8 @@
 				<text style="color: #DD524D;margin-left: 6rpx;font-weight: 550;font-size: 35rpx;">
 				￥150.00</text>
 			</view>
-			<view class="payView">付款</view>
+			<view class="payView" @click="openOrder">付款</view>
+			
 		</view>
 	</view>
 </template>
@@ -105,6 +106,11 @@
 					url: '/pages/order/chooseLoca'
 				});
 				uni.hideLoading();
+			},
+			openOrder(){
+				uni.switchTab({
+					url:'order'
+				})
 			}
 		}
 	}
