@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "iconfont";
-	src:url('https://at.alicdn.com/t/font_1824758_qg6c508lfyq.ttf') format('truetype');
+	src:url('https://at.alicdn.com/t/font_1824758_fyf7epaw30m.ttf') format('truetype');
 }
 
 .iconfont {
@@ -83,4 +83,10 @@
 }
 .icon-yes:before{
 	content: "\e69f";
+}
+.icon-modefy:before{
+	content: "\e60f";
+}
+.icon-addAddr:before{
+	content: "\e635";
 }

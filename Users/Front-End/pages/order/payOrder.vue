@@ -102,7 +102,7 @@
 			toChooseLoca(){
 				uni.showLoading({title: '加载中'});
 				uni.navigateTo({
-					url: '/pages/order/chooseLoca'
+					url: '/pages/addr/chooseLoca'
 				});
 				uni.hideLoading();
 			}

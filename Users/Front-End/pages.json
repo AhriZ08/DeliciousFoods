@@ -19,8 +19,8 @@
 		"path":"pages/info/personal"
 	}
 	,{
-            "path" : "components/uni-deli/search/search",
-            "style" : {}
+        "path" : "components/uni-deli/search/search",
+        "style" : {}
     }
     ,{
 		"path" : "components/uni-deli/swps/swps",
@@ -40,7 +40,6 @@
 	},{
 		"path" : "pages/cart/cart",
 		"style": {}
-<<<<<<< HEAD
 	}    ,{
             "path" : "pages/index/main-search",
             "style" : {}
@@ -76,12 +75,7 @@
         ,{
             "path" : "pages/info/register_page",
             "style" : {}
-        }
-=======
 	},{
-		"path" : "pages/index/main-search",
-		"style" : {}
-    },{
 		"path" : "pages/order/orderDetail",
 		"style" : {}
     },{
@@ -91,10 +85,12 @@
 		"path" : "pages/order/payOrder",
 		"style" : {}
     },{
-		"path" : "pages/order/chooseLoca",
+		"path" : "pages/addr/chooseLoca",
+		"style" : {}
+	},{
+		"path" : "pages/addr/updateAddr",
 		"style" : {}
 	}
->>>>>>> 71b3d02fcb16c853b161191fec827d31dcb7dac7
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -136,7 +132,7 @@
 		"list": [
 			{
 				"name":"orderTest",
-				"path":"pages/cart/cart"
+				"path":"pages/addr/chooseLoca"
 			}
 		]
 	}
