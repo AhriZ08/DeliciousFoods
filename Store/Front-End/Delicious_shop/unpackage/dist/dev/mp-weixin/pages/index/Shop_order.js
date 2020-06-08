@@ -130,69 +130,40 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var order = function order() {__webpack_require__.e(/*! require.ensure | components/order */ "components/order").then((function () {return resolve(__webpack_require__(/*! ../../components/order.vue */ 57));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   data: function data() {
     return {
       tabCurrentIndex: 0,
-      navList: [{
+      navList: [
+      {
         state: 0,
         text: '全部订单',
         loadingType: 'more',
@@ -213,12 +184,6 @@ var _default =
       {
         state: 3,
         text: '已完成',
-        loadingType: 'more',
-        orderList: [] },
-
-      {
-        state: 4,
-        text: '已取消',
         loadingType: 'more',
         orderList: [] }],
 
@@ -276,7 +241,11 @@ var _default =
 
     tabClick: function tabClick(index) {
       this.tabCurrentIndex = index;
-    } } };exports.default = _default;
+    } },
+
+
+  components: {
+    "order": order } };exports.default = _default;
 
 /***/ }),
 

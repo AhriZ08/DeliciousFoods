@@ -153,6 +153,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -162,7 +163,7 @@ var _default =
         name: "胡图图",
         time_day: "2020/06/02",
         tims_minute: "20:08",
-        head: "",
+        head: "../../static/Resource_review/个人头像.jpg",
         content: "默认好评啊啊啊啊啊啊啊啊长宽比吧哭吧哭吧可算把biubiu爱步",
         grade: "★★★★★" },
 
@@ -170,7 +171,7 @@ var _default =
         name: "胡图图",
         time_day: "2020/06/02",
         tims_minute: "20:08",
-        head: "",
+        head: "../../static/Resource_review/个人头像.jpg",
         content: "默认好评",
         grade: "★★★★★" }] };
 

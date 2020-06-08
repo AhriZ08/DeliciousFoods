@@ -154,18 +154,25 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
 var _default =
 
 {
   data: function data() {
     return {
       user: {
-        head_address: "",
+        head_address: "../../static/Resource_review/个人头像.jpg",
         in_content: "默认好评啊啊啊啊啊啊啊啊长宽比吧哭吧哭吧可算把biubiu爱步" },
 
       shop: {
-        head_address: "",
-        out_content: "笔芯oks" } };
+        head_address: "../../static/Project4Resource/index_resource/正新鸡排图标.jpg",
+        out_content: ["笔芯oks",
+        "Just soso",
+        "silly B",
+        "sfa"] } };
+
 
 
 

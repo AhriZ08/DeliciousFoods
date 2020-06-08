@@ -6,8 +6,8 @@
 				v-for="(item, index) in navList" :key="index" 
 				class="nav-item" 
 				:class="{current: tabCurrentIndex === index}"
-				@click="tabClick(index)"
-			>
+				@click="tabClick(index)">
+				
 				{{item.text}}
 			</view>
 		</view>
@@ -16,51 +16,22 @@
 			<swiper-item class="swiper-item" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
 				<scroll-view style="height: 100%;" scroll-y="true">
 					<view class="swiper-item">
-						<view class="order-items" v-for="(item,index) in orders" :key="index">
-						<!-- 订单第一行，第几个订单，和状态 -->
-						<view class="order_statue">
-							<text>{{item.status}}</text>
-						</view>
-						<!-- 订单第二行，下订单的人和下订单的时间 -->
-						<view class="order-man">
-							<text style="font-size: large; font-weight: 500;">{{item.name}}</text>
-							<text space="emsp"style="float: right;" >于 {{item.order_time}} 下单\n</text>
-							<text>\n{{item.address}}</text>
-							<text space="emsp"style="color:#FF7F00;">\n备注  </text>
-							<text space="emsp">:   {{item.content}}</text>
-						</view>
-								
-						<!-- 菜 -->
-						<view class="order-shops">
-							<view class="order-shops"  v-for="(dish,index) in item.dishes" :key="index">
-								<text space="emsp">{{dish}}    1</text>
-							</view>
-							<view>
-								<text space="emsp" style="padding-left: 150rpx;">共 {{item.dish_number}} 件商品</text>	
-							</view>
-						</view>	
-						<view class="Button">
-							<button>取消</button>
-							<button>接受</button>
-						</view>
-									
-					</view>
+						<order :orders="orders"></order>
 					</view>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
-			<!--一个订单的样式-->
-			
-			
 	</view>
 </template>
 
 <script>
+	import order from"../../components/order.vue"
 	export default {
 		data() {
 			return {
 				tabCurrentIndex: 0,
-				navList: [{
+				navList: [
+					{
 						state: 0,
 						text: '全部订单',
 						loadingType: 'more',
@@ -84,12 +55,6 @@
 						loadingType: 'more',
 						orderList: []
 					},
-					{
-						state: 4,
-						text: '已取消',
-						loadingType: 'more',
-						orderList: []
-					}
 				],
 				orders:[
 					{
@@ -146,6 +111,9 @@
 				this.tabCurrentIndex = index;
 			},
 			
+		},
+		components:{
+			"order":order,	
 		}
 	
 	}
@@ -201,45 +169,6 @@
 	.swiper-item{
 		
 	}
-	.order-items{
-		background-color: #FFFFFF;
-		display:flex;
-		flex-direction: column;
-		margin: 30rpx auto;
-		width: 90%;
-		border-style:groove;
-		border: 2rpx;
-		border-radius: 5rpx;
-	}
-	.order_statue{
-		font-size: large;
-		font-weight: 500;
-		color: #F8F8F8;
-		background-color: #515151;
-	}
-	.order-man{
-		padding-left: 20rpx;
-		padding-right: 20rpx;
-		margin-top: 10rpx;
-		margin-bottom: 10rpx;
-	}
-	.order-shops{
-		padding-left: 100rpx;
-		border: #999999 3rpx;
-		border-style: double;
-	}
-	.Button{
-		display: flex;
-	}
-	.Button button:nth-child(2){
-		background-color: #0091EA;
-		width: 60%;
-		margin-left: 10rpx;
-		color: #FFFFFF;
-	}
-	.Button button:nth-child(1){
-		width: 30%;
-		margin-left: 30rpx;
-	}
+	
 </style>
 	

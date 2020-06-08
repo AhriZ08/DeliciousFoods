@@ -12,7 +12,7 @@
 	        flex-direction: column;
 	width: 90%;
 	margin:auto;
-	background-color: ;
+	height: 90%;
 }
 .head{
 	width:100rpx;
@@ -46,14 +46,25 @@
 	border-radius: 20rpx;
 	float: right;
 }
+.shop_content{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+}
 .up{
 	background-color: #FFFFFF;
-	padding-bottom: 500rpx;
+	padding-bottom: 30rpx;
 }
 .in{
-	margin-top: 50rpx;
 	padding-top: 20rpx;
 	padding-bottom: 10rpx;
+	position: fixed;
+	bottom: 0;
+	width: 90%;
 }
 .in input{
 	background-color:#DCDCDC;
