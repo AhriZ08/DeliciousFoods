@@ -60,8 +60,9 @@ shoptl.shop_Distance 配送距离 -->
 		},
 		methods:{
 			opens(){
+				var that = this;
 				uni.navigateTo({
-					url: '../../pages/cart/cart?sid='+shoptl.shop_ID,
+					url: '../../pages/cart/cart?sid=' + that.shoptl.shop_ID,
 					success: res => {},
 					fail: (e) => {console.log(e);},
 					complete: () => {}
