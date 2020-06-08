@@ -1,6 +1,8 @@
 package com.example.deliciousfoods.service;
 
-import com.example.deliciousfoods.entities.shop;
+import com.example.deliciousfoods.entities.Menus;
+import com.example.deliciousfoods.entities.Shop;
+import com.example.deliciousfoods.entities.ShopDetail;
 import com.example.deliciousfoods.mapper.ShopMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +14,20 @@ public class ShopService {
     @Autowired
     ShopMapper shopMapper;
 
-    public List<shop> findRecommendShop(){
+    public List<Shop> findRecommendShop(){
         return shopMapper.findRecommendShop();
     }
 
-    public List<shop> findSortShop(String sort){
+    public List<Shop> findSortShop(String sort){
         return shopMapper.findSortShop(sort);
     }
 
-    public List<shop> findSearchShop(String keyWords){
+    public List<Shop> findSearchShop(String keyWords){
         return shopMapper.findSearchShop(keyWords);
     }
+
+    public List<Menus> findShopMenus(Integer sid){return  shopMapper.findShopMenus(sid);}
+
+    public ShopDetail findOneShop(Integer sid){return shopMapper.findOneShop(sid);}
+
 }

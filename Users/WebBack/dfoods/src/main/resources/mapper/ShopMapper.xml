@@ -2,13 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.deliciousfoods.mapper.ShopMapper">
+
+    <resultMap id="menusResultMap" type="menus">
+        <id property="Type_ID" column="Type_ID"/>
+        <result property="Type_Name" column="Type_Name"/>
+        <collection property="goodsList" javaType="List" ofType="goods">
+            <id property="Menu_ID" column="Menu_ID"/>
+            <result property="Menu_Name" column="Menu_Name"/>
+            <result property="Menu_Price" column="Menu_Price"/>
+            <result property="Menu_Introduce" column="Menu_Introduce"/>
+            <result property="Menu_Phtoto" column="Menu_Phtoto"/>
+        </collection>
+    </resultMap>
+
     <select id="findRecommendShop" resultType="shop">
-        SELECT * FROM Shop ORDER BY Shop_Qrade DESC,Shop_ID ASC
+        SELECT Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,
+               Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
+               Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance FROM Shop ORDER BY Shop_Qrade DESC,Shop_ID ASC
     </select>
     <select id="findSortShop" resultType="shop" parameterType="String">
-        SELECT * FROM Shop WHERE Shop_Sort = #{value} ORDER BY Shop_Qrade DESC,Shop_ID ASC
+        SELECT Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,
+               Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
+               Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance FROM Shop
+        WHERE Shop_Sort = #{value} ORDER BY Shop_Qrade DESC,Shop_ID ASC
     </select>
     <select id="findSearchShop" resultType="shop" parameterType="String">
-        SELECT * from Shop where Shop_Name LIKE CONCAT('%',#{value},'%') union (SELECT  * FROM Shop ORDER BY RAND() LIMIT 5)
+        SELECT Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,
+               Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
+               Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance from Shop where Shop_Name LIKE CONCAT('%',#{value},'%')
+        union (SELECT  * FROM Shop ORDER BY RAND() LIMIT 5)
     </select>
+    <select id="findShopMenus" resultMap="menusResultMap" parameterType="int">
+        SELECT MenuType.Type_ID,MenuType.Type_Name,Menu.Menu_ID,
+               Menu.Menu_Name,Menu.Menu_Price,Menu.Menu_Introduce,Menu.Menu_Phtoto
+        FROM MenuType,Menu WHERE MenuType.Shop_ID = #{value} AND MenuType.Type_ID = Menu.Menu_Type
+    </select>
+    
+    <select id="findOneShop" resultType="shopDetail" parameterType="Integer">
+        SELECT Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,Shop_Address,
+               Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
+               Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance
+        FROM Shop WHERE Shop_ID = #{value}
+    </select>
+
 </mapper>

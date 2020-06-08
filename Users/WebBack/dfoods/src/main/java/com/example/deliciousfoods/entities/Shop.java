@@ -2,7 +2,7 @@ package com.example.deliciousfoods.entities;
 
 import java.io.Serializable;
 
-public class shop implements Serializable {
+public class Shop implements Serializable {
     private int Shop_ID;
     private String Shop_Name;
     private String Shop_Qrade;
@@ -105,7 +105,7 @@ public class shop implements Serializable {
 
     @Override
     public String toString() {
-        return "shop{" +
+        return "Shop{" +
                 "Shop_ID=" + Shop_ID +
                 ", Shop_Name='" + Shop_Name + '\'' +
                 ", Shop_Qrade='" + Shop_Qrade + '\'' +

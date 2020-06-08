@@ -7,12 +7,16 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
 public class AliSmsService {
+
+    private static Logger logger = LoggerFactory.getLogger(AliSmsService.class);
 
     public String sendSms(String telNum) throws ClientException {
         //替换成你的AK
@@ -38,9 +42,9 @@ public class AliSmsService {
         SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
         if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
             //请求成功
-            System.out.println("短信发送成功");
+            logger.info("短信发送成功");
         } else {
-            System.out.println("短信发送失败");
+            logger.info("短信发送失败");
         }
         return msgCode;
     }

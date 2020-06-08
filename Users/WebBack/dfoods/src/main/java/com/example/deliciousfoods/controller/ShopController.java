@@ -1,9 +1,12 @@
 package com.example.deliciousfoods.controller;
 
-import com.example.deliciousfoods.entities.shop;
+import com.example.deliciousfoods.entities.Menus;
+import com.example.deliciousfoods.entities.Shop;
+import com.example.deliciousfoods.entities.ShopDetail;
 import com.example.deliciousfoods.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,19 +21,31 @@ public class ShopController {
 
     @RequestMapping("/recommend")
     @ResponseBody
-    public List<shop> RecommendShop(){
+    public List<Shop> RecommendShop(){
         return shopService.findRecommendShop();
     }
 
     @RequestMapping("/sort")
     @ResponseBody
-    public List<shop> sortShop(String sort){
+    public List<Shop> sortShop(String sort){
         return shopService.findSortShop(sort);
     }
 
     @RequestMapping("/search")
     @ResponseBody
-    public List<shop> searchShop(String keyWords){
+    public List<Shop> searchShop(String keyWords){
         return shopService.findSearchShop(keyWords);
+    }
+
+    @RequestMapping("/menu/{sid}")
+    @ResponseBody
+    public List<Menus> shopMenus(@PathVariable("sid") Integer sid){
+        return shopService.findShopMenus(sid);
+    }
+
+    @RequestMapping("/{sid}")
+    @ResponseBody
+    public ShopDetail oneShop(@PathVariable("sid") Integer sid){
+        return shopService.findOneShop(sid);
     }
 }
