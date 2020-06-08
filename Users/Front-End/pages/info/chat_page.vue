@@ -53,7 +53,7 @@
 					let tf =  uni.getStorageSync('isinput')
 					if(!tf){
 						uni.setStorageSync('isinput',true)
-						setInterval(this.changeinput,10000)
+						setInterval(this.changeinput,8000)
 						this.chat_mesg.push(a)
 						uni.setStorageSync('chat_info',this.chat_mesg)
 					}
@@ -105,6 +105,7 @@
 	},
 	onLoad() {
 		this.chat_mesg = uni.getStorageSync('chat_info')
+		uni.setStorageSync('isinput',false)
 	}
 	}
 </script>
