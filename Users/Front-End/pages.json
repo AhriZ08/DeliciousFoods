@@ -72,6 +72,10 @@
 			"path" : "pages/addr/chooseLoca",
 			"style" : {}
 		},
+		{
+			"path" : "pages/addr/updateAddr",
+			"style" : {}
+		},
         {
             "path" : "components/uni-deli/chat_item",
             "style" : {}
