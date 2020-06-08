@@ -18,7 +18,7 @@
 					<input type="text" placeholder="请输入验证码" @input="changepass"/>
 				</view>
 				<view style="margin-top: -20rpx; margin-left: 10rpx; ">
-					<button size="mini" style="width: 200rpx;border-radius: 12rpx; height: 90rpx; font-size: 26rpx; display:flex; align-items: center; background-color: #ffcf9b;" @click="checkNum">发送验证码</button>
+					<button size="mini" style="width: 200rpx;border-radius: 12rpx; height: 90rpx; font-size: 26rpx; display:flex; align-items: center; background-color: #ffcf9b; margin-top: -20rpx;" @click="checkNum">发送验证码</button>
 				</view>
 			</view>
 			<view class="Regis_t">
@@ -49,14 +49,13 @@
 					<input type="text" placeholder="密保答案"/>
 				</view>
 			</view> -->
-			<view class="Regis_t">
+<!-- 			<view class="Regis_t">
 				<view class="mid-input">
-					<!-- <image src="../../static/icon/info/地址.png" ></image> -->
 					<view style="width: 500rpx;margin-left: 40rpx;">
 						<input type="text" placeholder="送达地址" style="width: 100%;" @input="changeaddr"/>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="butt_regis">
 				<button size="default" @click="postnum">点击注册</button>
 			</view>
@@ -85,6 +84,7 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -96,6 +96,9 @@
 				S_nrpwd:"",
 				S_naddr:""
 				};
+		},
+		computed:{
+			...mapState({tflog:'islogin',username:'uussername'})
 		},
 		methods:{
 			bindPickerChange(e){
@@ -122,10 +125,13 @@
 				}
 				else{
 					console.log("手机号输入成功");
+					var _this = this
 					uni.request({
-						url: 'http://47.112.243.221:8080/dFoods/sms?tel_num='+this.S_num,
+						url: 'http://47.112.243.221:8080/dFoods/sms',
 						method: 'GET',
-						data: {},
+						data: {
+							tel_num:_this.S_num
+						},
 						success: res => {
 							this.S_getn = res.data
 							},
@@ -143,30 +149,87 @@
 				{
 					this.$refs.popupMss.open();
 				}
-				if(this.S_nvalue == this.S_getn && this.S_npwd == this.S_nrpwd && this.S_naddr!="" && this.S_nvalue!="" && this.S_npwd!=""){
-					uni.switchTab({
-						url:'../index/index'
-					})
+				//    
+				if( this.S_nvalue!="1" && this.S_npwd!="" && this.S_npwd == this.S_nrpwd && this.S_nvalue!="" && this.S_nvalue == this.S_getn){
+					
 					let a = {
 						t_phone:this.S_num,
 						t_pwd:this.S_npwd,
 						t_addr:this.S_naddr
 						
 					}
+					var _this = this
 					uni.request({
-						url: 'http://47.112.243.221:8080/dFoods/user/register?reg='+a,
-						method: 'POST',
-						data: {},
-						success: res => {console.log("发送成功");},
-						fail: (e) => {console.log(e);},
+						url: 'http://47.112.243.221:8080/dFoods/user/register?t_phone='+_this.S_num+'&t_pwd='+_this.S_npwd,
+						method: 'GET',
+						header:{
+							'content-type':"application/x-www-from-urlencoded"
+						},
+						data:{
+						},
+						success: res => {
+							console.log("发送成功");
+							console.log(_this.S_num + _this.S_npwd);
+							console.log(res.data);
+							if(res.data.status == true)
+							{
+								_this.$store.dispatch('set_login')
+								_this.$store.dispatch('set_uuname',{
+									name:_this.S_num
+								})
+								uni.setStorageSync('userID',res.data.msg)
+								uni.switchTab({
+									url:'../index/index'
+								})
+							}
+							else{
+								_this.$refs.popupMss1.open();
+							}
+						},
+						fail: (e) => {
+							console.log("发送失败");
+							console.log(e);
+							},
 						complete: () => {}
 					});
+					
 				}
-				else{
-					this.$refs.popupMss1.open();
-				}
-				
 			}
+		},
+		onLoad() {
+			// var _this = this
+			// uni.request({
+			// 	url: 'http://47.112.243.221:8080/dFoods/user/register?t_phone=13980221427&t_pwd=123456',
+			// 	method: 'POST',
+			// 	header:{
+			// 		'content-type':"application/x-www-from-urlencoded"
+			// 	},
+			// 	data:{
+			// 	},
+			// 	success: res => {
+			// 		console.log("发送成功");
+			// 		console.log(res.data);
+			// 		if(res.data.status == true)
+			// 		{
+			// 			_this.$store.dispatch('set_login')
+			// 			_this.$store.dispatch('set_uuname',{
+			// 				name:_this.S_num
+			// 			})
+			// 			uni.setStorageSync('userID',res.data.msg)
+			// 			uni.switchTab({
+			// 				url:'../index/index'
+			// 			})
+			// 		}
+			// 		else{
+			// 			_this.$refs.popupMss1.open();
+			// 		}
+			// 	},
+			// 	fail: (e) => {
+			// 		console.log("发送失败");
+			// 		console.log(e);
+			// 		},
+			// 	complete: () => {}
+			// });
 		}
 	}
 </script>
@@ -203,7 +266,7 @@
 	.Regis_info{
 		margin-top: 80rpx;
 		.mid-input{
-			margin-bottom: 25rpx;
+			margin-bottom: 45rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;

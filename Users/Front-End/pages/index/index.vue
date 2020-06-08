@@ -32,6 +32,9 @@
 		},
 		methods: {
 			
+		},
+		onLoad() {
+			uni.setStorageSync('userID',"")
 		}
 	}
 </script>

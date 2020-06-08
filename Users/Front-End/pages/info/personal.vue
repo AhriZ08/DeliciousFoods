@@ -171,7 +171,7 @@
 			flex-direction: row;
 			justify-content: space-around;
 			border-radius: 8rpx;
-			height: 240rpx;
+			height: 280rpx;
 			margin-top: -135rpx;
 			margin-bottom: 30rpx;
 			box-shadow: 0 20rpx 20rpx -20rpx rgba(51, 51, 51, 0.1);
