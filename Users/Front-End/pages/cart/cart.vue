@@ -4,12 +4,16 @@
 			<!-- 购物车顶部商家信息 -->
 			<view class="top">
 				<view class="shopImg">
-					<image src="../../static/icon/index/main/cart/kfc.jpg" mode="scaleToFill"></image>
+					<image :src="shopInfo.shop_Image" mode="scaleToFill"></image>
 				</view>
-				<view class="top-name">KFC(成都信息工程大学)</view>
+				<view class="top-name">{{shopInfo.shop_Name}}</view>
 				<view class="top-content">
-					<view>距离您1km</view>
-					<view>成都双流区航空港街道123号</view>
+					<view>营业时间： {{shopInfo.shop_RunTime}}
+						<text style="margin-left: 60rpx;">{{shopInfo.shop_Distance}}</text>
+						<text style="margin-left: 60rpx;">评分：<text style="color:#e03a24">{{shopInfo.shop_Qrade}}</text></text>
+					</view>
+					<view>{{shopInfo.shop_Address}}
+					</view>
 				</view>
 			</view>
 			<!-- 信息滚动栏以及商品信息 -->
@@ -32,39 +36,44 @@
 					<!-- 商品swiper -->
 					<swiper-item >
 						<view class="cart-body">
+							<!-- 左侧菜单分类 -->
 							<scroll-view class="left-menus" scroll-with-animation="true" scroll-y="true">
 								<view class="menu" v-for="(item, index) in goods" :key="index"
 								:id="'m' + index"
 								:class="currentType==index?'selected':''"
-								@click="setId(index)">
-									<text class="menutitle">{{item.type}}</text>
-									<view class="dot" v-show="goodTypeNum(item.typeId)">{{goodTypeNum(item.typeId)}}</view>
+								:data-index="index"
+								@tap="setId">
+									<text class="menutitle">{{item.type_Name}}</text>
+									<view class="dot" v-show="goodTypeNum(item.type_ID)">{{goodTypeNum(item.type_ID)}}</view>
 								</view>
 							</scroll-view>
+							<!-- 右侧商品分类 -->
 							<scroll-view class="right-goods" scroll-with-animation="true" scroll-y="true" 
-							:scroll-into-view="viewId" show-scrollbar="false" @scroll="srollSetMenu">				
+							:scroll-into-view="viewId" show-scrollbar="false" @scroll="srollSetMenu">	
+										
 								<view class="goods" v-for="(item, index) in goods" :key="index" :id="'g' + index">
-									<view class="goods-title">{{item.type}}</view>
-									<view class="one-goods" v-for="(g , f) in item.shop" :key="f">
-										<view class="left-img">
-											<image src="../../static/icon/index/main/cart/logo.png"></image>
+									<view class="goods-title">{{item.type_Name}}</view>
+									<view class="one-goods" v-for="(g , f) in item.goodsList" :key="f">
+										<view class="left-img" @click="lookUpGoodsDeateil(g, item.type_ID)">
+											<image :src="g.menu_Phtoto"></image>
 										</view>
 										<view class="right-info">
-											<view class="right-info-title">{{g.name}}</view>
-											<view class="right-info-descibe">{{g.descibe}}</view>
+											<view class="right-info-title">{{g.menu_Name}}</view>
+											<view class="right-info-descibe">{{g.menu_Introduce}}</view>
 											<view class="one-goods-bottom">
-												<text class="price">￥{{g.price}}</text>
+												<text class="price">￥{{g.menu_Price}}</text>
 												<view class="addAdec">
 													<image src="../../static/icon/index/main/cart/offline_fill.png" 
-													class="dec" v-show="goodCartNum(g.shopId)" @click="decCart(item, g)"></image>
-													<view class="Num" v-show="goodCartNum(g.shopId)">{{goodCartNum(g.shopId)}}</view>
+													class="dec" v-show="goodCartNum(g.menu_ID)" @click="decCart(g)"></image>
+													<view class="Num" v-show="goodCartNum(g.menu_ID)">{{goodCartNum(g.menu_ID)}}</view>
 													<image src="../../static/icon/index/main/cart/addition_fill.png" 
-													class="add" @click="addCart(item, g, 1)"></image>
+													class="add" @click="addCart(item.type_ID, g, 1)"></image>
 												</view>
 											</view>
 										</view>
 									</view>
 								</view>
+								<view class="fill-last" :style="{ 'height':fillHeight + 'px' }"></view>
 							</scroll-view>
 						</view>
 					</swiper-item>
@@ -147,8 +156,15 @@
 				<view class="carticon">
 					<image src="../../static/icon/index/main/cart/购物车.png" @click="openPopup"></image>
 				</view>
-				<view class="cartTitle">合计:￥{{totalPrice}}</view>
-				<view class="toOrder" @click="goOrder">支付</view>
+				<view class="cartTitle">￥{{totalPrice}}
+					<text>另需配送费￥{{shopInfo.shop_RunCost}}</text>
+				</view>
+				<view class="toOrder" @click="goOrder" v-if="!disabledPay">
+					去结算
+				</view>
+				<view class="noToOrder" v-if="disabledPay">
+					差￥{{spread}}起送
+				</view>
 			</view>
 			
 			<!-- 购物车弹出层 -->
@@ -185,6 +201,29 @@
 			 </view>
 		</uni-popup>
 		
+		<uni-popup ref="popupGoodsDetail" type="center">
+			 <view class="popupGoodsDetail">
+			 	<view class="oneGoodsImg">
+					<image :src="oneGoods.menu_Phtoto"></image>
+				</view>
+				<view class="oneGoodsName">
+					{{oneGoods.menu_Name}}
+				</view>
+				<view class="oneGoodsIntroduce">
+					{{oneGoods.menu_Introduce}}
+				</view>
+				<view class="one-goods-bottom popOneGoodsBtm">
+					<text class="price">￥{{oneGoods.menu_Price}}</text>
+					<view class="addAdec">
+						<image src="../../static/icon/index/main/cart/offline_fill_white.png" 
+						class="dec" v-show="goodCartNum(oneGoods.menu_ID)" @click="decCart(oneGoods)"></image>
+						<view class="Num" v-show="goodCartNum(oneGoods.menu_ID)">{{goodCartNum(oneGoods.menu_ID)}}</view>
+						<image src="../../static/icon/index/main/cart/addition_fill_white.png" 
+						class="add" @click="addCart(oneGoodsTypeId, oneGoods, 1)"></image>
+					</view>
+				</view>
+			 </view>
+		</uni-popup>
 	</view>
 	
 </template>
@@ -198,72 +237,40 @@
 	export default {
 		data(){
 			return{
-				viewId:"g0",
+				viewId:'',
 				goodsHeight:[],
 				cart:[],
 				currentType:0,
 				total:0,
-				goodsNum:1,
 				isShow:false,
 				isCartPopUp:false,
 				currentTab: 0, //sweiper所在页
 				isLeft:0, //导航栏下划线位置
 				tabLeft:0,
-				stars:[true, true, true],
 				tabTitle:['商品','评论'],
 				itemsWidth:0,
-				goods:[{
-						type:"人气热卖",
-						typeId:0,
-						shop:[{
-							shopId:0,
-							"name":"超级塔克",
-							"descibe":"超级塔克，营养丰富，口感好",
-							"price":"30"
-						},{
-							shopId:1,
-							"name":"超级汉堡",
-							"descibe":"超级汉堡，营养丰富",
-							"price":"20"
-						}]
-					},{
-						type:"主食",
-						typeId:1,
-						shop:[{
-							shopId:2,
-							"name":"米饭",
-							"descibe":"选择大山深处纯天然米饭",
-							"price":"30"
-						},{
-							shopId:3,
-							"name":"菜",
-							"descibe":"各式各样的菜",
-							"price":"22"
-						}]
-					},{
-						type:"小食甜点",
-						typeId:2,
-						shop:[{
-							shopId:4,
-							"name":"草莓派",
-							"descibe":"酸甜可口，满足",
-							"price":"30"
-						},{
-							shopId:5,
-							"name":"菠萝派",
-							"descibe":"菠萝派，非常好吃的",
-							"price":"15"
-						},{
-							shopId:6,
-							"name":"香蕉派",
-							"descibe":"香蕉派，纯香蕉",
-							"price":"10"
-						}]
-					}
-				]
+				sid:0,
+				shopInfo:[],
+				goods:[],
+				oneGoods:{},
+				oneGoodsTypeId:0,
+				scrollHeight:370,
+				scrollTopSize:0,
+				fillHeight:0,	// 填充高度，用于最后一项低于滚动区域时使用
+				topArr:[],
+				shopOrderInfo:[]
 			}
 		},
 		computed:{
+			spread() { //差多少元起送
+				return (this.shopInfo.shop_RunStartCost - this.totalPrice) < 0 ? 0 : (this.shopInfo.shop_RunStartCost - this.totalPrice);
+			},
+			disabledPay() { //是否达到起送价
+				return (this.totalPrice < this.shopInfo.shop_RunStartCost) ? true : false
+			},
+			totalPrice(){
+				return this.cart.reduce((acc, cur) => acc + cur.num * cur.price, 0);
+			},
 			cartGoodTypeNum(){
 				return ()=> this.cart.reduce((acc, cur) => acc + cur.num , 0);
 			},
@@ -276,9 +283,6 @@
 					}, 0)
 				}
 			},
-			totalPrice(){	
-				return this.cart.reduce((acc, cur) => acc + cur.num * cur.price, 0);
-			},
 			goodCartNum() {
 				return (shopId) => this.cart.reduce((acc, cur) => {
 						//console.log(acc);
@@ -289,14 +293,25 @@
 					}, 0)
 			}
 		},
-		onReady(){
-			this.getAllGoodsHeight();
+		onLoad(obj) {
+			this.sid = obj.sid;
+			this.initShop();
+			this.initMenus();
+		},
+		mounted() {
+			this.initScrollView().then(()=>{
+				/* 获取列表数据，你的代码从此处开始 */
+				this.$nextTick(()=>{
+					this.getAllGoodsHeight();
+					this.getElementTop();
+				})
+			})
 		},
 		created() {
 			let views = uni.createSelectorQuery().select(".goodsAndComm").boundingClientRect().exec(res=>{
 					//console.log(res[0].width);
 					this.itemsWidth = Math.floor(res[0].width / 2);
-				})
+			})
 		},
 		components: {
 			uniNoticeBar,
@@ -306,6 +321,36 @@
 			uniRate
 		},
 		methods:{
+			initMenus(){
+				var _this = this;
+				uni.request({
+					url:"http://47.112.243.221:8080/dFoods/sp/menu/" + _this.sid,
+					method:"GET",
+					success(res) {
+						_this.goods = res.data;
+					}
+				})
+			},
+			initShop(){
+				var _this = this;
+				uni.request({
+					url:"http://47.112.243.221:8080/dFoods/sp/" + _this.sid,
+					method:"GET",
+					success(res) {
+						_this.shopInfo = res.data;
+						_this.shopOrderInfo.push({
+							shopID:res.data.shop_ID,
+							shopName:res.data.shop_Name,
+							RunCost:res.data.shop_RunCost
+						});
+					}
+				})
+			},
+			lookUpGoodsDeateil(g, typeID){
+				this.oneGoods = g;
+				this.oneGoodsTypeId = typeID;
+				this.$refs.popupGoodsDetail.open();
+			},
 			typeTileClick(index){
 				//this.tabClick = index //设置导航点击了哪一个
 				this.isLeft = index * this.itemsWidth //设置下划线位置
@@ -316,64 +361,111 @@
 				//let index = e.detail.current 获取索引
 				this.typeTileClick(e.detail.current);
 			},
-			setId(index){
-				this.viewId = "g" + index;
+			setId(e){
+				let index=e.currentTarget.dataset.index;
+				this.viewId = `g${index}`;
 				this.currentType = index;
 			},
-			srollSetMenu(ev){
-				let goodsScrollTop = ev.detail.scrollTop;
+			srollSetMenu(e){
+				let goodsScrollTop = e.detail.scrollTop;
 				//console.log("goodsScrollTop" + goodsScrollTop);
 				for(let i = 0; i < this.goodsHeight.length; i++){
 					// console.log(this.goodsHeight[i]);
 					// console.log(this.goodsHeight[i + 1]);
 					if(this.goodsHeight[i] < goodsScrollTop && this.goodsHeight[i + 1] > goodsScrollTop){
 						this.currentType = i;
+						break;
 						//console.log(this.currentType);
 					}
 				}
+				// let top =e.detail.scrollTop;
+				// let index=0;
+				// /* 查找当前滚动距离 
+				// for(let i = (this.topArr.length-1); i >= 0; i--){
+				// 	/* 在部分安卓设备上，因手机逻辑分辨率与rpx单位计算不是整数，滚动距离与有误差，增加2px来完善该问题 */
+				// 	if((top+2) >= this.topArr[i]){
+				// 		index = i;
+				// 		break;
+				// 	}
+				// }
+				// this.currentType=(index < 0 ? 0: index);
+			},
+			/* 初始化滚动区域 */
+			initScrollView(){
+				return new Promise((resolve, reject)=>{
+					let view = uni.createSelectorQuery().select('.cart-body');
+					view.boundingClientRect(res => {
+						console.log(res);
+						this.scrollTopSize = res.top;
+						this.scrollHeight = res.height;
+						this.$nextTick(()=>{
+							resolve();
+						})
+					}).exec();
+				});
 			},
 			getAllGoodsHeight(){
 				let h = 0;
 				this.goodsHeight.push(0);
-				let views = uni.createSelectorQuery().selectAll(".goods").boundingClientRect().exec(res=>{
-					//console.log(res);
-					res[0].forEach(item=>{
-						h += item.height;
+				let views = uni.createSelectorQuery().selectAll(".goods").boundingClientRect().exec(data=>{
+					console.log(data);
+					data[0].forEach(item=>{
+						h += (item.height - 10);
 						//console.log(h);
 						this.goodsHeight.push(h);
 					})
 				})
+			},
+			getElementTop(){
+				new Promise((resolve,reject)=>{
+					let view = uni.createSelectorQuery().selectAll('.goods');
+					view.boundingClientRect(data => {
+						resolve(data);
+					}).exec();
+				}).then((res)=>{
+					//console.log(res[res.length-1]);
+					let topArr = res.map(item=>{
+						return item.top - this.scrollTopSize;
+					});
+					this.topArr = topArr;
+					/* 获取最后一项的高度，设置填充高度。判断和填充时做了 +-20 的操作，是为了滚动时更好的定位 */
+					let last = res[res.length-1].height;			
+					if(last < this.scrollHeight){
+						this.fillHeight = this.scrollHeight - last;
+					}
+				});
 			},
 			goOrder(){
 				if (this.cart.length <= 0){
 					this.$refs.popupMess.open();
 				}
 				else{
+					uni.showLoading({title: '加载中'});
+					uni.setStorageSync('cart', JSON.parse(JSON.stringify(this.cart)));
 					uni.navigateTo({
-						url: '../order/payOrder',
-						success: res => {},
-						fail: () => {},
-						complete: () => {}
+						url: '/pages/order/payOrder?shopOrderInfo='+encodeURIComponent(JSON.stringify(this.shopOrderInfo))
 					})
+					uni.hideLoading();
 				}
 			},
-			addCart(item, goods, num){
+			addCart(typeId, goods, num){
 				// console.log("addCart item:" + item.shop);
 				// console.log("addCart goods:" + goods);
 				this.isShow = true;
 				let index = this.cart.findIndex(it=>{
-					return it.id == goods.shopId;
+					return it.id == goods.menu_ID;
 				});
 				//console.log("addCart:" + index);
 				if (index > -1){
 					this.cart[index].num += num;
 				}else{
 					this.cart.push({
-						id:goods.shopId,
-						name:goods.name,
-						typeId:item.typeId,
+						id:goods.menu_ID,
+						name:goods.menu_Name,
+						typeId:typeId,
 						num:num,
-						price:goods.price
+						price:goods.menu_Price,
+						img:goods.menu_Phtoto
 					})
 				}
 			},
@@ -383,8 +475,8 @@
 					this.cart[index].num += num;
 				}
 			},
-			decCart(item, goods){
-				let index = this.cart.findIndex(item => item.id == goods.shopId);
+			decCart(goods){
+				let index = this.cart.findIndex(item => item.id == goods.menu_ID);
 				//console.log("decCart:" + index);
 				this.cart[index].num -= 1
 				if(this.cart[index].num <= 0) {
@@ -455,10 +547,13 @@
 			margin-top: 25rpx;
 		}
 		.top-content{
-			color: #C0C0C0;
+			color: #999999;
 			font-size: 25rpx;
 			margin-left: 50rpx;
 			margin-top: 40rpx;
+			view{
+				margin-bottom: 10rpx;
+			}
 		}
 	}
 	.mid-body{
@@ -555,9 +650,10 @@
 				margin-bottom: 20rpx;
 				.goods-title{
 					margin-left: 18rpx;
-					font-weight: 500;
+					font-weight: 550;
 					margin-bottom: 20rpx;
-					color: #999999;
+					color: #f07373;
+					letter-spacing: 6rpx;
 				}
 				.one-goods{
 					height: 210rpx;
@@ -593,7 +689,7 @@
 							font-weight: bold;
 						}
 						.right-info-descibe{
-							width: 100%;
+							width: 250rpx;
 							overflow: hidden;
 							text-overflow: ellipsis;
 							white-space: nowrap;
@@ -606,6 +702,19 @@
 					}
 				}
 			}
+		}
+	}
+	.popOneGoodsBtm{
+		border-radius: 0 0 30rpx 30rpx;
+		height: 60rpx;
+		background-color: #f07373;
+		text{
+			color: #FFFFFF;
+			margin-left: 25rpx;
+		}
+		.addAdec{
+			margin-right: 25rpx;
+			color: #FFFFFF;
 		}
 	}
 	.one-goods-bottom{
@@ -660,10 +769,17 @@
 		.cartTitle{
 			height: 100%;
 			display: flex;
-			align-items: center;
-			margin-left: 180rpx;
+			height: 80rpx;
+			margin: auto 0 auto 180rpx;
+			flex-direction: column;
+			align-items: flex-start;
 			font-weight: 520;
 			font-size: 35rpx;
+			color: #f07373;
+			text{
+				font-size: 25rpx;
+				color: #999999;
+			}
 		}
 		.toOrder{
 			position: absolute;
@@ -679,6 +795,21 @@
 			align-items: center;
 			justify-content: center;
 			letter-spacing: 6rpx;
+			border-radius: 0 30rpx 30rpx 0;
+		}
+		.noToOrder{
+			position: absolute;
+			font-weight: 520;
+			width: 180rpx;
+			font-size: 30rpx;
+			color: #FFFFFF;
+			background-color: rgba(240, 115, 155, 0.5);
+			right: 0rpx;
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
 			border-radius: 0 30rpx 30rpx 0;
 		}
 	}
@@ -766,6 +897,31 @@
 		height: 150rpx;
 		background-color: #FFFFFF;
 	}
+	.popupGoodsDetail{
+		width: 500rpx;
+		background-color: #FFFFFF;
+		display: flex;
+		flex-direction: column;
+		border-radius: 30rpx;
+		.oneGoodsImg{
+			width: 200rpx;
+			margin: 20rpx auto 20rpx auto;
+			image{
+				width: 200rpx;
+				height: 200rpx;
+			}
+		}
+		.oneGoodsName{
+			font-weight: bold;
+			margin: 0 0 25rpx 25rpx;
+			font-size: 30rpx;
+		}
+		.oneGoodsIntroduce{
+			color: #919293;
+			margin: 0 25rpx 25rpx 25rpx;
+			font-size: 25rpx;
+		}
+	}
 	.scrollBody{
 		width: 100%;
 		height: 100%;
@@ -847,5 +1003,10 @@
 				}
 			}
 		}
+	}
+	.fill-last{
+		height: 0;
+		width: 100%;
+		background: none;
 	}
 </style>

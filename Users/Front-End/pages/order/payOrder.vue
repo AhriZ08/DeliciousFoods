@@ -14,20 +14,20 @@
 		<view class="detatilBody-f">
 			<view class="bodyTitle"><view class="tag"></view>商品列表</view>
 			<view class="behindSpline"></view>
-			<view class="shopName">星巴克</view>
+			<view class="shopName">{{shopOrderInfo.shopName}}</view>
 			<view class="cartList">
-				<view class="oneCartGoods">
+				<view class="oneCartGoods" v-for="(item, index) in cart" :key="index">
 					<view class="leftGoodsImg">
-						<image src="../../static/icon/index/main/cart/logo.png"></image>
+						<image :src="item.img"></image>
 					</view>
 					<view class="rightContent">
-						<text style="font-size: 35rpx;">超级塔克</text>
-						<text style="color: #999999;font-size: 26rpx;">×2</text>
-						<view class="goodsCost">￥150.00</view>
+						<text style="font-size: 35rpx;">{{item.name}}</text>
+						<text style="color: #999999;font-size: 26rpx;">×{{item.num}}</text>
+						<view class="goodsCost">￥{{item.price}}</view>
 					</view>
 				</view>
 				
-				<view class="oneCartGoods">
+				<!-- <view class="oneCartGoods">
 					<view class="leftGoodsImg">
 						<image src="../../static/icon/index/main/cart/logo.png"></image>
 					</view>
@@ -36,18 +36,12 @@
 						<text style="color: #999999;font-size: 26rpx;">×2</text>
 						<view class="goodsCost">￥30.00</view>
 					</view>
-				</view>
-				
-				<view class="oneCartGoods">
-					<view class="leftGoodsImg">
-						<image src="../../static/icon/index/main/cart/logo.png"></image>
-					</view>
-					<view class="rightContent">
-						<text style="font-size: 35rpx;">超级塔克</text>
-						<text style="color: #999999;font-size: 26rpx;">×2</text>
-						<view class="goodsCost">￥50.00</view>
-					</view>
-				</view>
+				</view> -->
+			</view>
+			<view class="behindSpline"></view>
+			<view class="runCost">
+				<text>配送费</text>
+				<text style="color: #DD524D;font-weight: 550;font-size: 26rpx;">￥{{shopOrderInfo.RunCost}}</text>
 			</view>
 		</view>
 		
@@ -79,9 +73,7 @@
 		
 		<view class="bottom-pay">
 			<view class="totalMon">
-				合计
-				<text style="color: #DD524D;margin-left: 6rpx;font-weight: 550;font-size: 35rpx;">
-				￥150.00</text>
+				合计<text style="color: #DD524D;margin-left: 6rpx;font-weight: 550;font-size: 35rpx;">￥{{total}}</text>
 			</view>
 			<view class="payView" @click="openOrder">付款</view>
 			
@@ -93,7 +85,14 @@
 	export default{
 		data(){
 			return{
-				currentPayType:0
+				currentPayType:0,
+				cart:[],
+				shopOrderInfo:{},
+			}
+		},
+		computed:{
+			total(){
+				return this.cart.reduce((acc, cur) => acc + cur.num * cur.price, 0) + parseInt(this.shopOrderInfo.RunCost);
 			}
 		},
 		methods:{
@@ -112,6 +111,10 @@
 					url:'order'
 				})
 			}
+		},
+		onLoad(opt) {
+			this.cart = uni.getStorageSync('cart');
+			this.shopOrderInfo = JSON.parse(decodeURIComponent(opt.shopOrderInfo))[0];
 		}
 	}
 </script>
@@ -174,6 +177,14 @@
 		height: 2rpx;
 		background-color: rgba(192, 192,192, 0.3);
 		margin: 10rpx auto 20rpx auto;
+	}
+	.runCost{
+		width: 650rpx;
+		margin: 0rpx auto 20rpx auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 	}
 	.cartList{
 		display: flex;
