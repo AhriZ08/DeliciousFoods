@@ -55,7 +55,7 @@
 									<view class="goods-title">{{item.type_Name}}</view>
 									<view class="one-goods" v-for="(g , f) in item.goodsList" :key="f">
 										<view class="left-img" @click="lookUpGoodsDeateil(g, item.type_ID)">
-											<image :src="g.menu_Phtoto"></image>
+											<image :src="g.menu_Photo"></image>
 										</view>
 										<view class="right-info">
 											<view class="right-info-title">{{g.menu_Name}}</view>
@@ -204,7 +204,7 @@
 		<uni-popup ref="popupGoodsDetail" type="center">
 			 <view class="popupGoodsDetail">
 			 	<view class="oneGoodsImg">
-					<image :src="oneGoods.menu_Phtoto"></image>
+					<image :src="oneGoods.menu_Photo"></image>
 				</view>
 				<view class="oneGoodsName">
 					{{oneGoods.menu_Name}}
@@ -258,7 +258,8 @@
 				scrollTopSize:0,
 				fillHeight:0,	// 填充高度，用于最后一项低于滚动区域时使用
 				topArr:[],
-				shopOrderInfo:[]
+				shopOrderInfo:[],
+				userID:''
 			}
 		},
 		computed:{
@@ -436,16 +437,33 @@
 				});
 			},
 			goOrder(){
+				this.userID = uni.getStorageSync('userID');
 				if (this.cart.length <= 0){
 					this.$refs.popupMess.open();
 				}
 				else{
-					uni.showLoading({title: '加载中'});
-					uni.setStorageSync('cart', JSON.parse(JSON.stringify(this.cart)));
-					uni.navigateTo({
-						url: '/pages/order/payOrder?shopOrderInfo='+encodeURIComponent(JSON.stringify(this.shopOrderInfo))
-					})
-					uni.hideLoading();
+					if (this.userID == '' || this.userID == null){				
+						uni.showModal({
+							title:"提示",
+							content:"请先登录！",
+							success:(res)=>{
+								if (res.confirm){
+									uni.showLoading({title: '加载中'});
+									uni.navigateTo({
+										url:"../info/login"
+									})
+									uni.hideLoading();
+								}
+							}
+						})
+					}else {
+						uni.showLoading({title: '加载中'});
+						uni.setStorageSync('cart', JSON.parse(JSON.stringify(this.cart)));
+						uni.navigateTo({
+							url: '/pages/order/payOrder?shopOrderInfo='+encodeURIComponent(JSON.stringify(this.shopOrderInfo))
+						})
+						uni.hideLoading();
+					}
 				}
 			},
 			addCart(typeId, goods, num){
@@ -465,7 +483,7 @@
 						typeId:typeId,
 						num:num,
 						price:goods.menu_Price,
-						img:goods.menu_Phtoto
+						img:goods.menu_Photo
 					})
 				}
 			},

@@ -5,8 +5,8 @@
 			<view class="bodyTitle"><view class="tag"></view>配送信息</view>
 			<view class="behindSpline"></view>
 			<view class="locationView" @click="toChooseLoca">
-				<view class="title">姓名<view class="nextTitle">美食家</view></view>
-				<view class="title">地址<view class="nextTitle">成都信息工程大学航空港校区学生公寓18栋</view></view>
+				<view class="title">姓名<view class="nextTitle">{{userAddr.name}}</view></view>
+				<view class="title">地址<view class="nextTitle">{{userAddr.addr}}</view></view>
 			</view>
 			<view class="iconfont icon-jiantou selectLocation"></view>
 		</view>
@@ -27,16 +27,6 @@
 					</view>
 				</view>
 				
-				<!-- <view class="oneCartGoods">
-					<view class="leftGoodsImg">
-						<image src="../../static/icon/index/main/cart/logo.png"></image>
-					</view>
-					<view class="rightContent">
-						<text style="font-size: 35rpx;">超级塔克</text>
-						<text style="color: #999999;font-size: 26rpx;">×2</text>
-						<view class="goodsCost">￥30.00</view>
-					</view>
-				</view> -->
 			</view>
 			<view class="behindSpline"></view>
 			<view class="runCost">
@@ -63,7 +53,7 @@
 				</view>
 			</view>
 			<view class="payTypeSelc" @click="choosePayType(2)">
-				<view :class="currentPayType==2?'payTypeSelcName selectdColor':'payTypeSelcName'" >
+				<view :class="currentPayType==2?'payTypeSelcName selectdColor':'payTypeSelcName'">
 					<view class="iconfont icon-zhifubao moneyIcon"></view>
 					支付宝
 					<view :class="currentPayType==2?'iconfont icon-checked checkIcon':'iconfont icon-unchecked checkIcon'"></view>
@@ -76,7 +66,6 @@
 				合计<text style="color: #DD524D;margin-left: 6rpx;font-weight: 550;font-size: 35rpx;">￥{{total}}</text>
 			</view>
 			<view class="payView" @click="openOrder">付款</view>
-			
 		</view>
 	</view>
 </template>
@@ -88,12 +77,17 @@
 				currentPayType:0,
 				cart:[],
 				shopOrderInfo:{},
+				userID:'',
+				userAddr:{}
 			}
 		},
 		computed:{
 			total(){
 				return this.cart.reduce((acc, cur) => acc + cur.num * cur.price, 0) + parseInt(this.shopOrderInfo.RunCost);
 			}
+		},
+		onShow(){
+			this.initAddr();
 		},
 		methods:{
 			choosePayType(index){
@@ -102,7 +96,7 @@
 			toChooseLoca(){
 				uni.showLoading({title: '加载中'});
 				uni.navigateTo({
-					url: '/pages/addr/chooseLoca'
+					url: '/pages/addr/chooseLoca?userID='+this.userID
 				});
 				uni.hideLoading();
 			},
@@ -110,10 +104,31 @@
 				uni.switchTab({
 					url:'order'
 				})
+			},
+			initAddr(){
+				var that = this;
+				uni.request({
+					url:"http://localhost:8080/dFoods/user/addr/"+that.userID,
+					method:"GET",
+					success:(res)=>{
+						if (res.data.status){
+							for (let i = 0; i < res.data.object.addrList.length; i++){
+								if (res.data.object.addrList[i].isSelected == 1){
+									that.userAddr = {name:res.data.object.addrList[i].callName,addr:res.data.object.addrList[i].addr}
+									break;
+								}
+							}
+							console.log(res.data);
+						}else{
+							that.userAddr={name:'',addr:''};
+						};
+					}
+				})
 			}
 		},
 		onLoad(opt) {
 			this.cart = uni.getStorageSync('cart');
+			this.userID = uni.getStorageSync('userID');
 			this.shopOrderInfo = JSON.parse(decodeURIComponent(opt.shopOrderInfo))[0];
 		}
 	}

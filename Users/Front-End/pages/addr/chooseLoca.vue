@@ -1,13 +1,18 @@
 <template>
 	<view class="container">
-		<view class="detatilBody-f">
-			<view class="location">成都信息工程大学航空港校区学生公寓18栋</view>
-			<view class="LocaInfo">
-				<text class="name">张先生</text>
-				<text class="tel">123456789</text>
+		<view v-if="userAddr.length!=0">
+			<view :class="currentYes == index?'detatilBody-f choose':'detatilBody-f'" v-for="(item, index) in userAddr" 
+			:key="index" 
+			@click="selectAddr(index, item.addr_ID)
+			">
+				<view class="location">{{item.addr}}</view>
+				<view class="LocaInfo">
+					<text class="name">{{item.callName}}</text>
+					<text class="tel">{{item.recTel}}</text>
+				</view>
+				<view v-show="currentYes == index" class="iconfont icon-yes checkYes"></view>
+				<view class="iconfont icon-modefy modefy" @click="toModeAddr(0, item.addr_ID)"></view>
 			</view>
-			<view class="iconfont icon-yes checkYes"></view>
-			<view class="iconfont icon-modefy modefy" @click="toAddAddr(0)"></view>
 		</view>
 		<view class="addAddr" @click="toAddAddr(1)">
 			<view class="iconfont icon-addAddr addrIcon"></view>
@@ -17,14 +22,64 @@
 
 <script>
 	export default{
+		data(){
+			return{
+				userID:'',
+				userAddr:[],
+				currentYes:0,
+				chooseAddrID:0
+			}
+		},
+		onLoad(opt) {
+			this.userID = opt.userID;
+			uni.setStorageSync('selectedAddr','');
+		},
 		methods:{
+			selectAddr(i, id){
+				this.currentYes = i;
+				this.chooseAddrID = id;
+			},
+			toModeAddr(ops, addrid){
+				uni.showLoading({title: '加载中'});
+				this.userAddr.forEach(item=>{
+					if (item.addr_ID == addrid){
+						uni.setStorageSync('selectedAddr', item);
+					}
+				})
+				uni.navigateTo({
+					url: '/pages/addr/updateAddr?ops='+ops
+				});
+				uni.hideLoading();
+			},
 			toAddAddr(ops){
 				uni.showLoading({title: '加载中'});
 				uni.navigateTo({
 					url: '/pages/addr/updateAddr?ops='+ops
 				});
 				uni.hideLoading();
+			},
+			initAddr(){
+				var that = this;
+				uni.request({
+					url:"http://localhost:8080/dFoods/user/addr/"+that.userID,
+					method:"GET",
+					success:(res)=>{
+						if (res.data.status){
+							that.userAddr = res.data.object.addrList;
+							that.userAddr.forEach((item,i)=>{
+								if (item.isSelected == 1){
+									that.currentYes = i;
+								}
+							})
+						}else{
+							console.log(res.data);
+						};
+					}
+				})
 			}
+		},
+		onShow(){
+			this.initAddr();
 		}
 	}
 </script>
@@ -71,9 +126,10 @@
 	.checkYes{
 		position: absolute;
 		left: 20rpx;
-		bottom: 80rpx;
-		font-size: 30rpx;
+		bottom: 50rpx;
+		font-size: 38rpx;
 		color: #f07373;
+		font-weight: bold;
 	}
 	.modefy{
 		position: absolute;
@@ -82,6 +138,7 @@
 		font-size: 45rpx;
 		width: 60rpx;
 		height: 60rpx;
+		color: #777777;
 	}
 	.addAddr{
 		width: 700rpx;
@@ -98,5 +155,8 @@
 			font-size: 50rpx;
 			color: #777777;
 		}
+	}
+	.choose{
+		color: #f07373;
 	}
 </style>

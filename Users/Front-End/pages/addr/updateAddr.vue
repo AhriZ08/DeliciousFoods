@@ -1,37 +1,24 @@
 <template>
 	<view class="container">
-		<view class="detatilBody-f" v-if="ops==0">
-			<view class="bodyTitle"><view class="tag"></view>修改地址</view>
+		<view class="detatilBody-f" >
+			<view class="bodyTitle" v-if="ops==0"><view class="tag"></view>新增地址</view>
+			<view class="bodyTitle" v-if="ops==1"><view class="tag"></view>修改地址</view>
 			<view class="behindSpline"></view>
 			<view class="inputInfo">
 				<text>联系人</text>
-				<input type="text" value="啦啦啦啦" placeholder="请填写联系人"/>
+				<input type="text" v-model="modifyAddr.callName" placeholder="请填写联系人"/>
 			</view>
-			<view class="inputInfo">
-				<text>地址</text>
-				<input type="text" value="爱神的箭卡萨丁就看" placeholder="请填写地址"/>
-			</view>
-			<view class="inputInfo lastInput">
-				<text>联系电话</text>
-				<input type="text" value="21654654" placeholder="请填写联系电话"/>
-			</view>
-		</view>
-		<view class="detatilBody-f" v-if="ops==1">
-			<view class="bodyTitle"><view class="tag"></view>新增地址</view>
 			<view class="behindSpline"></view>
 			<view class="inputInfo">
-				<text>联系人</text>
-				<input type="text" value="" placeholder="请填写联系人"/>
-			</view>
-			<view class="inputInfo">
 				<text>地址</text>
-				<input type="text" value="" placeholder="请填写地址"/>
+				<input type="text" v-model="modifyAddr.addr" placeholder="请填写地址"/>
 			</view>
+			<view class="behindSpline"></view>
 			<view class="inputInfo lastInput">
 				<text>联系电话</text>
-				<input type="text" value="" placeholder="请填写联系电话"/>
+				<input type="text" v-model="modifyAddr.recTel" placeholder="请填写联系电话"/>
 			</view>
-	
+			<button plain="true" @click="submit">提交</button>
 		</view>
 	</view>
 </template>
@@ -40,12 +27,32 @@
 	export default{
 		data(){
 			return{
-				ops:0
+				ops:0,
+				modifyAddr:{
+					addr:'',
+					callName:'',
+					recTel:'',
+					addrID:0
+				}
 			}
 		},
-		onLoad(data) {
+		onLoad(data) {	
 			//console.log(data);
-			this.ops=data.ops
+			this.ops=data.ops;
+			if (data.ops == 0){
+				this.modifyAddr = uni.getStorageSync('selectedAddr');
+			}
+		},
+		methods:{
+			submit(){
+				let addrData = JSON.stringify(this.modifyAddr);
+				uni.request({
+					url:"http://localhost:8080/dFoods/user/addAdr",
+					data:addrData,
+					
+				})
+				console.log();
+			}
 		}
 	}
 </script>
@@ -85,6 +92,19 @@
 				margin-right: 16rpx;
 			}
 		}
+		button{
+			height: 60rpx;
+			width: 160rpx;
+			color: #f07373;
+			margin: 0rpx 0rpx 15rpx 0rpx;
+			border-radius: 10rpx;
+			font-size: 35rpx;
+			line-height: 58rpx;
+			border: none;
+			position: absolute;
+			top: 15rpx;
+			right: 0rpx;
+		}
 	}
 	.behindSpline{
 		width: 650rpx;
@@ -97,7 +117,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-start;
-		margin: 0 0 25rpx 25rpx;
+		margin: 0 0 0 30rpx;
 		text{
 			text-align: justify;
 			text-align-last: justify;
@@ -106,7 +126,6 @@
 		input{
 			margin-top: 10rpx;
 			margin-left: 20rpx;
-			border-bottom: 1rpx solid #999999;
 			font-size: 30rpx;
 			width: 450rpx;
 			padding: 10rpx;
@@ -114,6 +133,6 @@
 		}
 	}
 	.lastInput{
-		margin-bottom: 35rpx;
+		margin-bottom: 20rpx;
 	}
 </style>
