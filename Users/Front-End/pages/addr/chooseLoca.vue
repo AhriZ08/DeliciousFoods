@@ -2,10 +2,8 @@
 	<view class="container">
 		<view v-if="userAddr.length!=0">
 			<view :class="currentYes == index?'detatilBody-f choose':'detatilBody-f'" v-for="(item, index) in userAddr" 
-			:key="index" 
-			@click="selectAddr(index, item.addr_ID)
-			">
-				<view class="location">{{item.addr}}</view>
+			:key="index">
+				<view class="location" @click="selectAddr(index, item.addr_ID)">{{item.addr}}</view>
 				<view class="LocaInfo">
 					<text class="name">{{item.callName}}</text>
 					<text class="tel">{{item.recTel}}</text>
@@ -27,17 +25,24 @@
 				userID:'',
 				userAddr:[],
 				currentYes:0,
-				chooseAddrID:0
+				slctAddrID:0
 			}
 		},
 		onLoad(opt) {
 			this.userID = opt.userID;
-			uni.setStorageSync('selectedAddr','');
+			this.slctAddrID = opt.slctAddrID;
+		},
+		onUnload() {
+			this.userAddr.forEach(item=>{
+				if (item.addr_ID == this.slctAddrID){
+					uni.setStorageSync('selectedAddr', item);
+				}
+			})
 		},
 		methods:{
 			selectAddr(i, id){
 				this.currentYes = i;
-				this.chooseAddrID = id;
+				this.slctAddrID = id;
 			},
 			toModeAddr(ops, addrid){
 				uni.showLoading({title: '加载中'});
@@ -67,7 +72,7 @@
 						if (res.data.status){
 							that.userAddr = res.data.object.addrList;
 							that.userAddr.forEach((item,i)=>{
-								if (item.isSelected == 1){
+								if (item.addr_ID == that.slctAddrID){
 									that.currentYes = i;
 								}
 							})

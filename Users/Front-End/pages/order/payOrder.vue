@@ -5,7 +5,7 @@
 			<view class="bodyTitle"><view class="tag"></view>配送信息</view>
 			<view class="behindSpline"></view>
 			<view class="locationView" @click="toChooseLoca">
-				<view class="title">姓名<view class="nextTitle">{{userAddr.name}}</view></view>
+				<view class="title">姓名<view class="nextTitle">{{userAddr.callName}}</view></view>
 				<view class="title">地址<view class="nextTitle">{{userAddr.addr}}</view></view>
 			</view>
 			<view class="iconfont icon-jiantou selectLocation"></view>
@@ -96,7 +96,7 @@
 			toChooseLoca(){
 				uni.showLoading({title: '加载中'});
 				uni.navigateTo({
-					url: '/pages/addr/chooseLoca?userID='+this.userID
+					url: '/pages/addr/chooseLoca?userID='+this.userID+'&slctAddrID='+this.userAddr.addr_ID
 				});
 				uni.hideLoading();
 			},
@@ -107,29 +107,31 @@
 			},
 			initAddr(){
 				var that = this;
-				uni.request({
-					url:"http://localhost:8080/dFoods/user/addr/"+that.userID,
-					method:"GET",
-					success:(res)=>{
-						if (res.data.status){
-							for (let i = 0; i < res.data.object.addrList.length; i++){
-								if (res.data.object.addrList[i].isSelected == 1){
-									that.userAddr = {name:res.data.object.addrList[i].callName,addr:res.data.object.addrList[i].addr}
-									break;
-								}
+				this.userAddr = uni.getStorageSync('selectedAddr');
+				if (this.userAddr == '' || this.userAddr == null){
+					uni.request({
+						url:"http://localhost:8080/dFoods/user/addr/df/"+that.userID,
+						method:"GET",
+						success:(res)=>{
+							if (res.data.status){
+								that.userAddr = res.data.object		
+							}else{
+								console.log("请求默认地址失败！");
+								that.userAddr={callName:'',addr:'',addr_ID:0};
 							}
-							console.log(res.data);
-						}else{
-							that.userAddr={name:'',addr:''};
-						};
-					}
-				})
+						},
+						fail:()=>{
+							console.log("请求默认地址失败！");
+						}
+					})
+				}
 			}
 		},
 		onLoad(opt) {
 			this.cart = uni.getStorageSync('cart');
 			this.userID = uni.getStorageSync('userID');
 			this.shopOrderInfo = JSON.parse(decodeURIComponent(opt.shopOrderInfo))[0];
+			uni.setStorageSync("selectedAddr",'');
 		}
 	}
 </script>

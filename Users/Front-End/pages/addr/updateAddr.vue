@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="detatilBody-f" >
-			<view class="bodyTitle" v-if="ops==0"><view class="tag"></view>新增地址</view>
-			<view class="bodyTitle" v-if="ops==1"><view class="tag"></view>修改地址</view>
+			<view class="bodyTitle" v-if="ops==1"><view class="tag"></view>新增地址</view>
+			<view class="bodyTitle" v-if="ops==0"><view class="tag"></view>修改地址</view>
 			<view class="behindSpline"></view>
 			<view class="inputInfo">
 				<text>联系人</text>
@@ -18,7 +18,8 @@
 				<text>联系电话</text>
 				<input type="text" v-model="modifyAddr.recTel" placeholder="请填写联系电话"/>
 			</view>
-			<button plain="true" @click="submit">提交</button>
+			<button plain="true" v-if="ops==1" @click="newAddr">添加</button>
+			<button plain="true" v-if="ops==0" @click="modify">修改</button>
 		</view>
 	</view>
 </template>
@@ -32,26 +33,56 @@
 					addr:'',
 					callName:'',
 					recTel:'',
-					addrID:0
-				}
+					addr_ID:''
+				},
+				userID:''
 			}
 		},
 		onLoad(data) {	
 			//console.log(data);
+			this.userID = uni.getStorageSync('userID');
 			this.ops=data.ops;
 			if (data.ops == 0){
 				this.modifyAddr = uni.getStorageSync('selectedAddr');
 			}
 		},
 		methods:{
-			submit(){
+			newAddr(){
+				let userID = this.userID;
 				let addrData = JSON.stringify(this.modifyAddr);
 				uni.request({
-					url:"http://localhost:8080/dFoods/user/addAdr",
+					url:"http://localhost:8080/dFoods/user/addr/add/"+userID,
 					data:addrData,
-					
+					method:'POST',
+					success: (res) => {
+						if (res.data == "success"){
+							uni.showToast({
+								title:'添加成功！',
+								position:'center'
+							})
+						}
+					}
 				})
-				console.log();
+			},
+			modify(){
+				let userID = this.userID;
+				let addrData = JSON.stringify(this.modifyAddr);
+				console.log(addrData);
+				if (ops == 0){
+					uni.request({
+						url:"http://localhost:8080/dFoods/user/addr/mod/"+userID,
+						data:addrData,
+						method:'POST',
+						success: (res) => {
+							if (res.data == "success"){
+								uni.showToast({
+									title:'修改成功！',
+									position:'center'
+								})
+							}
+						}
+					});
+				}
 			}
 		}
 	}
