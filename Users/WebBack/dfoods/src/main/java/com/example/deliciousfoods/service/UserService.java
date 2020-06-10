@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -143,20 +144,32 @@ public class UserService {
     public int insertUserOrderAndCart(RecvOrder recvOrder){
         recvOrder.setOrderState("配送中");
         SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:dd");
-        String date=sDateFormat.format(new Date());
+        String date = sDateFormat.format(new Date());
         recvOrder.setOrderTime(date);
-        System.out.println(recvOrder);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String spendTime = sdf.format(now.getTime() + 136000);
+
+        recvOrder.setSpendTime(spendTime);
+        SimpleDateFormat num = new SimpleDateFormat("yyyyMMddhhmmss");
+        Random r = new Random();
+        recvOrder.setFormatNum(r.nextInt(100) + num.format(now) + r.nextInt(100));
         int flag = userMapper.insertUserOrder(recvOrder);
         int oID = recvOrder.getOrderID();
         recvOrder.getCart().forEach(item->{
             item.setOrderID(oID);
             userMapper.insertUserCart(item);
         });
+        System.out.println(recvOrder);
         return flag;
     }
 
     public List<OrderSimpInfo> findOneSimpOrder(int uid){
-        return userMapper.findOneSimpOrder(uid);
+        logger.info("uid:"+uid);
+        List<OrderSimpInfo> orderSimpInfos = userMapper.findOneSimpOrder(uid);
+        logger.info(orderSimpInfos.toString());
+        return orderSimpInfos;
     }
 
     public OrderSimpInfo findCrtOneSimpOrder(int oID){
@@ -175,5 +188,9 @@ public class UserService {
         int flag = userMapper.insertOneAss(recvOrderAss);
         userMapper.modifyOrderState("已完成", recvOrderAss.getOrderID());
         return flag;
+    }
+
+    public OrderDetail findOneOrderDetail(int oID){
+        return userMapper.findOneOrderDetail(oID);
     }
 }

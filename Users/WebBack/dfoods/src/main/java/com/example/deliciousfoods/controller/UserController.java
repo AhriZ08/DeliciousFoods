@@ -114,4 +114,10 @@ public class UserController {
             return "fail";
         }
     }
+
+    @ResponseBody
+    @RequestMapping("/order/detail/{oID}")
+    public OrderDetail orderDetail(@PathVariable("oID") Integer oID){
+        return userService.findOneOrderDetail(oID);
+    }
 }

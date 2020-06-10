@@ -15,6 +15,24 @@ public class RecvOrder implements Serializable {
     private String orderTime;
     private String orderState;
     private int orderShopID;
+    private String spendTime;
+    private String formatNum;
+
+    public String getFormatNum() {
+        return formatNum;
+    }
+
+    public void setFormatNum(String formatNum) {
+        this.formatNum = formatNum;
+    }
+
+    public String getSpendTime() {
+        return spendTime;
+    }
+
+    public void setSpendTime(String spendTime) {
+        this.spendTime = spendTime;
+    }
 
     public int getOrderShopID() {
         return orderShopID;
@@ -118,6 +136,8 @@ public class RecvOrder implements Serializable {
                 ", orderTime='" + orderTime + '\'' +
                 ", orderState='" + orderState + '\'' +
                 ", orderShopID=" + orderShopID +
+                ", spendTime='" + spendTime + '\'' +
+                ", formatNum='" + formatNum + '\'' +
                 '}';
     }
 }

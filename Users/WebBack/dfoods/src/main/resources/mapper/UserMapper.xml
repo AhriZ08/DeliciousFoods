@@ -15,6 +15,25 @@
     </resultMap>
 
     <resultMap id="orderTrollyMap" type="OrderSimpInfo">
+    <id property="Order_ID" column="Order_ID"/>
+    <result property="Order_State" column="Order_State"/>
+    <result property="Order_PayType" column="Order_PayType"/>
+    <result property="Shop_Name" column="Shop_Name"/>
+    <result property="Order_Total" column="Order_Total"/>
+    <result property="Order_Time" column="Order_Time"/>
+    <result property="Shop_Image" column="Shop_Image"/>
+    <result property="Shop_RunCost" column="Shop_RunCost"/>
+    <result property="Shop_ID" column="Shop_ID"/>
+        <collection property="trollyList" javaType="List" ofType="Trolly">
+            <id property="Trolly_ID" column="Trolly_ID"/>
+            <result property="Trolly_Num" column="Trolly_Num"/>
+            <result property="Trolly_Price" column="Trolly_Price"/>
+            <result property="Menu_Name" column="Menu_Name"/>
+            <result property="Menu_Photo" column="Menu_Photo"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="orderDetailTrollyMap" type="OrderDetail">
         <id property="Order_ID" column="Order_ID"/>
         <result property="Order_State" column="Order_State"/>
         <result property="Order_PayType" column="Order_PayType"/>
@@ -24,8 +43,12 @@
         <result property="Shop_Image" column="Shop_Image"/>
         <result property="Shop_RunCost" column="Shop_RunCost"/>
         <result property="Shop_ID" column="Shop_ID"/>
+        <result property="Order_SpendTime" column="Order_SpendTime"/>
+        <result property="Order_RecAddr" column="Order_RecAddr"/>
+        <result property="Order_FormatNum" column="Order_FormatNum"/>
         <collection property="trollyList" javaType="List" ofType="Trolly">
-            <id property="Trolly_Num" column="Trolly_Num"/>
+            <id property="Trolly_ID" column="Trolly_ID"/>
+            <result property="Trolly_Num" column="Trolly_Num"/>
             <result property="Trolly_Price" column="Trolly_Price"/>
             <result property="Menu_Name" column="Menu_Name"/>
             <result property="Menu_Photo" column="Menu_Photo"/>
@@ -71,8 +94,10 @@
     </insert>
 
     <insert id="insertUserOrder" parameterType="RecvOrder" useGeneratedKeys="true" keyProperty="orderID">
-        INSERT INTO `Order`(Order_UserID,Order_Time,Order_State,Order_RecName,Order_RecTel,Order_RecAddr,Order_ShopID,Order_PayType,Order_Total)
-        VALUES (#{userID},#{orderTime},#{orderState},#{callName},#{recTel},#{recAddr},#{orderShopID},#{payType},#{total})
+        INSERT INTO `Order`(Order_UserID,Order_Time,Order_State,Order_RecName,
+                            Order_RecTel,Order_RecAddr,Order_ShopID,Order_PayType,Order_Total,Order_SpendTime,Order_FormatNum)
+        VALUES (#{userID},#{orderTime},#{orderState},#{callName},
+                #{recTel},#{recAddr},#{orderShopID},#{payType},#{total},#{spendTime},#{formatNum})
     </insert>
 
     <update id="updateUserDfAddr">
@@ -92,7 +117,7 @@
         SELECT `Order`.Order_ID,Order_State,Order_PayType,Order_Total,Order_Time,
                Shop_Name,Shop_Image,Shop_RunCost,Shop.Shop_ID,
                Menu.Menu_Name,Menu_Photo,
-               Trolly.Trolly_Num,Trolly.Trolly_Price,Order_Total
+               Trolly.Trolly_Num,Trolly.Trolly_Price
         FROM `Order`,Trolly,Menu,Shop
         WHERE `Order`.Order_UserID = #{value}
           AND `Order`.Order_ID = Trolly.Order_ID
@@ -104,7 +129,7 @@
         SELECT `Order`.Order_ID,Order_State,Order_PayType,Order_Total,Order_Time,
                Shop_Name,Shop_Image,Shop_RunCost,Shop.Shop_ID,
                Menu.Menu_Name,Menu_Photo,
-               Trolly.Trolly_Num,Trolly.Trolly_Price,Order_Total
+               Trolly.Trolly_Num,Trolly.Trolly_Price
         FROM `Order`,Trolly,Menu,Shop
         WHERE `Order`.Order_ID= #{value}
           AND `Order`.Order_ID = Trolly.Order_ID
@@ -120,4 +145,16 @@
         INSERT INTO Asse(Ass_UserID, Ass_Content, Ass_Time, Ass_OrderID, Ass_ShopID, Ass_Unusual, Ass_Rate)
         VALUES (#{userID},#{assContent},#{time},#{orderID},#{shopID},#{assUnusual},#{rate})
     </insert>
+
+    <select id="findOneOrderDetail" parameterType="int" resultMap="orderDetailTrollyMap">
+        SELECT `Order`.Order_ID,Order_State,Order_PayType,Order_Total,Order_Time,Order_RecAddr,Order_SpendTime,Order_FormatNum,
+               Shop_Name,Shop_Image,Shop_RunCost,Shop.Shop_ID,
+               Menu.Menu_Name,Menu_Photo,
+               Trolly.Trolly_Num,Trolly.Trolly_Price
+        FROM `Order`,Trolly,Menu,Shop
+        WHERE `Order`.Order_ID = #{value}
+          AND `Order`.Order_ID = Trolly.Order_ID
+          AND Trolly.Menu_ID = Menu.Menu_ID
+          AND `Order`.Order_ShopID = Shop.Shop_ID
+    </select>
 </mapper>

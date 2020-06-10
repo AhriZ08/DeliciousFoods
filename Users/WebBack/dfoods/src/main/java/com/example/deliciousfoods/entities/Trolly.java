@@ -3,10 +3,19 @@ package com.example.deliciousfoods.entities;
 import java.io.Serializable;
 
 public class Trolly implements Serializable {
+    private int Trolly_ID;
     private int Trolly_Num;
     private float Trolly_Price;
     private String Menu_Name;
     private String Menu_Photo;
+
+    public int getTrolly_ID() {
+        return Trolly_ID;
+    }
+
+    public void setTrolly_ID(int trolly_ID) {
+        Trolly_ID = trolly_ID;
+    }
 
     public String getMenu_Photo() {
         return Menu_Photo;
@@ -43,7 +52,8 @@ public class Trolly implements Serializable {
     @Override
     public String toString() {
         return "Trolly{" +
-                "Trolly_Num=" + Trolly_Num +
+                "Trolly_ID=" + Trolly_ID +
+                ", Trolly_Num=" + Trolly_Num +
                 ", Trolly_Price=" + Trolly_Price +
                 ", Menu_Name='" + Menu_Name + '\'' +
                 ", Menu_Photo='" + Menu_Photo + '\'' +
