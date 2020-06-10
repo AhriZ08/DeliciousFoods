@@ -20,17 +20,19 @@
                Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
                Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance FROM Shop ORDER BY Shop_Qrade DESC,Shop_ID ASC
     </select>
-    <select id="findSortShop" resultType="shop" parameterType="String">
+    <select id="findSortShop" resultType="Shop" parameterType="String">
         SELECT Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,
                Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
                Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance FROM Shop
         WHERE Shop_Sort = #{value} ORDER BY Shop_Qrade DESC,Shop_ID ASC
     </select>
-    <select id="findSearchShop" resultType="shop" parameterType="String">
+    <select id="findSearchShop" resultType="Shop" parameterType="String">
         SELECT Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,
                Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
-               Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance from Shop where Shop_Name LIKE CONCAT('%',#{value},'%')
-        union (SELECT  * FROM Shop ORDER BY RAND() LIMIT 5)
+               Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance FROM Shop WHERE Shop_Name LIKE CONCAT('%',#{value},'%')
+        union (SELECT  Shop_ID,Shop_Name,Shop_Qrade,Shop_Sort,
+                       Shop_SellTotal,Shop_RunTime,Shop_RunStartCost,
+                       Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance FROM Shop ORDER BY RAND() LIMIT 5)
     </select>
     <select id="findShopMenus" resultMap="menusResultMap" parameterType="int">
         SELECT MenuType.Type_ID,MenuType.Type_Name,Menu.Menu_ID,

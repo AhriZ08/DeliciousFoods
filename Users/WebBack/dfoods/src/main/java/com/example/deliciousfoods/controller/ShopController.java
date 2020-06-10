@@ -5,6 +5,8 @@ import com.example.deliciousfoods.entities.Shop;
 import com.example.deliciousfoods.entities.ShopAss;
 import com.example.deliciousfoods.entities.ShopDetail;
 import com.example.deliciousfoods.service.ShopService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,8 @@ public class ShopController {
 
     @Autowired
     ShopService shopService;
+
+    private static Logger logger = LoggerFactory.getLogger(ShopController.class);
 
     @RequestMapping("/recommend")
     @ResponseBody
@@ -35,6 +39,7 @@ public class ShopController {
     @RequestMapping("/search")
     @ResponseBody
     public List<Shop> searchShop(String keyWords){
+        logger.info("keyWords:"+keyWords);
         return shopService.findSearchShop(keyWords);
     }
 
