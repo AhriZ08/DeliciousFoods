@@ -78,7 +78,8 @@
 				cart:[],
 				shopOrderInfo:{},
 				userID:'',
-				userAddr:{}
+				userAddr:{},
+				orderInfo:{}
 			}
 		},
 		computed:{
@@ -101,9 +102,54 @@
 				uni.hideLoading();
 			},
 			openOrder(){
+				this.orderInfo = {
+					userID:this.userID,
+					recAddr:this.userAddr.addr,
+					recTel:this.userAddr.recTel,
+					callName:this.userAddr.callName,
+					total:this.total,
+					payType:this.currentPayType,
+					cart:this.cart,
+					orderShopID:this.shopOrderInfo.shopID
+				}
+				let info = JSON.stringify(this.orderInfo);
+				uni.showLoading({
+					title:'加载中'
+				});
+				uni.request({
+					url:"http://localhost:8080/dFoods/user/order",
+					data:info,
+					method:'POST',
+					success:(res)=>{
+						if (res.data == "success"){
+							uni.showToast({
+								title:'下单成功！',
+								position:'center'
+							})
+						}else{
+							uni.showToast({
+								title:'下单失败',
+								position:'center',
+								icon:'none'
+							})
+						}
+					},fail: () => {
+						uni.hideLoading();
+						uni.stopPullDownRefresh();
+						uni.showToast({
+							title:'下单失败！',
+							icon:'none',
+							position:'center'
+						})
+					}
+				})
+/* 				console.log(this.orderInfo);
+				console.log(JSON.stringify(this.orderInfo)); */
+				uni.showLoading({title: '加载中'})
 				uni.switchTab({
 					url:'order'
 				})
+				uni.hideLoading();
 			},
 			initAddr(){
 				var that = this;
@@ -116,7 +162,7 @@
 							if (res.data.status){
 								that.userAddr = res.data.object		
 							}else{
-								console.log("请求默认地址失败！");
+								console.log("无默认地址！");
 								that.userAddr={callName:'',addr:'',addr_ID:0};
 							}
 						},

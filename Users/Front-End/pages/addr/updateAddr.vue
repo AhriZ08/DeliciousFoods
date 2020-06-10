@@ -48,6 +48,9 @@
 		},
 		methods:{
 			newAddr(){
+				uni.showLoading({
+					title:'添加中'
+				});
 				let userID = this.userID;
 				let addrData = JSON.stringify(this.modifyAddr);
 				uni.request({
@@ -55,12 +58,28 @@
 					data:addrData,
 					method:'POST',
 					success: (res) => {
+						uni.hideLoading();
 						if (res.data == "success"){
 							uni.showToast({
 								title:'添加成功！',
 								position:'center'
-							})
+							});
+				
+						}else{
+							uni.showToast({
+								title:'添加失败',
+								position:'center',
+								icon:'none'
+							});
 						}
+					},
+					fail: () => {
+						uni.hideLoading();
+						uni.showToast({
+							title:'添加失败',
+							position:'center',
+							icon:'none'
+						});
 					}
 				})
 			},
@@ -68,21 +87,36 @@
 				let userID = this.userID;
 				let addrData = JSON.stringify(this.modifyAddr);
 				console.log(addrData);
-				if (ops == 0){
-					uni.request({
-						url:"http://localhost:8080/dFoods/user/addr/mod/"+userID,
-						data:addrData,
-						method:'POST',
-						success: (res) => {
-							if (res.data == "success"){
-								uni.showToast({
-									title:'修改成功！',
-									position:'center'
-								})
-							}
+				uni.showLoading({
+					title:'修改中'
+				});
+				uni.request({
+					url:"http://localhost:8080/dFoods/user/addr/mod/"+userID,
+					data:addrData,
+					method:'POST',
+					success: (res) => {
+						uni.hideLoading();
+						if (res.data == "success"){
+							uni.showToast({
+								title:'修改成功！',
+								position:'center'
+							})
+						}else{
+							uni.showToast({
+								title:'修改失败！',
+								position:'center',
+								icon:'none'
+							})
 						}
-					});
-				}
+					},fail: () => {
+						uni.hideLoading();
+						uni.showToast({
+							title:'修改失败！',
+							position:'center',
+							icon:'none'
+						});
+					}
+				});
 			}
 		}
 	}

@@ -63,9 +63,9 @@
 				});
 				uni.hideLoading();
 			},
-			initAddr(){
+			async initAddr(){
 				var that = this;
-				uni.request({
+				await uni.request({
 					url:"http://localhost:8080/dFoods/user/addr/"+that.userID,
 					method:"GET",
 					success:(res)=>{
@@ -77,14 +77,31 @@
 								}
 							})
 						}else{
+							uni.showToast({
+								title:'加载地址失败！',
+								icon:'none',
+								position:'center'
+							})
 							console.log(res.data);
 						};
+						uni.hideLoading();
+					},fail: () => {
+						uni.hideLoading();
+						uni.showToast({
+							title:'加载地址失败！',
+							icon:'none',
+							position:'center'
+						})
+						
 					}
 				})
 			}
 		},
-		onShow(){
-			this.initAddr();
+		async onShow(){
+			uni.showLoading({
+				title:'加载中'
+			});
+			await this.initAddr();
 		}
 	}
 </script>

@@ -9,7 +9,10 @@
 		"path":"pages/news/news"
 	},
 	{
-		"path":"pages/order/order"
+		"path":"pages/order/order",
+		"style":{
+			"enablePullDownRefresh":true
+		}
 	},
 	{
 		"path":"pages/info/info"
@@ -95,7 +98,13 @@
         {
             "path" : "pages/info/register_page",
             "style" : {}
-        }
+        },
+		{
+		    "path" : "pages/order/currentOrder",
+		    "style" : {
+				"enablePullDownRefresh":true
+			}
+		}
     ],
     "globalStyle" : {
         "navigationBarTextStyle" : "black",

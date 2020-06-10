@@ -16,121 +16,105 @@
 			<swiper :current="currentTab" @change="swiperTab" class="body-swiper">
 				<!-- 待配送swiper -->
 				<swiper-item>
-					<view class="step-container">
-						<view class="status" style="color: #f07373;">
-							<view class="iconfont icon-order statusIcon"></view>
-							<view class="statusCont">已下单</view>
-						</view>
-						<view class="status">
-							<view class="iconfont icon-runorder statusIcon"></view>
-							<view class="statusCont">配送中</view>
-						</view>
-						<view class="status">
-							<view class="iconfont icon-overorder statusIcon"></view>
-							<view class="statusCont">已签收</view>
-						</view>
-						<view class="line-f line"></view>
-						<view class="line-s line"></view>
+					<scroll-view scroll-y="true" class="Orderscroll" scroll-with-animation="true">
+					<view class="isEmpty" v-if="emptyJudge[0]">
+						<image src="../../static/icon/index/main/order/暂无消息.png"></image>
+						<text>暂无当前订单</text>
 					</view>
-					<view class="cart-container">
-						<view class="shopName">星巴克</view>
+					<view class="step-container" 
+					@click="toOneOrder(item.order_ID)" 
+					v-for="(item, index) in orderSimpInfo" 
+					:key="index" v-if="item.order_State!='待评价' && item.order_State!='已完成'">
+						<view class="oneOrderIcon">
+							<image src="../../static/icon/index/main/order/餐盘.png"></image>
+						</view>
+						<text>您有一个订单在进行中</text>
+						<view class="iconfont icon-jiantou toOneOrderIcon"></view>
 						<view class="behindSpline"></view>
-						<view class="cartList">
-							<view class="oneGoods">
-								<view class="headName">杨枝甘露</view>
-								<view class="midNum">×1</view>
-								<view class="tailPrice">￥50.00</view>
-							</view>
-							<view class="oneGoods">
-								<view class="headName">甘露</view>
-								<view class="midNum">×1</view>
-								<view class="tailPrice">￥50.00</view>
-							</view>
-							<view class="oneGoods">
-								<view class="headName">柠檬汁</view>
-								<view class="midNum">×6</view>
-								<view class="tailPrice">￥60.00</view>
-							</view>
-						</view>
 					</view>
-					<view class="detail-container">
-						<view class="behindSpline"></view>
-						<view class="oneDet">
-							<view class="payTypeTitle">支付方式</view>
-							<view class="payType">微信支付</view>
-						</view>
-						<view class="oneDet">
-							<view class="payTypeTitle">总金额</view>
-							<view class="payType">￥150.00</view>
-						</view>
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<!-- 待收货 -->
 				<swiper-item>
-					<view class="get-container">
-						<view class="shopName">星巴克</view>
-						<view class="behindSpline"></view>
-						<view class="getContent" @click="toOrderDetail">
-							<view class="goodsName">杨枝甘露等...</view>
-							<view class="goodsTotal"><text style="color: #DD524D;margin-left: 6rpx;">￥150.00</text></view>
+					<scroll-view scroll-y="true" class="Orderscroll" scroll-with-animation="true">
+						<view class="isEmpty" v-if="emptyJudge[1]">
+							<image src="../../static/icon/index/main/order/暂无消息.png"></image>
+							<text>暂无待收货订单</text>
 						</view>
-						<view class="btn-group">
-							<button hover-class="btn-hover" 
-							plain="true" hover-start-time="30"
-							hover-stay-time="70">确认收货</button>
+						<view class="get-container" v-for="(item, index) in orderSimpInfo" 
+						:key="index" v-if="item.order_State=='待收货'">
+							<view class="shopName">{{item.shop_Name}}</view>
+							<view class="behindSpline"></view>
+							<view class="getContent" @click="toOrderDetail">
+								<view class="goodsName">{{item.trollyList[0].menu_Name}}等...</view>
+								<view class="goodsTotal"><text style="color: #DD524D;margin-left: 6rpx;">￥{{item.order_Total}}</text></view>
+							</view>
+							<view class="btn-group">
+								<button hover-class="btn-hover" 
+								plain="true" hover-start-time="30"
+								hover-stay-time="70" @click="crfOrder(item.order_ID)">确认收货</button>
+							</view>
 						</view>
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<!-- 待评价 -->
 				<swiper-item>
-					<view class="get-container">
-						<view class="shopName">星巴克</view>
-						<view class="behindSpline"></view>
-						<view class="getContent" @click="toOrderDetail">
-							<view class="goodsName">杨枝甘露等...</view>
-							<view class="goodsTotal"><text style="color: #DD524D;margin-left: 6rpx;">￥150.00</text></view>
+					<scroll-view scroll-y="true" class="Orderscroll" scroll-with-animation="true">
+						<view class="isEmpty" v-if="emptyJudge[2]">
+							<image src="../../static/icon/index/main/order/暂无消息.png"></image>
+							<text>暂无待评价订单</text></view>
+						<view class="get-container" v-for="(item, index) in orderSimpInfo" 
+						:key="index" v-if="item.order_State=='待评价'">
+							<view class="shopName">{{item.shop_Name}}</view>
+							<view class="behindSpline"></view>
+							<view class="getContent" @click="toOrderDetail">
+								<view class="goodsName">{{item.trollyList[0].menu_Name}}等...</view>
+								<view class="goodsTotal"><text style="color: #DD524D;margin-left: 6rpx;">￥{{item.order_Total}}</text></view>
+							</view>
+							<view class="btn-group">
+								<button hover-class="btn-hover" 
+								plain="true" hover-start-time="30"
+								hover-stay-time="70" @click="toAssess(item.order_ID)">去评价</button>
+							</view>
 						</view>
-						<view class="btn-group">
-							<button hover-class="btn-hover" 
-							plain="true" hover-start-time="30"
-							hover-stay-time="70" @click="toAssess">去评价</button>
-						</view>
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<!-- 全部订单 -->
 				<swiper-item>
-					<view class="allOrder-container">
-						<view class="orderHead">
-							<view class="leftSpImg">
-								<image src="../../static/icon/index/main/cart/kfc.jpg"></image>
-							</view>
-							<view class="rightOrderContent">
-								<view class="rightOrderContent-name">肯德基</view>
-								<view class="rightOrderContent-time">2020-5-20 15:30</view>
-							</view>
+					<scroll-view scroll-y="true" class="Orderscroll" scroll-with-animation="true">
+						<view class="isEmpty" v-if="emptyJudge[3]">
+							<image src="../../static/icon/index/main/order/暂无消息.png"></image>
+							<text>暂无全部订单</text>
 						</view>
-						<view class="behindSpline"></view>
-						<view class="cartList">
-							<view class="oneGoods">
-								<view class="headName">杨枝甘露</view>
-								<view class="midNum">×1</view>
-								<view class="tailPrice">￥50.00</view>
+						<view class="allOrder-container" v-for="(item, index) in orderSimpInfo" 
+						:key="index" v-if="item.order_State=='已完成' || item.order_State=='待评价'">
+							<view class="orderHead">
+								<view class="leftSpImg">
+									<image :src="item.shop_Image"></image>
+								</view>
+								<view class="rightOrderContent">
+									<view class="rightOrderContent-name">{{item.shop_Name}}</view>
+									<view class="rightOrderContent-time">{{item.order_Time}}</view>
+								</view>
 							</view>
-							<view class="oneGoods">
-								<view class="headName">甘露</view>
-								<view class="midNum">×1</view>
-								<view class="tailPrice">￥50.00</view>
+							<view class="behindSpline"></view>
+							<view class="cartList">
+								<view class="oneCartGoods" v-for="(g, i) in item.trollyList" :key="i">
+									<view class="leftGoodsImg">
+										<image :src="g.menu_Photo"></image>
+									</view>
+									<view class="rightContent">
+										<text style="font-size: 35rpx;">{{g.menu_Name}}</text>
+										<text style="color: #999999;font-size: 26rpx;">×{{g.trolly_Num}}</text>
+										<view class="goodsCost">￥{{g.trolly_Price}}</view>
+									</view>
+								</view>
 							</view>
-							<view class="oneGoods">
-								<view class="headName">柠檬汁</view>
-								<view class="midNum">×6</view>
-								<view class="tailPrice">￥60.00</view>
-							</view>
+							<button hover-class="btn-hover"
+							plain="true" hover-start-time="30"
+							hover-stay-time="70" @click="toOrderDetail">订单详情</button>
 						</view>
-						<button hover-class="btn-hover"
-						plain="true" hover-start-time="30"
-						hover-stay-time="70" @click="toOrderDetail">订单详情</button>
-					</view>
+					</scroll-view>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -144,7 +128,16 @@
 				currentTab:0,
 				itemsWidth:0,
 				isLeft:0,
-				navTitile:["配送中","待收货","待评价","全部订单"]
+				navTitile:["当前订单","待收货","待评价","全部订单"],
+				userID:'',
+				orderSimpInfo:[],
+				swiperStats:{
+					isCurrentEmpty:true,
+					isRecvEmpty:true,
+					isAssesEmpty:true,
+					isAllOrderEmpty:true
+				},
+				emptyJudge:[true,true,true,true]
 			};
 		},
 		created() {
@@ -153,7 +146,59 @@
 					this.itemsWidth = Math.floor(res[0].width / 4);
 				})
 		},
+		onShow() {
+			uni.showLoading({title: '加载中'});
+			this.emptyJudge.splice(0, 4, true, true, true, true)
+			this.initOrder();
+		},
+		onLoad() {
+			this.userID = uni.getStorageSync('userID');
+		},
 		methods:{
+			crfOrder(oID){
+				var that = this;
+				let index = this.orderSimpInfo.findIndex(item=> item.order_ID == oID);
+				this.emptyJudge.splice(0, 4, true, true, true, true)
+				uni.request({
+					url:"http://localhost:8080/dFoods/user/order/confirm/"+oID,
+					method:"GET",
+					success: (res) => {
+						if (res.data == "success"){
+							uni.showToast({
+								title:'收货成功',
+								position:'center'
+							});
+							that.orderSimpInfo[index].order_State = "待评价";
+							that.orderSimpInfo.forEach(item=>{
+								if (item.order_State == "配送中"){
+									that.emptyJudge.splice(0, 1, false);
+								}
+								if (item.order_State == "待收货"){
+									that.emptyJudge.splice(0, 2, false, false);
+								}
+								if (item.order_State == "待评价"){
+									that.emptyJudge.splice(2, 2, false, false);
+								}
+								if (item.order_State == "已完成"){
+									that.emptyJudge.splice(3, 1, false);
+								}
+							})
+						}else {
+							uni.showToast({
+								title:'收货失败',
+								position:'center',
+								icon:'none'
+							});
+						}
+					},fail: () => {
+						uni.showToast({
+							title:'收货失败',
+							position:'center',
+							icon:'none'
+						});
+					}
+				})
+			},
 			typeTileClick(index){
 				//this.tabClick = index //设置导航点击了哪一个
 				this.isLeft = index * this.itemsWidth //设置下划线位置
@@ -171,12 +216,62 @@
 				});
 				uni.hideLoading();
 			},
-			toAssess(){
+			toAssess(oID){
+				let index = this.orderSimpInfo.findIndex(item=> item.order_ID == oID);
 				uni.showLoading({title: '加载中'});
 				uni.navigateTo({
-					url: '/pages/order/assOrder'
+					url: '/pages/order/assOrder?curtorder='+encodeURIComponent(JSON.stringify(this.orderSimpInfo[index]))
 				});
 				uni.hideLoading();
+			},
+			toOneOrder(oID){
+				let url = '';
+				for (let i = 0; i < this.orderSimpInfo.length; i++){
+					if (this.orderSimpInfo[i].order_ID == oID){
+						url = '/pages/order/currentOrder?orderID='+ oID;
+						break;
+					}
+				}
+				uni.showLoading({title: '加载中'});
+				uni.navigateTo({
+					url: url
+				});
+				uni.hideLoading();
+			},
+			onPullDownRefresh() {
+				this.initOrder();
+			},
+			async initOrder(){
+				var that = this;
+				await uni.request({
+					url:"http://localhost:8080/dFoods/user/order/all/"+that.userID,
+					method:'GET',
+					success: (res) => {
+						that.orderSimpInfo = res.data;
+						res.data.forEach(item=>{
+							if (item.order_State == "配送中"){
+								that.emptyJudge.splice(0, 1, false);
+							}
+							if (item.order_State == "待收货"){
+								that.emptyJudge.splice(0, 2, false, false);
+							}
+							if (item.order_State == "待评价" || item.order_State == "已完成"){
+								that.emptyJudge.splice(2, 2, false, false)
+							}
+						})
+						uni.hideLoading();
+						uni.stopPullDownRefresh();
+					},
+					fail: () => {
+						uni.hideLoading();
+						uni.stopPullDownRefresh();
+						uni.showToast({
+							title:'加载失败！',
+							icon:'none',
+							position:'center'
+						})
+					}
+				})
 			}
 		}
 	}
@@ -209,6 +304,42 @@
 					background-color: #f07373;
 				}
 			}
+		}
+	}
+	.oneOrderIcon{
+		height: 150rpx;
+		margin-left: 10rpx;
+		image{
+			width: 150rpx;
+			height: 150rpx;
+		}
+	}
+	.toOneOrderIcon{
+		font-size: 45rpx;
+		margin-left: 35rpx;
+	}
+	.step-container{
+		width: 700rpx;
+		height: 200rpx;
+		border-radius: 30rpx;
+		box-shadow: 0 0 6rpx 2rpx rgba(51, 51, 51, 0.1);
+		margin: 30rpx auto 20rpx auto;
+		background-color: #FFFFFF;
+		display: flex;
+		flex-direction: row;
+		position: relative;
+		align-items: center;
+		.behindSpline{
+			width: 100%;
+			position: absolute;
+			bottom: 10rpx;
+		}
+		text{
+			font-size: 40rpx;
+			font-weight: 550;
+			height: 100rpx;
+			line-height: 100rpx;
+			margin-left: 20rpx;
 		}
 	}
 	.typeTile{
@@ -244,45 +375,6 @@
 			height: 1000rpx;
 		}
 	}
-	.step-container{
-		width: 700rpx;
-		height: 250rpx;
-		border-radius: 30rpx;
-		box-shadow: 0 0 6rpx 2rpx rgba(51, 51, 51, 0.1);
-		margin: 30rpx auto 20rpx auto;
-		background-color: #FFFFFF;
-		display: flex;
-		flex-direction: row;
-		position: relative;
-		.status{
-			width: 120rpx;
-			height: 120rpx;
-			margin: 50rpx auto 0rpx auto;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			.statusIcon{
-				font-size: 80rpx;
-			}
-			.statusCont{
-				margin-top: 20rpx;
-				font-size: 27rpx;
-			}
-		}
-		.line{
-			position: absolute;
-			width: 125rpx;
-			height: 3rpx;
-			background-color: #2c3e50;
-			bottom: 72rpx;
-		}
-		.line-f{
-			left: 170rpx;
-		}
-		.line-s{
-			right: 170rpx;
-		}
-	}
 	.cart-container{
 		width: 700rpx;
 		border-radius: 30rpx;
@@ -298,21 +390,32 @@
 		flex-direction: column;
 		width: 650rpx;
 		margin: 0rpx auto 20rpx auto;
-		.oneGoods{
-			font-size: 26rpx;
+		.oneCartGoods{
 			display: flex;
 			flex-direction: row;
-			position: relative;
-			margin-bottom: 10rpx;
-			color: #AAAAAA;
-			.headName{
-				width: 200rpx;
+			margin: 10rpx 0 10rpx 0;
+			.leftGoodsImg{
+				image{
+					width: 100rpx;
+					height: 100rpx;
+				}
 			}
-			.tailPrice{
-				font-weight: 520;
-				position: absolute;
-				right: 0rpx;
-				color: #DD524D;;
+			.rightContent{
+				height: 100rpx;
+				display: flex;
+				flex-direction: column;
+				position: relative;
+				justify-content: space-between;
+				width: 100%;
+				margin-left: 20rpx;
+				.goodsCost{
+					position: absolute;
+					right: 0rpx;
+					bottom: 20rpx;
+					color: #DD524D;
+					font-weight: 550;
+					font-size: 26rpx;
+				}
 			}
 		}
 	}
@@ -434,6 +537,22 @@
 			line-height: 58rpx;
 			border: 2rpx solid #f07373;
 			align-self: flex-end;
+		}
+	}
+	.Orderscroll{
+		width: 100%;
+		height: 100%;
+	}
+	.isEmpty{
+		color: #AAAAAA;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		height: 300rpx;
+		image{
+			width: 200rpx;
+			height: 200rpx;
 		}
 	}
 </style>

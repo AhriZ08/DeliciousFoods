@@ -81,66 +81,23 @@
 					<swiper-item>
 						<view class="comt-body">
 							<scroll-view scroll-y="true" scroll-with-animation="true" class="scrollBody">
-								<view class="oneCom">
+								<view class="oneCom" v-for="(item, index) in shopAsses" :key="index">
 									<view class="oneCom-head">
 										<view class="oneCom-left">
-											<image src="../../static/icon/index/main/cart/logo.png"></image>
+											<image :src="item.user_HeadImg"></image>
 										</view>
 										<view class="oneCom-right">
-											<view class="oneCom-right-name">李四</view>
+											<view class="oneCom-right-name">{{item.user_Name}}</view>
 											<view class="oneCom-right-timewlevel">
 												<view class="level">
-													<uni-rate value="5" size="12" disable="true"></uni-rate>
+													<uni-rate :value="item.ass_Rate" size="12" disable="true"></uni-rate>
 												</view>
-												<view class="time">2020-6-1</view>
+												<view class="time">{{item.ass_Time}}</view>
 											</view>
 										</view>
 									</view>
 									<view class="oneCom-content">
-										味道不错很nice，推荐去尝一尝
-									</view>
-									<view class="one-line"></view>
-								</view>	
-					
-								<view class="oneCom">
-									<view class="oneCom-head">
-										<view class="oneCom-left">
-											<image src="../../static/icon/index/main/cart/logo.png"></image>
-										</view>
-										<view class="oneCom-right">
-											<view class="oneCom-right-name">李四</view>
-											<view class="oneCom-right-timewlevel">
-												<view class="level">
-													<uni-rate value="5" size="12" disable="true"></uni-rate>
-												</view>
-												<view class="time">2020-6-1</view>
-											</view>
-										</view>
-									</view>
-									<view class="oneCom-content">
-										味道不错很nice，推荐去尝一尝推荐去尝一尝推荐去尝一尝推荐
-										去尝一尝推荐去尝一尝推荐去尝一尝
-									</view>
-									<view class="one-line"></view>
-								</view>	
-								
-								<view class="oneCom">
-									<view class="oneCom-head">
-										<view class="oneCom-left">
-											<image src="../../static/icon/index/main/cart/logo.png"></image>
-										</view>
-										<view class="oneCom-right">
-											<view class="oneCom-right-name">李四</view>
-											<view class="oneCom-right-timewlevel">
-												<view class="level">
-													<uni-rate value="3" size="12" disable="true"></uni-rate>
-												</view>
-												<view class="time">2020-6-1</view>
-											</view>
-										</view>
-									</view>
-									<view class="oneCom-content">
-										味道不错很nice，推荐去尝一尝,推荐去尝一尝推荐去尝一尝
+										{{item.ass_Content}}
 									</view>
 									<view class="one-line"></view>
 								</view>					
@@ -259,7 +216,8 @@
 				fillHeight:0,	// 填充高度，用于最后一项低于滚动区域时使用
 				topArr:[],
 				shopOrderInfo:[],
-				userID:''
+				userID:'',
+				shopAsses:[]
 			}
 		},
 		computed:{
@@ -294,18 +252,25 @@
 					}, 0)
 			}
 		},
-		onLoad(obj) {
+		async onLoad(obj) {
 			this.sid = obj.sid;
-			this.initShop();
-			this.initMenus();
+			uni.showLoading({title:'加载中'});
+			await this.initShop();
+			await this.initMenus();
+			await this.initAss();
+			uni.hideLoading();
 		},
 		mounted() {
-			this.initScrollView().then(()=>{
-				/* 获取列表数据，你的代码从此处开始 */
-				this.$nextTick(()=>{
-					this.getAllGoodsHeight();
-					this.getElementTop();
-				})
+			this.$nextTick(()=>{
+				setTimeout(()=>{
+					this.initScrollView().then(()=>{
+						/* 获取列表数据，你的代码从此处开始 */
+						this.$nextTick(()=>{
+							this.getAllGoodsHeight();
+							this.getElementTop();
+						})
+					})
+				},200)
 			})
 		},
 		created() {
@@ -322,9 +287,19 @@
 			uniRate
 		},
 		methods:{
-			initMenus(){
+			async initAss(){
 				var _this = this;
-				uni.request({
+				 await uni.request({
+				 	url:"http://localhost:8080/dFoods/sp/ass/" + _this.sid,
+					method:'GET',
+					success: (res) => {
+						_this.shopAsses = res.data;
+					}
+				 })
+			},
+			async initMenus(){
+				var _this = this;
+				await uni.request({
 					url:"http://47.112.243.221:8080/dFoods/sp/menu/" + _this.sid,
 					method:"GET",
 					success(res) {
@@ -332,9 +307,9 @@
 					}
 				})
 			},
-			initShop(){
+			async initShop(){
 				var _this = this;
-				uni.request({
+				await uni.request({
 					url:"http://47.112.243.221:8080/dFoods/sp/" + _this.sid,
 					method:"GET",
 					success(res) {
@@ -371,25 +346,12 @@
 				let goodsScrollTop = e.detail.scrollTop;
 				//console.log("goodsScrollTop" + goodsScrollTop);
 				for(let i = 0; i < this.goodsHeight.length; i++){
-					// console.log(this.goodsHeight[i]);
-					// console.log(this.goodsHeight[i + 1]);
 					if(this.goodsHeight[i] < goodsScrollTop && this.goodsHeight[i + 1] > goodsScrollTop){
 						this.currentType = i;
 						break;
 						//console.log(this.currentType);
 					}
 				}
-				// let top =e.detail.scrollTop;
-				// let index=0;
-				// /* 查找当前滚动距离 
-				// for(let i = (this.topArr.length-1); i >= 0; i--){
-				// 	/* 在部分安卓设备上，因手机逻辑分辨率与rpx单位计算不是整数，滚动距离与有误差，增加2px来完善该问题 */
-				// 	if((top+2) >= this.topArr[i]){
-				// 		index = i;
-				// 		break;
-				// 	}
-				// }
-				// this.currentType=(index < 0 ? 0: index);
 			},
 			/* 初始化滚动区域 */
 			initScrollView(){
@@ -966,6 +928,7 @@
 				width: 100%;
 				color: #7f8c8d;
 				font-size: 30rpx;
+				line-height: 50rpx;
 			}
 			.oneCom-head{
 				width: 100%;
