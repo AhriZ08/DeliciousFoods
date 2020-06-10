@@ -21,7 +21,7 @@ public class AliMsgController {
     @ResponseBody
     public String messgVerify(String tel_num) throws ClientException {
         String code = aliSmsService.sendSms(tel_num);
-        redisUtils.setValue("code", code, 60);
+        redisUtils.setValue("code", code, 180);
 //      System.out.println(redisUtils.getValue("code"));
         return code;
     }

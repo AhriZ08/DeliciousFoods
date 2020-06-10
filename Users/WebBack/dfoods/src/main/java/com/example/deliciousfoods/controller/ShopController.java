@@ -2,6 +2,7 @@ package com.example.deliciousfoods.controller;
 
 import com.example.deliciousfoods.entities.Menus;
 import com.example.deliciousfoods.entities.Shop;
+import com.example.deliciousfoods.entities.ShopAss;
 import com.example.deliciousfoods.entities.ShopDetail;
 import com.example.deliciousfoods.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,11 @@ public class ShopController {
     @ResponseBody
     public ShopDetail oneShop(@PathVariable("sid") Integer sid){
         return shopService.findOneShop(sid);
+    }
+
+    @RequestMapping("/ass/{sid}")
+    @ResponseBody
+    public List<ShopAss> shopAsses(@PathVariable("sid") Integer sid){
+        return shopService.findShopAsses(sid);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.deliciousfoods.entities;
 
-public class ShopDetail extends Shop {
+import java.io.Serializable;
+
+public class ShopDetail extends Shop implements Serializable {
     public String getShop_Address() {
         return Shop_Address;
     }

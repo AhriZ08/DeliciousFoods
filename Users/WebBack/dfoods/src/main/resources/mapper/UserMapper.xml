@@ -3,9 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.deliciousfoods.mapper.UserMapper">
 
+    <resultMap id="userAddrs" type="UserAddr">
+        <id property="User_ID" column="User_ID"/>
+        <result property="User_Mony" column="User_Mony"/>
+        <collection property="addrList" javaType="List" ofType="Addr">
+            <id property="Addr_ID" column="Addr_ID"/>
+            <result property="Addr" column="Addr"/>
+            <result property="CallName" column="CallName"/>
+            <result property="RecTel" column="RecTel"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="orderTrollyMap" type="OrderSimpInfo">
+        <id property="Order_ID" column="Order_ID"/>
+        <result property="Order_State" column="Order_State"/>
+        <result property="Order_PayType" column="Order_PayType"/>
+        <result property="Shop_Name" column="Shop_Name"/>
+        <result property="Order_Total" column="Order_Total"/>
+        <result property="Order_Time" column="Order_Time"/>
+        <result property="Shop_Image" column="Shop_Image"/>
+        <result property="Shop_RunCost" column="Shop_RunCost"/>
+        <result property="Shop_ID" column="Shop_ID"/>
+        <collection property="trollyList" javaType="List" ofType="Trolly">
+            <id property="Trolly_Num" column="Trolly_Num"/>
+            <result property="Trolly_Price" column="Trolly_Price"/>
+            <result property="Menu_Name" column="Menu_Name"/>
+            <result property="Menu_Photo" column="Menu_Photo"/>
+        </collection>
+    </resultMap>
+
     <insert id="insertOneUser" parameterType="User" useGeneratedKeys="true" keyProperty="User_ID">
-        INSERT INTO User(User_LoginName, User_Name, User_Pwd, User_Tel, User_Mony, User_Freeze)
-        VALUES(#{User_LoginName},#{User_Name}, #{User_Pwd},#{User_Tel},#{User_Money},#{User_Freeze})
+        INSERT INTO User(User_LoginName, User_Name, User_Pwd, User_Tel, User_Mony, User_Freeze, User_HeadImg)
+        VALUES(#{User_LoginName},#{User_Name}, #{User_Pwd},#{User_Tel},#{User_Money},#{User_Freeze},#{User_HeadImg})
     </insert>
 
     <select id="findUserLogin" resultType="User">
@@ -14,4 +43,81 @@
     <select id="findUserByTel" resultType="String">
         SELECT User_Tel FROM User WHERE User_Tel = #{value}
     </select>
+
+    <select id="findUserAddrs" resultMap="userAddrs" parameterType="int">
+        SELECT User.User_ID,User.User_Mony,UserAddr.Addr_ID,UserAddr.Addr,UserAddr.CallName,UserAddr.RecTel
+        FROM UserAddr,User
+        WHERE User.User_ID = #{value} AND User.User_ID = UserAddr.User_ID
+    </select>
+
+    <select id="findUserDfAddr" resultType="Addr" parameterType="int">
+        SELECT UserAddr.*
+        FROM UserDfAddr,UserAddr WHERE UserDfAddr.User_ID = #{value} AND UserDfAddr.Addr_ID = UserAddr.Addr_ID
+    </select>
+
+    <update id="updateUserAddr" parameterType="RecvAddr">
+        UPDATE UserAddr 
+            <set>
+                <if test="addr != null">Addr = #{addr},</if>
+                <if test="recTel != null">RecTel = #{recTel},</if>
+                <if test="callName != null">CallName = #{callName}</if>
+            </set>
+            WHERE Addr_ID = #{addr_ID}
+    </update>
+
+    <insert id="insertUserAddr" parameterType="RecvAddr" useGeneratedKeys="true" keyProperty="addr_ID">
+        INSERT INTO UserAddr(User_ID, Addr, CallName, RecTel)
+        VALUES (#{User_ID},#{addr},#{callName},#{recTel})
+    </insert>
+
+    <insert id="insertUserOrder" parameterType="RecvOrder" useGeneratedKeys="true" keyProperty="orderID">
+        INSERT INTO `Order`(Order_UserID,Order_Time,Order_State,Order_RecName,Order_RecTel,Order_RecAddr,Order_ShopID,Order_PayType,Order_Total)
+        VALUES (#{userID},#{orderTime},#{orderState},#{callName},#{recTel},#{recAddr},#{orderShopID},#{payType},#{total})
+    </insert>
+
+    <update id="updateUserDfAddr">
+        UPDATE UserDfAddr SET Addr_ID = #{addrID} WHERE User_ID = #{userID}
+    </update>
+
+    <insert id="insertUserDfAddr" useGeneratedKeys="true" keyColumn="ID">
+        INSERT INTO UserDfAddr(USER_ID, ADDR_ID)  VALUES(#{userID},#{addrID})
+    </insert>
+
+    <insert id="insertUserCart" parameterType="Cart" useGeneratedKeys="true" keyProperty="cartID">
+        INSERT INTO Trolly(Trolly_Num, Trolly_Price, Order_ID, Menu_ID) VALUES
+        (#{num},#{price},#{orderID},#{id})
+    </insert>
+
+    <select id="findOneSimpOrder" parameterType="int" resultMap="orderTrollyMap">
+        SELECT `Order`.Order_ID,Order_State,Order_PayType,Order_Total,Order_Time,
+               Shop_Name,Shop_Image,Shop_RunCost,Shop.Shop_ID,
+               Menu.Menu_Name,Menu_Photo,
+               Trolly.Trolly_Num,Trolly.Trolly_Price,Order_Total
+        FROM `Order`,Trolly,Menu,Shop
+        WHERE `Order`.Order_UserID = #{value}
+          AND `Order`.Order_ID = Trolly.Order_ID
+          AND Trolly.Menu_ID = Menu.Menu_ID
+          AND `Order`.Order_ShopID = Shop.Shop_ID
+    </select>
+
+    <select id="findCrtOneSimpOrder" parameterType="int" resultMap="orderTrollyMap">
+        SELECT `Order`.Order_ID,Order_State,Order_PayType,Order_Total,Order_Time,
+               Shop_Name,Shop_Image,Shop_RunCost,Shop.Shop_ID,
+               Menu.Menu_Name,Menu_Photo,
+               Trolly.Trolly_Num,Trolly.Trolly_Price,Order_Total
+        FROM `Order`,Trolly,Menu,Shop
+        WHERE `Order`.Order_ID= #{value}
+          AND `Order`.Order_ID = Trolly.Order_ID
+          AND Trolly.Menu_ID = Menu.Menu_ID
+          AND `Order`.Order_ShopID = Shop.Shop_ID
+    </select>
+
+    <update id="modifyOrderState">
+        UPDATE `Order` SET Order_State = #{state} WHERE Order_ID = #{oID}
+    </update>
+
+    <insert id="insertOneAss" parameterType="RecvOrderAss" useGeneratedKeys="true" keyProperty="assID">
+        INSERT INTO Asse(Ass_UserID, Ass_Content, Ass_Time, Ass_OrderID, Ass_ShopID, Ass_Unusual, Ass_Rate)
+        VALUES (#{userID},#{assContent},#{time},#{orderID},#{shopID},#{assUnusual},#{rate})
+    </insert>
 </mapper>

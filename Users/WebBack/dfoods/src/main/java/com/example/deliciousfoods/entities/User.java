@@ -10,6 +10,15 @@ public class User implements Serializable {
     private String User_Tel;
     private int User_Money;
     private int User_Freeze;
+    private String User_HeadImg;
+
+    public String getUser_HeadImg() {
+        return User_HeadImg;
+    }
+
+    public void setUser_HeadImg(String user_HeadImg) {
+        User_HeadImg = user_HeadImg;
+    }
 
     public int getUser_ID() {
         return User_ID;
@@ -74,9 +83,10 @@ public class User implements Serializable {
                 ", User_LoginName='" + User_LoginName + '\'' +
                 ", User_Name='" + User_Name + '\'' +
                 ", User_Pwd='" + User_Pwd + '\'' +
-                ", User_Tel=" + User_Tel +
+                ", User_Tel='" + User_Tel + '\'' +
                 ", User_Money=" + User_Money +
                 ", User_Freeze=" + User_Freeze +
+                ", User_HeadImg='" + User_HeadImg + '\'' +
                 '}';
     }
 }

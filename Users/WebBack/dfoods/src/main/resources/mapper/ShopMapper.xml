@@ -11,7 +11,7 @@
             <result property="Menu_Name" column="Menu_Name"/>
             <result property="Menu_Price" column="Menu_Price"/>
             <result property="Menu_Introduce" column="Menu_Introduce"/>
-            <result property="Menu_Phtoto" column="Menu_Phtoto"/>
+            <result property="Menu_Photo" column="Menu_Photo"/>
         </collection>
     </resultMap>
 
@@ -34,7 +34,7 @@
     </select>
     <select id="findShopMenus" resultMap="menusResultMap" parameterType="int">
         SELECT MenuType.Type_ID,MenuType.Type_Name,Menu.Menu_ID,
-               Menu.Menu_Name,Menu.Menu_Price,Menu.Menu_Introduce,Menu.Menu_Phtoto
+               Menu.Menu_Name,Menu.Menu_Price,Menu.Menu_Introduce,Menu.Menu_Photo
         FROM MenuType,Menu WHERE MenuType.Shop_ID = #{value} AND MenuType.Type_ID = Menu.Menu_Type
     </select>
     
@@ -44,5 +44,8 @@
                Shop_RunCost,Shop_AvgCost,Shop_Image,Shop_Distance
         FROM Shop WHERE Shop_ID = #{value}
     </select>
-
+    <select id="findShopAsses" parameterType="int" resultType="ShopAss">
+        SELECT User_Name,User_HeadImg,Asse.Ass_Content,Asse.Ass_Time,Asse.Ass_Rate
+        FROM Asse,`User` WHERE Asse.Ass_ShopID = #{value} AND Asse.Ass_UserID = `User`.User_ID
+    </select>
 </mapper>

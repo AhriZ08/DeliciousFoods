@@ -29,17 +29,17 @@ public class Goods implements Serializable {
         Menu_Introduce = menu_Introduce;
     }
 
-    public String getMenu_Phtoto() {
-        return Menu_Phtoto;
+    public String getMenu_Photo() {
+        return Menu_Photo;
     }
 
-    public void setMenu_Phtoto(String menu_Phtoto) {
-        Menu_Phtoto = menu_Phtoto;
+    public void setMenu_Photo(String menu_Photo) {
+        Menu_Photo = menu_Photo;
     }
 
     private String Menu_Price;
     private String Menu_Introduce;
-    private String Menu_Phtoto;
+    private String Menu_Photo;
     private String Menu_Name;
 
     public String getMenu_Name() {
@@ -56,7 +56,7 @@ public class Goods implements Serializable {
                 "Menu_ID=" + Menu_ID +
                 ", Menu_Price='" + Menu_Price + '\'' +
                 ", Menu_Introduce='" + Menu_Introduce + '\'' +
-                ", Menu_Phtoto='" + Menu_Phtoto + '\'' +
+                ", Menu_Phtoto='" + Menu_Photo + '\'' +
                 ", Menu_Name='" + Menu_Name + '\'' +
                 '}';
     }

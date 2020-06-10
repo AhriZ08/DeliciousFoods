@@ -1,17 +1,15 @@
 package com.example.deliciousfoods.controller;
 
-import com.example.deliciousfoods.entities.LoginRt;
+import com.example.deliciousfoods.entities.*;
 import com.example.deliciousfoods.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -32,5 +30,88 @@ public class UserController {
     @RequestMapping("/login")
     public LoginRt login(String phone, String pwd){
         return userService.findUserLogin(phone, pwd);
+    }
+
+    @ResponseBody
+    @RequestMapping("/addr/{uid}")
+    public RtAddr addrs(@PathVariable("uid") Integer uid){
+        return userService.findUserAddrs(uid);
+    }
+
+    @ResponseBody
+    @RequestMapping("/addr/df/{uid}")
+    public RtAddr dfaddrs(@PathVariable("uid") Integer uid){
+        return userService.findUserDfAddr(uid);
+    }
+
+    @ResponseBody
+    @RequestMapping("/addr/mod/{uid}")
+    public String modifyAddr(@RequestBody RecvAddr addr,@PathVariable("uid") Integer uid){
+        addr.setUser_ID(uid);
+        logger.info(addr.toString());
+        int flag = userService.updateUserAddr(addr);
+        if (flag != 0){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/addr/add/{uid}")
+    public String newAddr(@RequestBody RecvAddr addr, @PathVariable("uid") Integer uid){
+        addr.setUser_ID(uid);
+        logger.info(addr.toString());
+        int flag = userService.insertUserAddr(addr);
+        if (flag != 0){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/order")
+    public String putOrder(@RequestBody RecvOrder recvOrder){
+        int flag = userService.insertUserOrderAndCart(recvOrder);
+        if (flag != 0){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/order/all/{uid}")
+    public List<OrderSimpInfo> simpInfo(@PathVariable("uid") Integer uid){
+        return userService.findOneSimpOrder(uid);
+    }
+
+    @ResponseBody
+    @RequestMapping("/order/one/{oid}")
+    public OrderSimpInfo crtimpInfo(@PathVariable("oid") Integer oid){
+        return userService.findCrtOneSimpOrder(oid);
+    }
+
+    @ResponseBody
+    @RequestMapping("order/confirm/{oid}")
+    public String confirmOrder(@PathVariable("oid") Integer oid){
+        int flag = userService.confirmOneOrder(oid);
+        if (flag != 0){
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/order/ass")
+    public String assOrder(@RequestBody RecvOrderAss recvOrderAss){
+        int flag = userService.assOrder(recvOrderAss);
+        if (flag != 0){
+            return "success";
+        }else {
+            return "fail";
+        }
     }
 }

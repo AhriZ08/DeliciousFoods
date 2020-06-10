@@ -2,6 +2,7 @@ package com.example.deliciousfoods.service;
 
 import com.example.deliciousfoods.entities.Menus;
 import com.example.deliciousfoods.entities.Shop;
+import com.example.deliciousfoods.entities.ShopAss;
 import com.example.deliciousfoods.entities.ShopDetail;
 import com.example.deliciousfoods.mapper.ShopMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +31,5 @@ public class ShopService {
 
     public ShopDetail findOneShop(Integer sid){return shopMapper.findOneShop(sid);}
 
+    public List<ShopAss> findShopAsses(int sid){return shopMapper.findShopAsses(sid);}
 }
