@@ -3,26 +3,21 @@
 		<view class="detatilBody-f">
 			<view class="bodyTitle"><view class="tag"></view>商品列表</view>
 			<view class="behindSpline"></view>
-			<view class="shopName">星巴克</view>
+			<view class="shopName">{{detail.shop_Name}}</view>
 			<view class="cartList">
-				<view class="oneGoods">
-					<view class="headName">杨枝甘露</view>
-					<view class="midNum">×1</view>
-					<view class="tailPrice">￥50.00</view>
-				</view>
-				<view class="oneGoods">
-					<view class="headName">甘露</view>
-					<view class="midNum">×1</view>
-					<view class="tailPrice">￥50.00</view>
-				</view>
-				<view class="oneGoods">
-					<view class="headName">柠檬汁</view>
-					<view class="midNum">×6</view>
-					<view class="tailPrice">￥60.00</view>
+				<view class="oneCartGoods" v-for="(item, index) in detail.trollyList" :key="index">
+					<view class="leftGoodsImg">
+						<image :src="item.menu_Photo"></image>
+					</view>
+					<view class="rightContent">
+						<text style="font-size: 35rpx;">{{item.menu_Name}}</text>
+						<text style="color: #999999;font-size: 32rpx;">×{{item.trolly_Num}}</text>
+						<view class="goodsCost">￥{{item.trolly_Price}}</view>
+					</view>
 				</view>
 			</view>
 			<view class="behindSpline"></view>
-			<view class="totalMon">实付<text style="color: #DD524D;margin-left: 6rpx;">￥150.00</text></view>
+			<view class="totalMon">实付<text style="color: #DD524D;margin-left: 10rpx;">￥{{detail.order_Total}}</text></view>
 		</view>
 		<view class="detatilBody-f">
 			<view class="bodyTitle"><view class="tag"></view>配送信息</view>
@@ -30,11 +25,11 @@
 			<view class="cartList">
 				<view class="oneInfo">
 					<view class="infoName">配送时间</view>
-					<view class="runInfo">2020-8-20 15:30</view>
+					<view class="runInfo">{{detail.order_SpendTime}}</view>
 				</view>
 				<view class="oneInfo">
 					<view class="infoName">配送地址</view>
-					<view class="runInfo">成都信息工程大学航空港校区学生公寓18栋</view>
+					<view class="runInfo">{{detail.order_RecAddr}}</view>
 				</view>
 			</view>
 		</view>
@@ -45,15 +40,15 @@
 			<view class="cartList">
 				<view class="oneInfo">
 					<view class="infoName">订单号</view>
-					<view class="runInfo">202015254121</view>
+					<view class="runInfo">{{detail.order_FormatNum}}</view>
 				</view>
 				<view class="oneInfo">
 					<view class="infoName">支付方式</view>
-					<view class="runInfo">微信支付</view>
+					<view class="runInfo">{{payType}}</view>
 				</view>
 				<view class="oneInfo">
 					<view class="infoName">下单时间</view>
-					<view class="runInfo">2020-5-20 12:20</view>
+					<view class="runInfo">{{detail.order_Time}}</view>
 				</view>
 			</view>
 		</view>
@@ -61,6 +56,50 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				detail:{},
+				orderDetailID:'',
+				payType:''
+			}
+		},
+		onLoad(option) {
+			this.orderDetailID = option.orderID;
+			uni.showLoading({title:'加载中'});
+			this.initOneOrderDetail();
+			
+		},
+		methods:{
+			async initOneOrderDetail(){
+				var that = this;
+				await uni.request({
+					url:"http://47.112.243.221:8080/dFoods/user/order/detail/"+that.orderDetailID,
+					method:'GET',
+					success: (res) => {
+						console.log(res.data);
+						uni.hideLoading();
+						that.detail = res.data;
+						if (res.data.order_PayType == 0){
+							that.payType = '余额支付';
+						}else if (res.data.order_PayType == 1){
+							that.payType = '微信支付';
+						}else if (res.data.order_PayType == 2){
+							that.payType = '支付宝';
+						}
+					},
+					fail: () => {
+						uni.hideLoading();
+						uni.showToast({
+							title:'获取订单详情失败！',
+							icon:'none',
+							position:'center'
+						})
+					}
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
@@ -82,7 +121,7 @@
 		flex-direction: column;
 		position: relative;
 		.bodyTitle{
-			font-size: 40rpx;
+			font-size: 35rpx;
 			font-weight: 500;
 			font-family: Arial, Helvetica, sans-serif;
 			margin: 20rpx 0rpx 10rpx 30rpx;
@@ -91,6 +130,7 @@
 			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
+			color: #f07373;
 			.tag{
 				width: 10rpx;
 				height: 42rpx;
@@ -108,7 +148,7 @@
 		letter-spacing: 3rpx;
 	}
 	.totalMon{
-		font-size: 26rpx;
+		font-size: 30rpx;
 		margin:0 25rpx 20rpx 0;
 		align-self: flex-end;
 	}
@@ -122,37 +162,43 @@
 		display: flex;
 		flex-direction: column;
 		width: 650rpx;
-		margin: 0rpx auto 20rpx auto;
-		.oneGoods{
-			font-size: 26rpx;
+		margin: 0rpx auto 0rpx auto;
+		.oneCartGoods{
 			display: flex;
 			flex-direction: row;
-			position: relative;
-			margin-bottom: 10rpx;
-			justify-content: flex-start;
-			align-items: center;
-			.headName{
-				width: 200rpx;
+			margin: 10rpx 0 10rpx 0;
+			.leftGoodsImg{
+				image{
+					width: 100rpx;
+					height: 100rpx;
+				}
 			}
-			.tailPrice{
-				font-weight: 520;
-				position: absolute;
-				right: 0rpx;
-				color: #DD524D;;
+			.rightContent{
+				height: 100rpx;
+				display: flex;
+				flex-direction: column;
+				position: relative;
+				justify-content: space-between;
+				width: 100%;
+				margin-left: 20rpx;
+				.goodsCost{
+					position: absolute;
+					right: 0rpx;
+					bottom: 20rpx;
+					color: #DD524D;
+					font-size: 30rpx;
+				}
 			}
-
 		}
 		.oneInfo{
-			font-size: 26rpx;
 			display: flex;
 			flex-direction: row;
-			position: relative;
-			margin-bottom: 20rpx;
+			align-items: center;
 			justify-content: space-between;
+			font-size: 26rpx;
+			margin: 0rpx 5rpx 20rpx 5rpx;
 			.runInfo{
 				text-align: right;
-				width: 400rpx;
-				color: #AAAAAA;
 			}
 		}
 	}

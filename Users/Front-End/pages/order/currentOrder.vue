@@ -26,7 +26,7 @@
 					</view>
 					<view class="rightContent">
 						<text style="font-size: 35rpx;">{{item.menu_Name}}</text>
-						<text style="color: #999999;font-size: 26rpx;">×{{item.trolly_Num}}</text>
+						<text style="color: #999999;font-size: 32rpx;">×{{item.trolly_Num}}</text>
 						<view class="goodsCost">￥{{item.trolly_Price}}</view>
 					</view>
 				</view>
@@ -74,7 +74,7 @@
 			async initOneOrder(){
 				var that = this
 				await uni.request({
-					url:"http://localhost:8080/dFoods/user/order/one/"+that.orderID,
+					url:"http://47.112.243.221:8080/dFoods/user/order/one/"+that.orderID,
 					method:'GET',
 					success: (res) => {
 						that.order = res.data;

@@ -11,7 +11,7 @@
 					</view>
 					<view class="rightContent">
 						<text style="font-size: 35rpx;">{{item.menu_Name}}</text>
-						<text style="color: #999999;font-size: 26rpx;">×{{item.trolly_Num}}</text>
+						<text style="color: #999999;font-size: 32rpx;">×{{item.trolly_Num}}</text>
 						<view class="goodsCost">￥{{item.trolly_Price}}</view>
 					</view>
 				</view>
@@ -79,7 +79,7 @@
 					let data = JSON.stringify(this.putInfo);
 					uni.showLoading({title:'加载中'});
 					uni.request({
-						url:"http://localhost:8080/dFoods/user/order/ass",
+						url:"http://47.112.243.221:8080/dFoods/user/order/ass",
 						method:'POST',
 						data:data,
 						success: (res) => {
@@ -142,7 +142,7 @@
 		flex-direction: column;
 		position: relative;
 		.bodyTitle{
-			font-size: 40rpx;
+			font-size: 35rpx;
 			font-weight: 500;
 			font-family: Arial, Helvetica, sans-serif;
 			margin: 20rpx 0rpx 10rpx 30rpx;
@@ -151,6 +151,7 @@
 			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
+			color: #f07373;
 			.tag{
 				width: 10rpx;
 				height: 42rpx;

@@ -54,7 +54,7 @@
 				let userID = this.userID;
 				let addrData = JSON.stringify(this.modifyAddr);
 				uni.request({
-					url:"http://localhost:8080/dFoods/user/addr/add/"+userID,
+					url:"http://47.112.243.221:8080/dFoods/user/addr/add/"+userID,
 					data:addrData,
 					method:'POST',
 					success: (res) => {
@@ -91,7 +91,7 @@
 					title:'修改中'
 				});
 				uni.request({
-					url:"http://localhost:8080/dFoods/user/addr/mod/"+userID,
+					url:"http://47.112.243.221:8080/dFoods/user/addr/mod/"+userID,
 					data:addrData,
 					method:'POST',
 					success: (res) => {
@@ -149,6 +149,7 @@
 			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
+			color: #f07373;
 			.tag{
 				width: 10rpx;
 				height: 42rpx;

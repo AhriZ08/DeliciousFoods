@@ -22,7 +22,7 @@
 					</view>
 					<view class="rightContent">
 						<text style="font-size: 35rpx;">{{item.name}}</text>
-						<text style="color: #999999;font-size: 26rpx;">×{{item.num}}</text>
+						<text style="color: #999999;font-size: 32rpx;">×{{item.num}}</text>
 						<view class="goodsCost">￥{{item.price}}</view>
 					</view>
 				</view>
@@ -117,7 +117,7 @@
 					title:'加载中'
 				});
 				uni.request({
-					url:"http://localhost:8080/dFoods/user/order",
+					url:"http://47.112.243.221:8080/dFoods/user/order",
 					data:info,
 					method:'POST',
 					success:(res)=>{
@@ -156,7 +156,7 @@
 				this.userAddr = uni.getStorageSync('selectedAddr');
 				if (this.userAddr == '' || this.userAddr == null){
 					uni.request({
-						url:"http://localhost:8080/dFoods/user/addr/df/"+that.userID,
+						url:"http://47.112.243.221:8080/dFoods/user/addr/df/"+that.userID,
 						method:"GET",
 						success:(res)=>{
 							if (res.data.status){
@@ -210,6 +210,7 @@
 			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
+			color: #f07373;
 			.tag{
 				width: 10rpx;
 				height: 42rpx;

@@ -45,7 +45,7 @@
 						:key="index" v-if="item.order_State=='待收货'">
 							<view class="shopName">{{item.shop_Name}}</view>
 							<view class="behindSpline"></view>
-							<view class="getContent" @click="toOrderDetail">
+							<view class="getContent" @click="toOrderDetail(item.order_ID)">
 								<view class="goodsName">{{item.trollyList[0].menu_Name}}等...</view>
 								<view class="goodsTotal"><text style="color: #DD524D;margin-left: 6rpx;">￥{{item.order_Total}}</text></view>
 							</view>
@@ -67,7 +67,7 @@
 						:key="index" v-if="item.order_State=='待评价'">
 							<view class="shopName">{{item.shop_Name}}</view>
 							<view class="behindSpline"></view>
-							<view class="getContent" @click="toOrderDetail">
+							<view class="getContent" @click="toOrderDetail(item.order_ID)">
 								<view class="goodsName">{{item.trollyList[0].menu_Name}}等...</view>
 								<view class="goodsTotal"><text style="color: #DD524D;margin-left: 6rpx;">￥{{item.order_Total}}</text></view>
 							</view>
@@ -105,14 +105,14 @@
 									</view>
 									<view class="rightContent">
 										<text style="font-size: 35rpx;">{{g.menu_Name}}</text>
-										<text style="color: #999999;font-size: 26rpx;">×{{g.trolly_Num}}</text>
+										<text style="color: #999999;font-size: 32rpx;">×{{g.trolly_Num}}</text>
 										<view class="goodsCost">￥{{g.trolly_Price}}</view>
 									</view>
 								</view>
 							</view>
 							<button hover-class="btn-hover"
 							plain="true" hover-start-time="30"
-							hover-stay-time="70" @click="toOrderDetail">订单详情</button>
+							hover-stay-time="70" @click="toOrderDetail(item.order_ID)">订单详情</button>
 						</view>
 					</scroll-view>
 				</swiper-item>
@@ -131,12 +131,6 @@
 				navTitile:["当前订单","待收货","待评价","全部订单"],
 				userID:'',
 				orderSimpInfo:[],
-				swiperStats:{
-					isCurrentEmpty:true,
-					isRecvEmpty:true,
-					isAssesEmpty:true,
-					isAllOrderEmpty:true
-				},
 				emptyJudge:[true,true,true,true]
 			};
 		},
@@ -160,7 +154,7 @@
 				let index = this.orderSimpInfo.findIndex(item=> item.order_ID == oID);
 				this.emptyJudge.splice(0, 4, true, true, true, true)
 				uni.request({
-					url:"http://localhost:8080/dFoods/user/order/confirm/"+oID,
+					url:"http://47.112.243.221:8080/dFoods/user/order/confirm/"+oID,
 					method:"GET",
 					success: (res) => {
 						if (res.data == "success"){
@@ -209,10 +203,10 @@
 				//let index = e.detail.current 获取索引
 				this.typeTileClick(e.detail.current);
 			},
-			toOrderDetail(){
+			toOrderDetail(oID){
 				uni.showLoading({title: '加载中'});
 				uni.navigateTo({
-					url: '/pages/order/orderDetail'
+					url: '/pages/order/orderDetail?orderID=' + oID
 				});
 				uni.hideLoading();
 			},
@@ -244,9 +238,11 @@
 			async initOrder(){
 				var that = this;
 				await uni.request({
-					url:"http://localhost:8080/dFoods/user/order/all/"+that.userID,
+					url:"http://47.112.243.221:8080/dFoods/user/order/all/"+that.userID,
 					method:'GET',
 					success: (res) => {
+						console.log("initorder");
+						console.log(res.data);
 						that.orderSimpInfo = res.data;
 						res.data.forEach(item=>{
 							if (item.order_State == "配送中"){
@@ -255,8 +251,11 @@
 							if (item.order_State == "待收货"){
 								that.emptyJudge.splice(0, 2, false, false);
 							}
-							if (item.order_State == "待评价" || item.order_State == "已完成"){
-								that.emptyJudge.splice(2, 2, false, false)
+							if (item.order_State == "待评价"){
+								that.emptyJudge.splice(2, 2, false, false);
+							}
+							if (item.order_State == "已完成"){
+								that.emptyJudge.splice(3, 1, false);
 							}
 						})
 						uni.hideLoading();

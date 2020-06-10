@@ -290,7 +290,7 @@
 			async initAss(){
 				var _this = this;
 				 await uni.request({
-				 	url:"http://localhost:8080/dFoods/sp/ass/" + _this.sid,
+				 	url:"http://47.112.243.221:8080/dFoods/sp/ass/" + _this.sid,
 					method:'GET',
 					success: (res) => {
 						_this.shopAsses = res.data;

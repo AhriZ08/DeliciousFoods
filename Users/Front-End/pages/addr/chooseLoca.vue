@@ -66,7 +66,7 @@
 			async initAddr(){
 				var that = this;
 				await uni.request({
-					url:"http://localhost:8080/dFoods/user/addr/"+that.userID,
+					url:"http://47.112.243.221:8080/dFoods/user/addr/"+that.userID,
 					method:"GET",
 					success:(res)=>{
 						if (res.data.status){
