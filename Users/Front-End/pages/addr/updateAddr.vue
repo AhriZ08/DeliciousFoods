@@ -48,75 +48,91 @@
 		},
 		methods:{
 			newAddr(){
-				uni.showLoading({
-					title:'添加中'
-				});
-				let userID = this.userID;
-				let addrData = JSON.stringify(this.modifyAddr);
-				uni.request({
-					url:"http://47.112.243.221:8080/dFoods/user/addr/add/"+userID,
-					data:addrData,
-					method:'POST',
-					success: (res) => {
-						uni.hideLoading();
-						if (res.data == "success"){
-							uni.showToast({
-								title:'添加成功！',
-								position:'center'
-							});
-				
-						}else{
+				if(!(/^1[3456789]\d{9}$/.test(this.modifyAddr.recTel))){
+					uni.showToast({
+						title:'手机号码有误，请重填!',
+						icon:'none',
+						position:'center'
+					})
+				}else{
+					uni.showLoading({
+						title:'添加中'
+					});
+					let userID = this.userID;
+					let addrData = JSON.stringify(this.modifyAddr);
+					uni.request({
+						url:"http://47.112.243.221:8080/dFoods/user/addr/add/"+userID,
+						data:addrData,
+						method:'POST',
+						success: (res) => {
+							uni.hideLoading();
+							if (res.data == "success"){
+								uni.showToast({
+									title:'添加成功！',
+									position:'center'
+								});
+					
+							}else{
+								uni.showToast({
+									title:'添加失败',
+									position:'center',
+									icon:'none'
+								});
+							}
+						},
+						fail: () => {
+							uni.hideLoading();
 							uni.showToast({
 								title:'添加失败',
 								position:'center',
 								icon:'none'
 							});
 						}
-					},
-					fail: () => {
-						uni.hideLoading();
-						uni.showToast({
-							title:'添加失败',
-							position:'center',
-							icon:'none'
-						});
-					}
-				})
+					})
+				}
 			},
 			modify(){
-				let userID = this.userID;
-				let addrData = JSON.stringify(this.modifyAddr);
-				console.log(addrData);
-				uni.showLoading({
-					title:'修改中'
-				});
-				uni.request({
-					url:"http://47.112.243.221:8080/dFoods/user/addr/mod/"+userID,
-					data:addrData,
-					method:'POST',
-					success: (res) => {
-						uni.hideLoading();
-						if (res.data == "success"){
-							uni.showToast({
-								title:'修改成功！',
-								position:'center'
-							})
-						}else{
+				if(!(/^1[3456789]\d{9}$/.test(this.modifyAddr.recTel))){
+					uni.showToast({
+						title:'手机号码有误，请重填!',
+						icon:'none',
+						position:'center'
+					})
+				}else {
+					let userID = this.userID;
+					let addrData = JSON.stringify(this.modifyAddr);
+					console.log(addrData);
+					uni.showLoading({
+						title:'修改中'
+					});
+					uni.request({
+						url:"http://47.112.243.221:8080/dFoods/user/addr/mod/"+userID,
+						data:addrData,
+						method:'POST',
+						success: (res) => {
+							uni.hideLoading();
+							if (res.data == "success"){
+								uni.showToast({
+									title:'修改成功！',
+									position:'center'
+								})
+							}else{
+								uni.showToast({
+									title:'修改失败！',
+									position:'center',
+									icon:'none'
+								})
+							}
+						},fail: () => {
+							uni.hideLoading();
 							uni.showToast({
 								title:'修改失败！',
 								position:'center',
 								icon:'none'
-							})
+							});
 						}
-					},fail: () => {
-						uni.hideLoading();
-						uni.showToast({
-							title:'修改失败！',
-							position:'center',
-							icon:'none'
-						});
-					}
-				});
+					});
+				}
 			}
 		}
 	}
