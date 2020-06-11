@@ -34,7 +34,7 @@
 			
 		},
 		onLoad() {
-			//uni.setStorageSync('userID',"");
+			// uni.setStorageSync('userID',"");
 			uni.setStorageSync('cart',"");
 		}
 	}

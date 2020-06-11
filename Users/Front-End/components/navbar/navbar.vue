@@ -63,14 +63,15 @@
 				this.$store.dispatch('set_history',{
 					name:this.Svalue
 				})
+				var _this = this
 				uni.request({
-					url: 'http://47.112.243.221:8080/dFoods/sp/search?keyWords='+this.Svalue,
+					url: 'http://47.112.243.221:8080/dFoods/sp/search?keyWords='+_this.Svalue,
 					method: 'GET',
 					data: {},
 					success: res => {
 						console.log(res);
-						this.itemlist = res.data
-						console.log(this.itemlist);
+						_this.itemlist = res.data
+						console.log(_this.itemlist);
 						},
 					fail: (e) => {console.log(e);},
 					complete: () => {}

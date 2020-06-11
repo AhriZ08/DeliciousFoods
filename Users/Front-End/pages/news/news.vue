@@ -30,7 +30,7 @@
 		},
 		onLoad:function(){
 			uni.request({
-				url: 'https://unidemo.dcloud.net.cn/api/news',
+				url: 'http://unidemo.dcloud.net.cn/api/news',
 				method: 'GET',
 				data: {},
 				success: res => {

@@ -96,6 +96,11 @@
 					<text class="iconfont icon-jiantou op-tail-icon"></text>
 				</view>
 			</view>
+			<uni-popup ref="popupMss1" type="center">
+				 <view class="popMess">
+					请您进行登录
+				 </view>
+			</uni-popup>
 		</view>	
 	</view>
 </template>
@@ -136,18 +141,33 @@
 				});
 			},
 			openchat(){
-				uni.navigateTo({
-					url: 'chat_page',
-					success: res => {},
-					fail: () => {},
-					complete: () => {}
-				});
+				if(!this.tflog){
+					this.$refs.popupMss1.open()
+				}
+				else{
+					uni.navigateTo({
+						url: 'chat_page',
+						success: res => {},
+						fail: () => {},
+						complete: () => {}
+					});
+				}
+
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	.popMess{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 30rpx;
+		width: 300rpx;
+		height: 150rpx;
+		background-color: #FFFFFF;
+	}
 	page{
 		background-color: #f1f8fa;
 	}

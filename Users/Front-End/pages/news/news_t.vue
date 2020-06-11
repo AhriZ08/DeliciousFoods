@@ -22,7 +22,7 @@
 			});
 			console.log(e);
 			uni.request({
-				url: 'https://unidemo.dcloud.net.cn/api/news/36kr/'+e.newsid,
+				url: 'http://unidemo.dcloud.net.cn/api/news/36kr/'+e.newsid,
 				method: 'GET',
 				data: {},
 				success: res => {
