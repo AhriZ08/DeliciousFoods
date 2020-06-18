@@ -33,4 +33,11 @@ public interface UserMapper {
     public int insertOneAss(RecvOrderAss orderAss);
 
     public OrderDetail findOneOrderDetail(int oID);
+    public UserSimpInfo findOneUserSimpInfo(int uid);
+
+    public int updateUserMoney(@Param("money") float money, @Param("uid") int uid);
+
+    public int updateUserTel(@Param("tel") String tel, @Param("uid") int uid);
+
+    public int updateUserPwd(@Param("tel") String tel, @Param("pwd") String pwd);
 }

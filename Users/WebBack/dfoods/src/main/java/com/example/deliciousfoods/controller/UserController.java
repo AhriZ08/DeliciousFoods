@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Controller
@@ -16,8 +15,12 @@ import java.util.List;
 public class UserController {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    private UserService userService;
     @Autowired
-    public UserService userService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @ResponseBody
     @RequestMapping("/register")
@@ -33,14 +36,20 @@ public class UserController {
     }
 
     @ResponseBody
+    @RequestMapping("/one/{uid}")
+    public UserSimpInfo getOneUserSimp(@PathVariable("uid") Integer uid){
+        return userService.findOneUserSimpInfo(uid);
+    }
+
+    @ResponseBody
     @RequestMapping("/addr/{uid}")
-    public RtAddr addrs(@PathVariable("uid") Integer uid){
+    public RtAddr Addrs(@PathVariable("uid") Integer uid){
         return userService.findUserAddrs(uid);
     }
 
     @ResponseBody
     @RequestMapping("/addr/df/{uid}")
-    public RtAddr dfaddrs(@PathVariable("uid") Integer uid){
+    public RtAddr dfAddr(@PathVariable("uid") Integer uid){
         return userService.findUserDfAddr(uid);
     }
 
@@ -62,20 +71,17 @@ public class UserController {
     public String newAddr(@RequestBody RecvAddr addr, @PathVariable("uid") Integer uid){
         addr.setUser_ID(uid);
         logger.info(addr.toString());
-        int flag = userService.insertUserAddr(addr);
-        if (flag != 0){
-            return "success";
-        }else {
-            return "fail";
-        }
+        return userService.insertUserAddr(addr);
     }
 
     @ResponseBody
     @RequestMapping("/order")
     public String putOrder(@RequestBody RecvOrder recvOrder){
         int flag = userService.insertUserOrderAndCart(recvOrder);
-        if (flag != 0){
+        if (flag == 1){
             return "success";
+        }else if (flag == -1){
+            return "no money";
         }else {
             return "fail";
         }
@@ -119,5 +125,28 @@ public class UserController {
     @RequestMapping("/order/detail/{oID}")
     public OrderDetail orderDetail(@PathVariable("oID") Integer oID){
         return userService.findOneOrderDetail(oID);
+    }
+
+    @ResponseBody
+    @RequestMapping("/addr/setDfAddr")
+    public int setUserDfAddr(Integer addrID, Integer userID){
+        return userService.setUserDfAddr(addrID, userID);
+    }
+
+    @ResponseBody
+    @RequestMapping("/modtel")
+    public String updateUserTel(String tel, Integer userID){
+        return userService.updateUserTel(tel, userID);
+    }
+
+    @ResponseBody
+    @RequestMapping("/modpwd")
+    public String updateUserPwd(String tel, String pwd){
+        int flag = userService.updateUserPwd(tel, pwd);
+        if (flag != 0){
+            return "success";
+        }else {
+            return "fail";
+        }
     }
 }

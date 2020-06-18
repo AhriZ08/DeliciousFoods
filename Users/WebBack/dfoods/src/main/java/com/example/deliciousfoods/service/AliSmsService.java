@@ -20,8 +20,8 @@ public class AliSmsService {
 
     public String sendSms(String telNum) throws ClientException {
         //替换成你的AK
-        final String accessKeyId = "";//你的accessKeyId
-        final String accessKeySecret = "";//你的accessKeySecret
+        final String accessKeyId = "LTAI4G4duWs2PdWDHnFo8MhW";//你的accessKeyId
+        final String accessKeySecret = "WHXlTFlDb2HyzbYKQV1cqM6unK6CpI";//你的accessKeySecret
         //初始化ascClient,暂时不支持多region（请勿修改）
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
         IAcsClient acsClient = new DefaultAcsClient(profile);

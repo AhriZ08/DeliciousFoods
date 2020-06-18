@@ -8,7 +8,7 @@ public class User implements Serializable {
     private String User_Name;
     private String User_Pwd;
     private String User_Tel;
-    private int User_Money;
+    private float User_Money;
     private int User_Freeze;
     private String User_HeadImg;
 
@@ -60,11 +60,11 @@ public class User implements Serializable {
         User_Tel = user_Tel;
     }
 
-    public int getUser_Money() {
+    public float getUser_Money() {
         return User_Money;
     }
 
-    public void setUser_Money(int user_Money) {
+    public void setUser_Money(float user_Money) {
         User_Money = user_Money;
     }
 

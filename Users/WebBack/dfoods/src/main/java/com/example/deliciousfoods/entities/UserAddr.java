@@ -5,14 +5,14 @@ import java.util.List;
 
 public class UserAddr implements Serializable {
     private int User_ID;
-    private int User_Mony;
+    private float User_Mony;
     private List<Addr> addrList;
 
-    public int getUser_Mony() {
+    public float getUser_Mony() {
         return User_Mony;
     }
 
-    public void setUser_Mony(int user_Mony) {
+    public void setUser_Mony(float user_Mony) {
         User_Mony = user_Mony;
     }
 

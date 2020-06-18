@@ -157,4 +157,21 @@
           AND Trolly.Menu_ID = Menu.Menu_ID
           AND `Order`.Order_ShopID = Shop.Shop_ID
     </select>
+
+    <select id="findOneUserSimpInfo" parameterType="int" resultType="UserSimpInfo">
+        SELECT User_Tel,User_Mony,User_HeadImg,Addr_ID FROM User,UserDfAddr
+        WHERE User.User_ID = #{value} AND User.User_ID = UserDfAddr.User_ID
+    </select>
+
+    <update id="updateUserMoney">
+        UPDATE User SET User_Mony = #{money} WHERE User_ID = #{uid}
+    </update>
+
+    <update id="updateUserTel">
+        UPDATE User SET User_Tel = #{tel} WHERE User_ID = #{uid}
+    </update>
+
+    <update id="updateUserPwd">
+        UPDATE User SET User_Pwd = #{pwd} WHERE User_Tel = #{tel}
+    </update>
 </mapper>
