@@ -96,8 +96,9 @@
 			},
 			toChooseLoca(){
 				uni.showLoading({title: '加载中'});
+				uni.setStorageSync('dfAddrID', this.userAddr.addr_ID);
 				uni.navigateTo({
-					url: '/pages/addr/chooseLoca?userID='+this.userID+'&slctAddrID='+this.userAddr.addr_ID
+					url: '/pages/addr/chooseLoca?userID=' + this.userID + '&fg=-1'
 				});
 				uni.hideLoading();
 			},
@@ -126,12 +127,26 @@
 								title:'下单成功！',
 								position:'center'
 							})
-						}else{
-							uni.showToast({
-								title:'下单失败',
-								position:'center',
-								icon:'none'
+							uni.showLoading({title: '加载中'})
+							uni.switchTab({
+								url:'order'
 							})
+							uni.hideLoading();
+						}else{
+							if (res.data == "no money"){
+								uni.showToast({
+									title:'余额不足请先充值！',
+									position:'center',
+									icon:'none'
+								})
+							}
+							else{
+								uni.showToast({
+									title:'下单失败！',
+									position:'center',
+									icon:'none'
+								})
+							}
 						}
 					},fail: () => {
 						uni.hideLoading();
@@ -145,11 +160,7 @@
 				})
 /* 				console.log(this.orderInfo);
 				console.log(JSON.stringify(this.orderInfo)); */
-				uni.showLoading({title: '加载中'})
-				uni.switchTab({
-					url:'order'
-				})
-				uni.hideLoading();
+				
 			},
 			initAddr(){
 				var that = this;

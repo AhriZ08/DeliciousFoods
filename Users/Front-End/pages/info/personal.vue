@@ -5,9 +5,9 @@
 		</view>
 		<view class="mid-body">
 			<view class="person">
-				<template v-if="!tflog">
+				<template v-if="userID == ''">
 					<view class="title">
-						<view class="login" @click="toLogin">立即登录</view>
+						<view class="Notlogin" @click="toLogin">立即登录</view>
 						<view class="detail">
 							<view class="detail-v">
 								<view class="detail-content">
@@ -32,11 +32,11 @@
 				</template>
 				<template v-else>
 					<view class="title">
-						<view class="login" @click="toLogin">你好！{{username}}</view>
+						<view class="login">你好！{{userInfo.user_Tel}}</view>
 						<view class="detail">
 							<view class="detail-v">
 								<view class="detail-content">
-									<view>0</view>
+									<view>{{userInfo.user_Mony}}</view>
 									<view>余额</view>
 								</view>
 							</view>
@@ -55,24 +55,21 @@
 						</view>
 					</view>
 				</template>
-				<view class="per-icon">
-					<image src="../../static/icon/info/美食.png"></image>
+				<view class="per-icon" v-if="haveImg">
+					<image :src="userInfo.user_HeadImg"></image>
+				</view>
+				<view class="per-icon" v-if="!haveImg">
+					<image src="../../static/icon/info/defHeadImg.jpg"></image>
 				</view>
 			</view>
-			<view class="service">
-				<view class="option"@click="openpriv">
-					<text class="iconfont icon-ziliao op-icon"></text>
-					<view>我的资料</view>
-					<text class="iconfont icon-jiantou op-tail-icon"></text>
-				</view>
-				
-				<view class="option"@click="openaddr">
+			<view class="service">			
+				<view class="option" @click="openaddr">
 					<text class="iconfont icon-addr op-icon"></text>
 					<view>我的地址</view>
 					<text class="iconfont icon-jiantou op-tail-icon"></text>
 				</view>
 				
-				<view class="option"@click="openchat">
+				<view class="option" @click="openchat">
 					<text class="iconfont icon-kefu op-icon"></text>
 					<view>我的客服</view>
 					<text class="iconfont icon-jiantou op-tail-icon"></text>
@@ -84,7 +81,7 @@
 					<text class="iconfont icon-jiantou op-tail-icon"></text>
 				</view>
 				
-				<view class="option">
+				<view class="option" @click="opensetting">
 					<text class="iconfont icon-shezhi op-icon"></text>
 					<view>设置</view>
 					<text class="iconfont icon-jiantou op-tail-icon"></text>
@@ -107,15 +104,47 @@
 
 <script>
 	import {mapState} from 'vuex'
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
+	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	export default {
 		data(){
 			return {
+				userID:'',
+				userInfo:{},
+				haveImg:false
 			};
 		},
 		computed:{
 			...mapState({tflog:'islogin',username:'uussername'})
 		},
+		components: {
+			uniPopup,
+			uniPopupMessage,
+			uniPopupDialog
+		},
+		onShow() {
+			this.userID = uni.getStorageSync('userID');
+			this.userInfo = {};
+			this.getUserInfo();
+		},
 		methods:{
+			getUserInfo(){
+				var that = this;
+				if (this.userID != ''){
+					uni.request({
+						url:"http://47.112.243.221:8080/dFoods/user/one/" + that.userID,
+						method:'GET',
+						success: (res) => {
+							that.userInfo = res.data;
+							that.haveImg = true;
+						},
+						fail: () => {
+							console.log("请求失败！")
+						}
+					})
+				}
+			},
 			toLogin(){
 				uni.navigateTo({
 					url: 'login',
@@ -124,27 +153,22 @@
 					complete: () => {}
 				});
 			},
-			openpriv(){
-				uni.navigateTo({
-					url: 'privtinfo_page',
-					success: res => {},
-					fail: () => {},
-					complete: () => {}
-				});
-			},
 			openaddr(){
-				uni.navigateTo({
-					url: 'address_page',
-					success: res => {},
-					fail: () => {},
-					complete: () => {}
-				});
+				if(this.userID == '' || this.userID == null){
+					this.$refs.popupMss1.open();
+				}else{
+					uni.showLoading({title: '加载中'});
+					uni.setStorageSync('dfAddrID', this.userInfo.addr_ID);
+					uni.navigateTo({
+						url: '/pages/addr/chooseLoca?userID=' + this.userID + '&fg=1'
+					});
+					uni.hideLoading();
+				}
 			},
 			openchat(){
-				if(!this.tflog){
-					this.$refs.popupMss1.open()
-				}
-				else{
+				if(this.userID == '' || this.userID == null){
+					this.$refs.popupMss1.open();
+				}else{
 					uni.navigateTo({
 						url: 'chat_page',
 						success: res => {},
@@ -152,7 +176,15 @@
 						complete: () => {}
 					});
 				}
-
+			},
+			opensetting(){
+				if(this.userID == '' || this.userID == null){
+					this.$refs.popupMss1.open();
+				}else {
+					uni.navigateTo({
+						url: 'setting',
+					});	
+				}
 			}
 		}
 	}
@@ -198,17 +230,17 @@
 			width: 100%;
 			background-color: #FFFFFF;
 			.per-icon{
-				margin:20rpx;
+				margin:auto 20rpx;
 				width: 180rpx;
 				height: 180rpx;
 				border-radius: 50%;
-				background-color: $d-color;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				image{
-					width: 100rpx;
-					height: 100rpx;
+					border-radius: 50%;
+					width: 180rpx;
+					height: 180rpx;
 					flex-shrink: 0;
 				}
 			}
@@ -273,5 +305,12 @@
 				}
 			}
 		}
+	}
+	.Notlogin{
+		font-size: 50rpx;
+		font-weight: bold;
+		width: 200rpx;
+		height: 100rpx;
+		margin: 30rpx auto 0rpx auto;
 	}
 </style>

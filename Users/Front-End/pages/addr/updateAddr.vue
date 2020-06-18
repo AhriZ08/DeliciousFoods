@@ -66,12 +66,12 @@
 						method:'POST',
 						success: (res) => {
 							uni.hideLoading();
-							if (res.data == "success"){
+							if (res.data != "" || res.data != null){
 								uni.showToast({
 									title:'添加成功！',
 									position:'center'
 								});
-					
+								uni.setStorageSync('dfAddrID', res.data);
 							}else{
 								uni.showToast({
 									title:'添加失败',

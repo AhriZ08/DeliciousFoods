@@ -19,6 +19,7 @@
 				</view>
 				<view class="register">
 					<view @click="openreg">还没有账号？点击注册</view>
+					<view @click="openchpwd">忘记密码？</view>
 				</view>
 				<uni-popup ref="popupMess" type="center">
 					 <view class="popMess">
@@ -82,6 +83,14 @@
 			openreg(){
 				uni.navigateTo({
 					url: 'register_page',
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			openchpwd(){
+				uni.navigateTo({
+					url: '/pages/info/changePwd',
 					success: res => {},
 					fail: () => {},
 					complete: () => {}
@@ -161,9 +170,13 @@
 	.register{
 		margin-top: 25rpx;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		color: #1e90ff;
 		font-size: 35rpx;
+		view{
+			margin-bottom: 20rpx;
+		}
 	}
 </style>

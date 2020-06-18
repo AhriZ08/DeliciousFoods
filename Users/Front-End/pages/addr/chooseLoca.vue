@@ -25,19 +25,32 @@
 				userID:'',
 				userAddr:[],
 				currentYes:0,
-				slctAddrID:0
+				slctAddrID:0,
+				fg:0
 			}
 		},
 		onLoad(opt) {
 			this.userID = opt.userID;
-			this.slctAddrID = opt.slctAddrID;
+			this.fg = opt.fg;
 		},
-		onUnload() {
+		async onUnload() {
 			this.userAddr.forEach(item=>{
 				if (item.addr_ID == this.slctAddrID){
 					uni.setStorageSync('selectedAddr', item);
 				}
 			})
+			if (this.fg == 1){
+				uni.showLoading({
+					title:'加载中'
+				});
+				var that = this;
+			 	await uni.request({
+					url:"http://47.112.243.221:8080/dFoods/user/addr/setDfAddr?addrID=" + that.slctAddrID + "&userID=" + that.userID,
+					method:'GET',
+					success: (res) => {}
+				});
+				uni.hideLoading();
+			}
 		},
 		methods:{
 			selectAddr(i, id){
@@ -98,6 +111,7 @@
 			}
 		},
 		async onShow(){
+			this.slctAddrID = Number(uni.getStorageSync('dfAddrID'));
 			uni.showLoading({
 				title:'加载中'
 			});

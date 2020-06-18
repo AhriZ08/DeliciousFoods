@@ -138,15 +138,17 @@
 			let views = uni.createSelectorQuery().select(".navHead").boundingClientRect().exec(res=>{
 					//console.log(res[0].width);
 					this.itemsWidth = Math.floor(res[0].width / 4);
-				})
+			});
 		},
 		onShow() {
 			uni.showLoading({title: '加载中'});
-			this.emptyJudge.splice(0, 4, true, true, true, true)
-			this.initOrder();
-		},
-		onLoad() {
+			this.emptyJudge.splice(0, 4, true, true, true, true);
 			this.userID = uni.getStorageSync('userID');
+			console.log(typeof(this.userID))
+			if (this.userID != ''){
+				this.initOrder();
+			}
+			uni.hideLoading();
 		},
 		methods:{
 			crfOrder(oID){
@@ -233,7 +235,10 @@
 				uni.hideLoading();
 			},
 			onPullDownRefresh() {
-				this.initOrder();
+				if (this.userID != ''){
+					this.initOrder();
+				}
+				uni.stopPullDownRefresh();
 			},
 			async initOrder(){
 				var that = this;
@@ -258,12 +263,8 @@
 								that.emptyJudge.splice(3, 1, false);
 							}
 						})
-						uni.hideLoading();
-						uni.stopPullDownRefresh();
 					},
 					fail: () => {
-						uni.hideLoading();
-						uni.stopPullDownRefresh();
 						uni.showToast({
 							title:'加载失败！',
 							icon:'none',

@@ -60,10 +60,6 @@
             "style" : {}
         },
         {
-            "path" : "pages/info/address_page",
-            "style" : {}
-        },
-        {
             "path" : "pages/info/privtinfo_page",
             "style" : {}
         },
@@ -104,6 +100,18 @@
 		    "style" : {
 				"enablePullDownRefresh":true
 			}
+		},
+		{
+		    "path" : "pages/info/setting",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/info/changeTel",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/info/changePwd",
+		    "style" : {}
 		}
     ],
     "globalStyle" : {

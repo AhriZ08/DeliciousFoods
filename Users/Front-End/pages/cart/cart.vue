@@ -268,16 +268,14 @@
 						this.$nextTick(()=>{
 							this.getAllGoodsHeight();
 							this.getElementTop();
+							this.initSwiperTitle();
 						})
 					})
 				},200)
 			})
 		},
 		created() {
-			let views = uni.createSelectorQuery().select(".goodsAndComm").boundingClientRect().exec(res=>{
-					//console.log(res[0].width);
-					this.itemsWidth = Math.floor(res[0].width / 2);
-			})
+			
 		},
 		components: {
 			uniNoticeBar,
@@ -352,6 +350,18 @@
 						//console.log(this.currentType);
 					}
 				}
+			},
+			/* 初始化swiper滑动 */
+			initSwiperTitle(){
+				new Promise((resolve, reject)=>{
+					let views = uni.createSelectorQuery().select(".goodsAndComm")
+					views.boundingClientRect(res=>{
+							resolve(res);
+					}).exec();
+				}).then((res)=>{
+					console.log(res);
+					this.itemsWidth = Math.floor(res.width / 2);
+				})
 			},
 			/* 初始化滚动区域 */
 			initScrollView(){
