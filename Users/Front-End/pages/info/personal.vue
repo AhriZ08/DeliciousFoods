@@ -127,6 +127,7 @@
 			this.userID = uni.getStorageSync('userID');
 			this.userInfo = {};
 			this.getUserInfo();
+			this.haveImg = false;
 		},
 		methods:{
 			getUserInfo(){

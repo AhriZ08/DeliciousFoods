@@ -159,8 +159,8 @@
     </select>
 
     <select id="findOneUserSimpInfo" parameterType="int" resultType="UserSimpInfo">
-        SELECT User_Tel,User_Mony,User_HeadImg,Addr_ID FROM User,UserDfAddr
-        WHERE User.User_ID = #{value} AND User.User_ID = UserDfAddr.User_ID
+        SELECT User_Tel,User_Mony,User_HeadImg FROM User
+        WHERE User.User_ID = #{value}
     </select>
 
     <update id="updateUserMoney">

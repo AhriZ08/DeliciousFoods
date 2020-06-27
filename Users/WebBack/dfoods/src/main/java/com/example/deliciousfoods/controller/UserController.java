@@ -1,6 +1,7 @@
 package com.example.deliciousfoods.controller;
 
 import com.example.deliciousfoods.entities.*;
+import com.example.deliciousfoods.service.ShopService;
 import com.example.deliciousfoods.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,4 +150,5 @@ public class UserController {
             return "fail";
         }
     }
+
 }

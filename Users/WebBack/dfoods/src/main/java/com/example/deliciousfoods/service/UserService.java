@@ -83,14 +83,16 @@ public class UserService {
      * @return 地址返回封装类
      */
     public RtAddr findUserAddrs(int uid){
-        if (redisUtils.hasKey("userAddrs-"+uid)){
-            logger.info("redis读取userAddrs-"+ uid +"。。。。");
+        if (redisUtils.hasKey("userAddrs-" + uid)){
+            logger.info("redis读取userAddrs-" + uid + "。。。。");
             UserAddr userAddr = (UserAddr)redisUtils.getValue("userAddrs-"+uid);
             logger.info("redis读取userAddrs-"+ uid +":"+userAddr.toString());
             return rtAddrUtils(userAddr);
         }else {
             UserAddr userAddr = userMapper.findUserAddrs(uid);
-            redisUtils.setValue("userAddrs-"+uid, userAddr, 1200);
+            if (userAddr != null){
+                redisUtils.setValue("userAddrs-"+uid, userAddr, 1200);
+            }
             return rtAddrUtils(userAddr);
         }
     }
@@ -101,15 +103,17 @@ public class UserService {
      * @return 返回地址信息包装类
      */
     public RtAddr findUserDfAddr(int uid){
-        if (redisUtils.hasKey("DfAddr")){
-            logger.info("redis读取DfAddr。。。。");
-            Addr addr = (Addr) redisUtils.getValue("DfAddr");
+        if (redisUtils.hasKey("DfAddr-" + uid)){
+            logger.info("redis读取DfAddr" + uid +"。。。。");
+            Addr addr = (Addr) redisUtils.getValue("DfAddr-" + uid);
             logger.info("redis中读取DfAddr:" + addr.toString());
             return rtAddrUtils(addr);
         }else {
             logger.info("mysql中读取addr");
             Addr addr = userMapper.findUserDfAddr(uid);
-            redisUtils.setValue("DfAddr", addr, 3000);
+            if (addr != null){
+                redisUtils.setValue("DfAddr-" + uid, addr, 3000);
+            }
             return rtAddrUtils(addr);
         }
     }
@@ -234,6 +238,11 @@ public class UserService {
         return userMapper.modifyOrderState("待评价", oID);
     }
 
+    /**
+     * 新增店铺评价
+     * @param recvOrderAss 封装评价类
+     * @return 新增状态
+     */
     public int assOrder(RecvOrderAss recvOrderAss){
         SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:dd");
         String date=sDateFormat.format(new Date());
@@ -255,7 +264,7 @@ public class UserService {
     public int setUserDfAddr(int addrID, int userID){
         int flag = userMapper.updateUserDfAddr(userID, addrID);
         Addr addr = userMapper.findUserDfAddr(userID);
-        redisUtils.setValue("DfAddr", addr, 3000);
+        redisUtils.setValue("DfAddr-" + userID, addr, 3000);
         return flag;
     }
     public String updateUserTel(String tel, int userID){
